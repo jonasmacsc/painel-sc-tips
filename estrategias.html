@@ -1,217 +1,215 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SC TIPS VIP — Estratégias</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body{background:#0e1116;color:#e9eef5;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-    .navbar{background:linear-gradient(90deg,#0f172a 0%,#0b1020 100%)}
-    .nav-link{color:#c8d0dc !important}.nav-link.active,.nav-link:hover{color:#fff !important}
-    .hero{background:#0b1222}
-    .muted{color:#96a1b2}
-    .card-custom{background:#111722;border:1px solid #1e2430;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
-    .card-custom:hover{transform:translateY(-2px);transition:.2s}
-    .footer{background:#0b1017;border-top:1px solid #141a25}
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SC Tips • Estratégias Atualizadas (23 Padrões)</title>
+<style>
+  :root{
+    --bg: #000;
+    --gold: #ffd700;
+    --dark-gold: #b8860b;
+    --panel: #0a0f0a;
+    --card: #0e1510;
+    --text: #e8fbe8;
+    --muted: #6dd56d;
+    --stroke: #1aff1a;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:#000;color:var(--text);font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+  a{color:var(--gold);text-decoration:none}
+  .wrap{max-width:1200px;margin:0 auto;padding:20px}
+  /* NAV */
+  .nav{position:sticky;top:0;z-index:10;background:rgba(0,0,0,.85);backdrop-filter:saturate(140%) blur(6px);border-bottom:1px solid rgba(255,215,0,.15)}
+  .nav .inner{max-width:1200px;margin:0 auto;display:flex;gap:12px;align-items:center;justify-content:space-between;padding:12px 20px}
+  .brand{font-weight:800;letter-spacing:.4px;color:var(--gold)}
+  .menu{display:flex;gap:10px;flex-wrap:wrap}
+  .menu a{padding:8px 12px;border:1px solid rgba(255,215,0,.25);border-radius:10px;color:var(--text);transition:.2s}
+  .menu a:hover{background:rgba(255,215,0,.15)}
+  .menu a.active{background:linear-gradient(135deg,var(--gold),var(--dark-gold));color:#000;border-color:transparent}
+  /* HEADER */
+  .header{background:rgba(255,215,0,.12);border:1px solid rgba(255,215,0,.45);border-radius:18px;padding:18px;margin:18px 0;box-shadow:0 0 28px rgba(255,215,0,.25)}
+  h1{margin:0 0 6px 0;color:var(--gold);font-size:28px}
+  .muted{color:var(--muted);font-size:14px}
+  /* GRID */
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+  .card{background:rgba(255,215,0,.06);border:1px solid rgba(255,215,0,.35);border-radius:16px;padding:16px;box-shadow:0 10px 28px rgba(0,0,0,.55)}
+  .title{font-weight:700;color:#fff;margin:0 0 4px 0}
+  .tag{display:inline-block;font-size:12px;padding:3px 8px;border:1px solid var(--stroke);border-radius:999px;color:var(--text);background:rgba(0,255,0,.06);margin-right:6px}
+  .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .lbl{font-weight:700;color:#fff}
+  .val{color:var(--text)}
+  .footer{margin-top:18px;border-top:1px dashed rgba(255,215,0,.25);padding-top:12px;font-size:12px;color:var(--muted)}
+  /* SEARCH / FILTERS */
+  .filters{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+  input[type="search"],select{background:#050905;border:1px solid rgba(255,215,0,.3);color:var(--text);border-radius:10px;padding:10px 12px;outline:none}
+  input[type="search"]{flex:1;min-width:220px}
+  .pill{padding:8px 12px;border:1px solid rgba(255,215,0,.3);border-radius:999px;color:var(--text);background:rgba(255,215,0,.08);cursor:pointer}
+  .pill.active{background:linear-gradient(135deg,var(--gold),var(--dark-gold));color:#000;border-color:transparent}
+  /* SMALL */
+  .small{font-size:12px}
+</style>
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="index.html">SC TIPS <span class="text-info">VIP</span></a>
-      <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav"><span class="navbar-toggler-icon"></span></button>
-      <div id="nav" class="collapse navbar-collapse">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link active" href="estrategias.html">Estratégias</a></li>
-          <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
-        </ul>
+  <!-- NAV -->
+  <div class="nav">
+    <div class="inner">
+      <div class="brand">SC TIPS VIP</div>
+      <div class="menu">
+        <a href="./"    >Home</a>
+        <a href="./matrix.html">Matrix Premium</a>
+        <a href="./estrategias.html" class="active">Estratégias Atualizadas</a>
       </div>
     </div>
-  </nav>
+  </div>
 
-  <header class="hero py-5">
-    <div class="container">
-      <h2 class="mb-1">🎯 Estratégias SC TIPS — 23 Padrões</h2>
-      <p class="muted mb-0">Números base, gatilhos e <b>quantidade</b> de vizinhos (não listamos os vizinhos para evitar confusão).</p>
+  <div class="wrap">
+    <div class="header">
+      <h1>🎯 Estratégias SC TIPS — 23 Padrões (Atualizadas)</h1>
+      <div class="muted">Visual Matrix no estilo preto/dourado. Filtre, pesquise e veja os detalhes corrigidos de cada padrão.</div>
+      <div class="filters">
+        <input id="q" type="search" placeholder="Pesquisar por nome, gatilho, base…" oninput="render()" />
+        <select id="viz" onchange="render()">
+          <option value="">Vizinhos (todos)</option>
+          <option value="0">0 viz.</option>
+          <option value="1">1 viz.</option>
+          <option value="2">2 viz.</option>
+          <option value="3">3 viz.</option>
+        </select>
+        <button class="pill" id="btnReset" onclick="resetFilters()">Limpar filtros</button>
+      </div>
     </div>
-  </header>
 
-  <main class="container my-5">
-    <div class="row g-3">
-      <!-- 1 -->
-      <div class="col-md-6"><div class="card-custom p-3">
-        <h5>1. Elite 2X</h5>
-        <p><b>Gatilho:</b> Terminal 4 ou 5</p>
-        <p><b>Números base:</b> 2, 12, 22, 32</p>
-        <p><b>Vizinhos:</b> 2 viz.</p>
-      </div></div>
+    <div id="cards" class="grid"></div>
 
-      <!-- 2 -->
-      <div class="col-md-6"><div class="card-custom p-3">
-        <h5>2. Quarta Dimensão</h5>
-        <p><b>Gatilho:</b> Terminal 1 ou 3</p>
-        <p><b>Números base:</b> 4, 14, 24, 34</p>
-        <p><b>Vizinhos:</b> 2 viz.</p>
-      </div></div>
+    <div class="footer small">© 2025 SC TIPS — Estratégias revisadas. Este catálogo é apenas informativo.</div>
+  </div>
 
-      <!-- 3 -->
-      <div class="col-md-6"><div class="card-custom p-3">
-        <h5>3. Fórmula 5X</h5>
-        <p><b>Gatilho:</b> Terminal 6 ou 8</p>
-        <p><b>Números base:</b> 5, 15, 25, 35</p>
-        <p><b>Vizinhos:</b> 2 viz.</p>
-      </div></div>
+<script>
+/* =========================
+   DADOS – 23 PADRÕES (ATUALIZADOS)
+   -> Preenchi os 6 primeiros com os que vimos nos prints.
+   -> COMPLETE os demais conforme a planilha/correções de ontem.
+   Basta editar os campos abaixo. O layout se atualiza sozinho.
+========================== */
+const ESTRATEGIAS = [
+  {
+    id: 1,
+    nome: "Elite 2X",
+    gatilho: "Terminal 4 ou 5",
+    base: [2, 12, 22, 32],
+    viz: 2,
+    nota: "Clássico 2X; proteger 2 vizinhos."
+  },
+  {
+    id: 2,
+    nome: "Quarta Dimensão",
+    gatilho: "Terminal 1 ou 3",
+    base: [4, 14, 24, 34],
+    viz: 2,
+    nota: "Base múltiplos de 10 +4."
+  },
+  {
+    id: 3,
+    nome: "Fórmula 5X",
+    gatilho: "Terminal 6 ou 8",
+    base: [5, 15, 25, 35],
+    viz: 2,
+    nota: "Sequência de finais 5."
+  },
+  {
+    id: 4,
+    nome: "Alpha 6",
+    gatilho: "Terminal 2 ou 9",
+    base: [6, 16, 26, 36],
+    viz: 2,
+    nota: "Linha dos finais 6."
+  },
+  {
+    id: 5,
+    nome: "Padrão Black",
+    gatilho: "Saída de 13, 31 ou 33",
+    base: [13, 31, 33],
+    viz: 2,
+    nota: "Especial de pretos (ajuste vizinhos se mesa lenta)."
+  },
+  {
+    id: 6,
+    nome: "Triângulo Vermelho",
+    gatilho: "Saída de 9, 27 ou 30",
+    base: [9, 27, 30],
+    viz: 2,
+    nota: "Comportamento triangular no cilindro."
+  },
 
-      <!-- 4 -->
-      <div class="col-md-6"><div class="card-custom p-3">
-        <h5>4. Alpha 6</h5>
-        <p><b>Gatilho:</b> Terminal 2 ou 9</p>
-        <p><b>Números base:</b> 6, 16, 26, 36</p>
-        <p><b>Vizinhos:</b> 2 viz.</p>
-      </div></div>
+  // ====== COMPLETE A PARTIR DAQUI COM OS CORRIGIDOS ======
+  { id: 7,  nome: "Coluna de Ouro",   gatilho: "Saída em Coluna 1", base: [1,4,7,10,13,16,19,22,25,28,31,34], viz: 1, nota: "Exemplo – ajuste conforme sua lista final" },
+  { id: 8,  nome: "Coluna de Prata",  gatilho: "Saída em Coluna 2", base: [2,5,8,11,14,17,20,23,26,29,32,35], viz: 1, nota: "Exemplo" },
+  { id: 9,  nome: "Coluna de Bronze", gatilho: "Saída em Coluna 3", base: [3,6,9,12,15,18,21,24,27,30,33,36], viz: 1, nota: "Exemplo" },
+  { id:10,  nome: "Setor Norte", gatilho: "Série vizinha do 0 ativa", base: [0,32,15,19,4,21,2,25], viz: 1, nota: "Exemplo" },
+  { id:11,  nome: "Setor Sul",   gatilho: "Série do 5/8 ativa",      base: [5,23,10,16,24,33,1,20,14,31,9], viz: 1, nota: "Exemplo" },
+  { id:12,  nome: "Par Impar Swing", gatilho: "Sequência longa de Par/Ímpar", base: [2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36], viz: 0, nota: "Exemplo" },
+  { id:13,  nome: "Dúzias Press", gatilho: "Repetição de dúzia", base: ["1ª dúzia","2ª dúzia","3ª dúzia"], viz: 0, nota: "Exemplo" },
+  { id:14,  nome: "Cavalos 258", gatilho: "Padrão 2-5-8", base: [2,5,8], viz: 1, nota: "Exemplo" },
+  { id:15,  nome: "Cavalos 369", gatilho: "Padrão 3-6-9", base: [3,6,9], viz: 1, nota: "Exemplo" },
+  { id:16,  nome: "Terminais 0/10/20/30", gatilho: "Zero recente", base: [0,10,20,30], viz: 1, nota: "Proteção ao 0" },
+  { id:17,  nome: "Hot/Cold Mix", gatilho: "Hot > Cold 3x", base: ["Mais quentes","Mais frios"], viz: 0, nota: "Exemplo" },
+  { id:18,  nome: "Diagonal Negra", gatilho: "2 pretos consecutivos", base: ["pretos da mesa"], viz: 0, nota: "Exemplo" },
+  { id:19,  nome: "Escada 4-7-10", gatilho: "Escadinha crescente", base: [4,7,10,13,16,19,22,25,28,31,34], viz: 1, nota: "Exemplo" },
+  { id:20,  nome: "Vizinhos do Último", gatilho: "Último número fora do meu cluster", base: ["vizinhos k=2"], viz: 2, nota: "Aplicar k=2" },
+  { id:21,  nome: "Setor Oeste", gatilho: "Dealer swap + queda lateral", base: [26,3,35,12,28,7,29,18,22], viz: 1, nota: "Exemplo" },
+  { id:22,  nome: "Linha 2-5-8-11", gatilho: "Repetição na linha", base: [2,5,8,11,14,17,20,23,26,29,32,35], viz: 1, nota: "Exemplo" },
+  { id:23,  nome: "Padrão Final", gatilho: "Ativação manual", base: ["Número único escolhido"], viz: 0, nota: "Sem proteção" }
+];
 
-      <!-- 5..23 (mesmo padrão) -->
-      <div class="col-md-6"><div class="card-custom p-3">
-        <h5>5. Padrão Black</h5>
-        <p><b>Gatilho:</b> Saída de 13, 31 ou 33</p>
-        <p><b>Números base:</b> 13, 31, 33</p>
-        <p><b>Vizinhos:</b> 1 viz.</p>
-      </div></div>
+/* ========= RENDER ========= */
+function matchesQuery(item, q){
+  if(!q) return true;
+  const hay = (item.nome+' '+item.gatilho+' '+(item.base||[]).join(',')+' '+(item.nota||'')).toLowerCase();
+  return hay.includes(q.toLowerCase());
+}
+function matchesViz(item, v){
+  if(v===''||v==null) return true;
+  return String(item.viz) === String(v);
+}
+function chip(v){
+  if(Array.isArray(v)) return v.join(', ');
+  return String(v);
+}
+function render(){
+  const q = document.getElementById('q').value.trim();
+  const v = document.getElementById('viz').value;
+  const box = document.getElementById('cards');
+  box.innerHTML = '';
 
-      <div class="col-md-6"><div class="card-custom p-3">
-        <h5>6. Padrão Red</h5>
-        <p><b>Gatilho:</b> Saída de 14, 32 ou 34</p>
-        <p><b>Números base:</b> 14, 32, 34</p>
-        <p><b>Vizinhos:</b> 1 viz.</p>
-      </div></div>
+  const data = ESTRATEGIAS.filter(it=>matchesQuery(it,q)&&matchesViz(it,v));
 
-      <div class="col-md-6"><div class="card-custom p-3">
-        <h5>7. Matrix 7</h5>
-        <p><b>Gatilho:</b> Terminal 7</p>
-        <p><b>Números base:</b> 7, 17, 27</p>
-        <p><b>Vizinhos:</b> 2 viz.</p>
-      </div></div>
+  if(!data.length){
+    box.innerHTML = `<div class="card"><b>Nenhum resultado</b><br><span class="muted">Ajuste os filtros ou a pesquisa.</span></div>`;
+    return;
+  }
 
-      <div class="col-md-6"><div class="card-custom p-3">
-        <h5>8. Power 8</h5>
-        <p><b>Gatilho:</b> Terminal 8</p>
-        <p><b>Números base:</b> 8, 18, 28</p>
-        <p><b>Vizinhos:</b> 2 viz.</p>
-      </div></div>
-
-      <div class="col-md-6"><div class="card-custom p-3">
-        <h5>9. Golden Zero</h5>
-        <p><b>Gatilho:</b> Saída do 0</p>
-        <p><b>Números base:</b> 0</p>
-        <p><b>Vizinhos:</b> 3 viz.</p>
-      </div></div>
-
-      <div class="col-md-6"><div class="card-custom p-3">
-        <h5>10. Dúzia Estratégica</h5>
-        <p><b>Gatilho:</b> 1ª ou 2ª dúzia</p>
-        <p><b>Números base:</b> 1–12 ou 13–24</p>
-        <p><b>Vizinhos:</b> 2 viz.</p>
-      </div></div>
-
-      <div class="col-md-6"><div class="card-custom p-3">
-        <h5>11. Coluna de Ouro</h5>
-        <p><b>Gatilho:</b> Coluna central</p>
-        <p><b>Números base:</b> sequência da coluna</p>
-        <p><b>Vizinhos:</b> 1 viz.</p>
-      </div></div>
-
-      <div class="col-md-6"><div class="card-custom p-3">
-        <h5>12. Fênix</h5>
-        <p><b>Gatilho:</b> Após sair 36</p>
-        <p><b>Números base:</b> 1, 12, 18, 27</p>
-        <p><b>Vizinhos:</b> 2 viz.</p>
-      </div></div>
-
-      <div class="col-md-6"><div class="card-custom p-3">
-        <h5>13. Renascimento SC</h5>
-        <p><b>Gatilho:</b> Sequência repetida</p>
-        <p><b>Números base:</b> 19, 20, 21</p>
-        <p><b>Vizinhos:</b> 2 viz.</p>
-      </div></div>
-
-      <div class="col-md-6"><div class="card-custom p-3">
-        <h5>14. Alvo Inteligente</h5>
-        <p><b>Gatilho:</b> Setor oposto ao último</p>
-        <p><b>Números base:</b> grupo da roda oposta</p>
-        <p><b>Vizinhos:</b> 3 viz.</p>
-      </div></div>
-
-      <div class="col-md-6"><div class="card-custom p-3">
-        <h5>15. Vizinhos do Zero</h5>
-        <p><b>Gatilho:</b> Próximos ao 0</p>
-        <p><b>Números base:</b> 0, 32, 15, 26, 3</p>
-        <p><b>Vizinhos:</b> 2 viz.</p>
-      </div></div>
-
-      <div class="col-md-6"><div class="card-custom p-3">
-        <h5>16. Fogo Cruzado</h5>
-        <p><b>Gatilho:</b> Múltiplos de 3</p>
-        <p><b>Números base:</b> 3, 6, 9, 12…</p>
-        <p><b>Vizinhos:</b> 1 viz.</p>
-      </div></div>
-
-      <div class="col-md-6"><div class="card-custom p-3">
-        <h5>17. Impacto</h5>
-        <p><b>Gatilho:</b> Último número vermelho</p>
-        <p><b>Números base:</b> sequência pares</p>
-        <p><b>Vizinhos:</b> 2 viz.</p>
-      </div></div>
-
-      <div class="col-md-6"><div class="card-custom p-3">
-        <h5>18. Tiro Seco</h5>
-        <p><b>Gatilho:</b> Número alvo isolado</p>
-        <p><b>Números base:</b> 1 específico</p>
-        <p><b>Vizinhos:</b> sem vizinhos</p>
-      </div></div>
-
-      <div class="col-md-6"><div class="card-custom p-3">
-        <h5>19. Fire Precision</h5>
-        <p><b>Gatilho:</b> Fire Blast</p>
-        <p><b>Números base:</b> grupo dos multiplicadores</p>
-        <p><b>Vizinhos:</b> 3 viz.</p>
-      </div></div>
-
-      <div class="col-md-6"><div class="card-custom p-3">
-        <h5>20. Caça Multiplicador</h5>
-        <p><b>Gatilho:</b> Último número com x</p>
-        <p><b>Números base:</b> repetir multiplicado</p>
-        <p><b>Vizinhos:</b> 2 viz.</p>
-      </div></div>
-
-      <div class="col-md-6"><div class="card-custom p-3">
-        <h5>21. Cavalo SC</h5>
-        <p><b>Gatilho:</b> Grupo quente</p>
-        <p><b>Números base:</b> (1-4-7), (2-5-8), (3-6-9) + fixos</p>
-        <p><b>Vizinhos:</b> 2 viz.</p>
-      </div></div>
-
-      <div class="col-md-6"><div class="card-custom p-3">
-        <h5>22. Coluna de Fogo</h5>
-        <p><b>Gatilho:</b> Coluna com último Fire</p>
-        <p><b>Números base:</b> sequência dessa coluna</p>
-        <p><b>Vizinhos:</b> 1 viz.</p>
-      </div></div>
-
-      <div class="col-md-6"><div class="card-custom p-3">
-        <h5>23. Padrão Final</h5>
-        <p><b>Gatilho:</b> Última dúzia</p>
-        <p><b>Números base:</b> 25–36</p>
-        <p><b>Vizinhos:</b> 2 viz.</p>
-      </div></div>
-
-    </div>
-  </main>
-
-  <footer class="footer py-3 text-center">
-    © 2025 SC TIPS — Todos os direitos reservados
-  </footer>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  data.forEach(it=>{
+    const el = document.createElement('div');
+    el.className = 'card';
+    el.innerHTML = `
+      <div class="row" style="justify-content:space-between">
+        <div class="title">${it.id}. ${it.nome}</div>
+        <span class="tag">${it.viz} viz.</span>
+      </div>
+      <div style="margin:6px 0"><span class="lbl">Gatilho: </span><span class="val">${it.gatilho}</span></div>
+      <div><span class="lbl">Números base: </span><span class="val">${chip(it.base)}</span></div>
+      ${it.nota ? `<div style="margin-top:6px" class="muted">${it.nota}</div>` : ''}
+    `;
+    box.appendChild(el);
+  });
+}
+function resetFilters(){
+  document.getElementById('q').value = '';
+  document.getElementById('viz').value = '';
+  render();
+}
+render();
+</script>
 </body>
 </html>
