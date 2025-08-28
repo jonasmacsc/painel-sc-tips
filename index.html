@@ -3,107 +3,58 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SC Tips VIP • Painel</title>
-
-  <!-- Cor do navegador / favicons (coloque os arquivos na raiz) -->
-  <meta name="theme-color" content="#0b1320">
-  <link rel="icon" type="image/png" href="favicon.png" sizes="32x32">
-  <link rel="apple-touch-icon" href="favicon-180.png">
-  <link rel="icon" type="image/png" href="favicon-192.png">
-  <meta property="og:image" content="logo.png">
-
-  <!-- Estilos mínimos (dark + azul) -->
+  <title>SC Tips VIP</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <style>
-    :root{
-      --bg:#0a0f1a; --panel:#0f172a; --text:#e5f0ff; --muted:#93a4c6;
-      --brand:#22d3ee; --btn:#2563eb; --btn-soft:#0b1f44; --stroke:#1e293b;
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,Segoe UI,Roboto,Inter,Arial}
-    a{text-decoration:none;color:inherit}
-    .wrap{max-width:1200px;margin:0 auto;padding:20px}
-    .navbar{position:sticky;top:0;z-index:10;background:#0b1320;border-bottom:1px solid #0f1b34}
-    .nav-inner{display:flex;align-items:center;gap:16px}
-    .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.2px}
-    .brand b{color:var(--brand)}
-    .nav-actions{margin-left:auto;display:flex;gap:10px;flex-wrap:wrap}
-    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;border-radius:12px;border:1px solid #2a3c63;background:var(--btn-soft);color:#dbe7ff}
-    .btn:hover{background:#0e2550}
-    .btn.primary{background:var(--btn);border-color:var(--btn);color:#fff}
-    .btn.ghost{background:transparent}
-    .hero{padding:22px 0}
-    h1{font-size:34px;margin:6px 0 8px}
-    .badge{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:#072037;border:1px solid #133a69;color:#a8c7ff;font-size:12px}
-    .lead{color:var(--muted);max-width:880px}
-    .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
-    .card{background:var(--panel);border:1px solid var(--stroke);border-radius:14px;padding:16px}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-    .stat{display:flex;flex-direction:column;gap:4px}
-    .muted{color:var(--muted)}
-    footer{margin:24px 0 10px;text-align:center;color:#8aa; font-size:12px}
-    .logo{height:38px;width:auto}
+    body{background:#0a0f1a;color:#eef3ff;font-family:Inter,system-ui,Arial,sans-serif;}
+    .navbar{background:#0b1220;}
+    .navbar-brand{font-weight:700;letter-spacing:.5px;color:#fff}
+    .navbar-brand b{color:#00eaff}
+    .hero{padding:60px 20px;text-align:center}
+    .hero h1{font-size:32px;font-weight:800;color:#22d3ee}
+    .hero p{max-width:640px;margin:10px auto 30px;font-size:16px;color:#9aa4b2}
+    .btn{border-radius:10px;padding:12px 20px;font-weight:600}
+    .btn.primary{background:#2563eb;color:#fff}
+    .btn.secondary{background:#fff;color:#000}
+    .btn.outline{border:1px solid #22d3ee;color:#22d3ee;background:transparent}
   </style>
 </head>
 <body>
-  <!-- NAV -->
-  <div class="navbar">
-    <div class="wrap nav-inner">
-      <a class="brand" href="index.html" aria-label="SC Tips VIP">
-        <img src="logo.png" alt="SC Tips Logo" class="logo">
-        <span>SC TIPS <b>VIP</b></span>
-      </a>
-      <div class="nav-actions">
-        <a class="btn primary" href="estrategias.html">Ver as 23 Estratégias</a>
-        <a class="btn" href="matrix-premium.html">Abrir Matrix Premium</a>
-        <a class="btn" href="puxadores.html">Abrir Puxadores Live</a>
-      </div>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">
+      <img src="logo.png" alt="SC Tips Logo" style="height:32px;vertical-align:middle;margin-right:6px;">
+      SC TIPS <b>VIP</b>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="estrategias.html">Estratégias</a></li>
+        <li class="nav-item"><a class="nav-link" href="matrix-premium.html">Matrix Premium</a></li>
+        <li class="nav-item"><a class="nav-link" href="puxadores.html">Puxadores Live</a></li>
+      </ul>
     </div>
   </div>
+</nav>
 
-  <!-- HERO -->
-  <div class="wrap hero">
-    <div class="badge">LIVE • números puxadores & vizinhos</div>
-    <h1>Painel SC TIPS — <span style="color:#22d3ee">Vizinhos VIP</span></h1>
-    <p class="lead">
-      Estatísticas ao vivo, gatilhos e alertas automáticos. Visual simples de operar e
-      otimizado para Evolution/Pragmatic (roda europeia).
-    </p>
-    <div class="cta">
-      <a class="btn primary" href="estrategias.html">Ver as 23 Estratégias</a>
-      <a class="btn" href="matrix-premium.html">Abrir Matrix Premium</a>
-      <a class="btn" href="puxadores.html">Abrir Puxadores Live</a>
-    </div>
+<!-- Hero -->
+<section class="hero">
+  <div class="badge bg-info text-dark mb-3">LIVE • números puxadores & vizinhos</div>
+  <h1>Painel SC TIPS — <span style="color:#22d3ee">Vizinhos VIP</span></h1>
+  <p>Estatísticas ao vivo, gatilhos e alertas automáticos. Visual simples de operar e otimizado para Evolution/Pragmatic (roda europeia).</p>
+  <div class="d-flex justify-content-center gap-3 flex-wrap">
+    <a class="btn primary" href="estrategias.html">Ver as 23 Estratégias</a>
+    <a class="btn secondary" href="matrix-premium.html">Abrir Matrix Premium</a>
+    <a class="btn outline" href="puxadores.html">Abrir Puxadores Live</a>
   </div>
+</section>
 
-  <!-- PRÉVIA RÁPIDA -->
-  <div class="wrap">
-    <div class="grid">
-      <div class="card">
-        <div class="stat">
-          <b>Preview do Painel</b>
-          <span class="muted">Último nº: — • Vizinhos: 2 • Base: 17</span>
-        </div>
-        <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap">
-          <a class="btn primary" href="matrix-premium.html">Abrir Matrix Premium</a>
-          <a class="btn" href="puxadores.html">Abrir Puxadores Live</a>
-        </div>
-      </div>
-      <div class="card">
-        <b>Sinais precisos</b>
-        <p class="muted" style="margin:6px 0 0">
-          Observa gatilho (base/puxadores) e abre sinal apenas quando não “respeitou” os vizinhos recentemente.
-        </p>
-      </div>
-      <div class="card">
-        <b>Estratégias revisadas</b>
-        <p class="muted" style="margin:6px 0 0">
-          Catálogo enxuto (Gatilho + Números base). O motor aplica vizinhos, terminais, cavalo, puxadores,
-          tendência, hot/cold e proteção do zero.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <footer>© 2025 SC TIPS — painel-sc-tips</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
