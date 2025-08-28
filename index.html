@@ -1,40 +1,93 @@
-<section id="estrategias" class="section">
-  <div class="container">
-    <h2 class="section-title">🎯 Estratégias SC TIPS – 23 Padrões</h2>
-    <p class="muted">Números base, gatilhos e quantidade de vizinhos aplicados.</p>
-
-    <div class="estrategias-list">
-
-      <div class="card-custom">
-        <h3>1. Elite 2X</h3>
-        <p><b>Gatilho:</b> Terminal 4 ou 5</p>
-        <p><b>Números base:</b> 2, 12, 22, 32</p>
-        <p><b>Vizinhos:</b> 2 viz.</p>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SC TIPS VIP</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">SC TIPS VIP</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="menu">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="estrategias.html">Estratégias</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
+          <li class="nav-item"><a class="btn btn-warning" href="#login">Login</a></li>
+        </ul>
       </div>
+    </div>
+  </nav>
 
-      <div class="card-custom">
-        <h3>2. Quarta Dimensão</h3>
-        <p><b>Gatilho:</b> Terminal 1 ou 3</p>
-        <p><b>Números base:</b> 4, 14, 24, 34</p>
-        <p><b>Vizinhos:</b> 2 viz.</p>
-      </div>
+  <!-- HERO -->
+  <header class="bg-dark text-light text-center p-5">
+    <h1>SC TIPS - Painel Vizinhos VIP</h1>
+    <p>Estatísticas ao vivo, estratégias e alertas automáticos para Mega Fire Blaze e Brazilian Roulette.</p>
+    <a href="#painel" class="btn btn-primary">Ver Painel</a>
+  </header>
 
-      <div class="card-custom">
-        <h3>3. Fórmula 5X</h3>
-        <p><b>Gatilho:</b> Terminal 6 ou 8</p>
-        <p><b>Números base:</b> 5, 15, 25, 35</p>
-        <p><b>Vizinhos:</b> 2 viz.</p>
-      </div>
+  <!-- PAINEL -->
+  <section id="painel" class="container my-5">
+    <h2 class="text-center mb-4">Painel Dinâmico</h2>
+    <p class="text-center">Os gráficos abaixo simulam dados em tempo real. Na versão final, eles serão atualizados automaticamente com base nos resultados reais.</p>
+    <canvas id="grafico1"></canvas>
+    <canvas id="grafico2" class="mt-4"></canvas>
+  </section>
 
-      <div class="card-custom">
-        <h3>4. Alpha 6</h3>
-        <p><b>Gatilho:</b> Terminal 2 ou 9</p>
-        <p><b>Números base:</b> 6, 16, 26, 36</p>
-        <p><b>Vizinhos:</b> 2 viz.</p>
-      </div>
+  <!-- LOGIN -->
+  <section id="login" class="container my-5">
+    <h2 class="text-center">Login</h2>
+    <form class="mx-auto" style="max-width:400px">
+      <input class="form-control mb-2" type="email" placeholder="E-mail">
+      <input class="form-control mb-2" type="password" placeholder="Senha">
+      <button class="btn btn-dark w-100">Entrar</button>
+    </form>
+  </section>
 
-      <div class="card-custom">
-        <h3>5. Padrão Black</h3>
+  <!-- CONTATO -->
+  <section id="contato" class="container my-5">
+    <h2 class="text-center">Contato</h2>
+    <form class="mx-auto" style="max-width:500px">
+      <input class="form-control mb-2" type="text" placeholder="Seu nome">
+      <input class="form-control mb-2" type="email" placeholder="Seu e-mail">
+      <textarea class="form-control mb-2" placeholder="Mensagem"></textarea>
+      <button class="btn btn-primary w-100">Enviar</button>
+    </form>
+  </section>
+
+  <!-- RODAPÉ -->
+  <footer class="bg-dark text-light text-center p-3">
+    © 2025 SC TIPS - Todos os direitos reservados
+  </footer>
+
+  <script>
+    const ctx1 = document.getElementById('grafico1');
+    new Chart(ctx1, {
+      type: 'bar',
+      data: {
+        labels: ['Setor A', 'Setor B', 'Setor C', 'Setor D', 'Setor E'],
+        datasets: [{ label: 'Frequência', data: [5, 7, 14, 9, 17], backgroundColor: '#0d6efd' }]
+      }
+    });
+
+    const ctx2 = document.getElementById('grafico2');
+    new Chart(ctx2, {
+      type: 'line',
+      data: {
+        labels: ['00h','01h','02h','03h','04h','05h'],
+        datasets: [{ label: 'Fire Blasts Detectados', data: [4,5,3,5,5,4], borderColor: '#dc3545', tension:0.3 }]
+      }
+    });
+  </script>
+</body>
+</html>        <h3>5. Padrão Black</h3>
         <p><b>Gatilho:</b> Saída de 13, 31 ou 33</p>
         <p><b>Números base:</b> 13, 31, 33</p>
         <p><b>Vizinhos:</b> 1 viz.</p>
