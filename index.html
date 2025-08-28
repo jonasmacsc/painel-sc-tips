@@ -2,72 +2,77 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SC TIPS VIP</title>
-  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="icon" type="image/png" href="logo.png">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
-      background: #0a0f1a;
-      color: #e6edf3;
-      font-family: "Segoe UI", sans-serif;
-    }
-    .navbar {
-      background: #0d1b2a;
-    }
-    .navbar-brand img {
-      height: 40px;
-      margin-right: 10px;
+      background: linear-gradient(135deg, #0a0f1a, #000);
+      color: #eef3ff;
+      font-family: 'Segoe UI', Roboto, Arial, sans-serif;
     }
     .hero {
+      padding: 80px 20px;
       text-align: center;
-      padding: 60px 20px;
     }
     .hero h1 {
+      font-weight: 700;
       font-size: 2.2rem;
-      color: #00c2ff;
+      margin-bottom: 20px;
     }
     .hero p {
       font-size: 1.1rem;
-      color: #9aa4b2;
+      margin-bottom: 30px;
+      opacity: 0.85;
     }
     .btn-custom {
-      font-weight: bold;
-      padding: 12px 24px;
-      border-radius: 10px;
+      padding: 12px 20px;
+      font-size: 1rem;
+      border-radius: 8px;
+      font-weight: 600;
     }
   </style>
 </head>
 <body>
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark">
-    <div class="container">
-      <a class="navbar-brand" href="index.html">
-        <img src="logo.png" alt="SC Tips Logo"> <span>SC TIPS <b>VIP</b></span>
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="d-flex flex-wrap gap-3 mt-3">
-  <a class="btn btn-primary btn-lg" href="estrategias.html">Ver as 23 Estratégias</a>
-  <a class="btn btn-outline-light btn-lg" href="matrix-premium.html">Abrir Matrix Premium</a>
-  <a class="btn btn-outline-info btn-lg" href="puxadores.html">Abrir Puxadores Live</a>
-</div>
-        </ul>
-      </div>
-    </div>
-  </nav>
 
-  <!-- Hero -->
-  <section class="hero">
-    <h1>🎰 Painel SC TIPS — Vizinhos VIP</h1>
-    <p>Estratégias inteligentes, gatilhos e alertas automáticos. Visual ao vivo e otimizado para Evolution / Pragmatic.</p>
-    <div class="d-flex justify-content-center gap-3 mt-4">
-      <a href="estrategias.html" class="btn btn-primary btn-custom">Ver as 23 Estratégias</a>
-      <a href="matrix-premium.html" class="btn btn-outline-light btn-custom">Abrir Matrix Premium</a>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center" href="index.html">
+      <img src="logo.png" alt="SC Tips Logo" style="height:38px; margin-right:8px;">
+      SC TIPS <b class="text-info">VIP</b>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="estrategias.html">Estratégias</a></li>
+        <li class="nav-item"><a class="nav-link" href="matrix-premium.html">Matrix Premium</a></li>
+        <li class="nav-item"><a class="nav-link" href="puxadores.html">Puxadores Live</a></li>
+      </ul>
     </div>
-  </section>
+  </div>
+</nav>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Hero -->
+<section class="hero">
+  <h1>🎯 Painel SC TIPS — Vizinhos VIP</h1>
+  <p>Estatísticas ao vivo, gatilhos e alertas automáticos.<br>Visual simples e otimizado para Evolution/Pragmatic (roda europeia).</p>
+  <div class="d-flex justify-content-center gap-3 flex-wrap">
+    <a href="estrategias.html" class="btn btn-primary btn-custom">Ver as 23 Estratégias</a>
+    <a href="matrix-premium.html" class="btn btn-light btn-custom">Abrir Matrix Premium</a>
+    <a href="puxadores.html" class="btn btn-warning btn-custom">Abrir Puxadores Live</a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="text-center text-muted py-4">
+  © 2025 SC TIPS — Todos os direitos reservados
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
