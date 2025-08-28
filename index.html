@@ -10,31 +10,39 @@
   <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <style>
-    body{font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background:#0b1220; color:#e8eefc}
-    .navbar{background:#0f172a!important}
-    .hero{
-      background: radial-gradient(1200px 400px at 10% -10%, #1f2a44 0%, rgba(31,42,68,0) 60%) , linear-gradient(90deg,#0b1220,#0b1220);
-      padding: 72px 0 40px;
+    :root{
+      --bg:#0b1220; --panel:#0f172a; --card:#111a2f; --muted:#9fb2d8;
+      --text:#e8eefc; --brand:#22d3ee; --primary:#2563eb; --ring:#3b82f6;
+      --grad: radial-gradient(1200px 420px at 10% -10%, #1f2a44 0%, rgba(31,42,68,0) 60%);
     }
-    .btn-primary{background:#2563eb;border:0}
-    .btn-outline-light{border-color:#3b82f6;color:#cfe0ff}
-    .card{background:#111a2f;border:1px solid rgba(255,255,255,.06)}
-    .badge-soft{background:rgba(56,189,248,.15); color:#7dd3fc}
-    footer{background:#0f172a;color:#9fb2d8}
-    a.nav-link{color:#cfe0ff!important}
-    a.nav-link:hover{color:#fff!important}
+    *{box-sizing:border-box}
+    body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    .navbar{background:var(--panel)!important}
+    .hero{background:var(--grad), linear-gradient(90deg,var(--bg),var(--bg));padding:84px 0 50px}
+    .badge-soft{background:rgba(56,189,248,.15);color:#7dd3fc}
+    .btn-primary{background:var(--primary);border:0}
+    .btn-outline-light{border-color:var(--ring);color:#cfe0ff}
+    .btn-outline-light:hover{background:#1d2b53;color:#fff}
+    .card{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px}
+    .shadow-soft{box-shadow:0 15px 60px rgba(0,0,0,.35)}
+    footer{background:var(--panel);color:var(--muted)}
+    .feature{display:flex;gap:12px;align-items:flex-start}
+    .feature i{width:36px;height:36px;border-radius:10px;display:inline-grid;place-items:center;background:#172340;border:1px solid rgba(255,255,255,.06)}
+    /* seção de atalho */
+    .quick a{display:block;text-decoration:none}
+    .quick .card:hover{transform:translateY(-2px);transition:.2s}
   </style>
 </head>
 <body>
 
-  <!-- NAV UNIFICADO -->
+  <!-- NAV -->
   <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
       <a class="navbar-brand fw-bold" href="index.html">SC TIPS <span class="text-info">VIP</span></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
+      <div class="collapse navbar-collapse" id="nav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item"><a class="nav-link active" href="index.html">🏠 Home</a></li>
           <li class="nav-item"><a class="nav-link" href="estrategias.html">📘 Estratégias</a></li>
@@ -48,35 +56,74 @@
   <header class="hero">
     <div class="container">
       <span class="badge badge-soft mb-3">LIVE • números puxadores & vizinhos</span>
-      <h1 class="display-5 fw-bold">Painel SC TIPS — <span class="text-info">Vizinhos VIP</span></h1>
-      <p class="lead mb-4">Estatísticas ao vivo, gatilhos e alertas automáticos. Visual simples e otimizado para Evolution/Pragmatic (roda europeia).</p>
+      <h1 class="display-5 fw-bold mb-2">Painel SC TIPS — <span class="text-info">Vizinhos VIP</span></h1>
+      <p class="lead mb-4" style="max-width:860px">
+        Estatísticas ao vivo, gatilhos e alertas automáticos. Visual simples de operar e otimizado para Evolution/Pragmatic (roda europeia).
+      </p>
       <div class="d-flex gap-3 flex-wrap">
-        <a class="btn btn-primary btn-lg" href="estrategias.html">Ver as 23 Estratégias</a>
+        <a class="btn btn-primary btn-lg shadow-soft" href="estrategias.html">Ver as 23 Estratégias</a>
         <a class="btn btn-outline-light btn-lg" href="matrix-premium.html">Abrir Matrix Premium</a>
       </div>
     </div>
   </header>
 
-  <!-- SEÇÃO PRÉVIA (exemplo) -->
+  <!-- CONTEÚDO -->
   <main class="container py-5">
-    <div class="row g-4">
+
+    <!-- Painel rápido -->
+    <section class="row g-4 align-items-stretch quick">
       <div class="col-lg-7">
-        <div class="card p-4 h-100">
-          <h5 class="mb-3">Preview do Painel</h5>
+        <div class="card p-4 h-100 shadow-soft">
+          <h5 class="mb-2">Preview do Painel</h5>
           <p class="text-secondary mb-4">Último nº: — • Vizinhos: 2 • Base: 17</p>
-          <div class="d-flex gap-3">
+          <div class="d-flex gap-3 flex-wrap">
             <button class="btn btn-primary">Simular nº</button>
             <button class="btn btn-outline-light">Ver gatilhos</button>
           </div>
+          <hr class="my-4">
+          <div class="row g-3">
+            <div class="col-6 col-md-3"><div class="card p-3 text-center"><div class="fw-bold fs-4">0</div><div class="text-secondary small">Ciclos</div></div></div>
+            <div class="col-6 col-md-3"><div class="card p-3 text-center"><div class="fw-bold fs-4 text-success">0</div><div class="text-secondary small">Hits</div></div></div>
+            <div class="col-6 col-md-3"><div class="card p-3 text-center"><div class="fw-bold fs-4 text-danger">0</div><div class="text-secondary small">Miss</div></div></div>
+            <div class="col-6 col-md-3"><div class="card p-3 text-center"><div class="fw-bold fs-4">0%</div><div class="text-secondary small">Taxa</div></div></div>
+          </div>
         </div>
       </div>
+
       <div class="col-lg-5">
-        <div class="card p-4 h-100">
+        <div class="card p-4 h-100 shadow-soft">
           <h5 class="mb-3">Sinais precisos</h5>
-          <p class="text-secondary mb-0">Observa gatilho (base/puxadores) e abre sinal apenas quando não “respeitou” os vizinhos recentemente.</p>
+          <div class="feature mb-3">
+            <i>🎯</i>
+            <p class="mb-0 text-secondary">Observa gatilho (base/puxadores) e abre sinal apenas quando não “respeitou” os vizinhos recentemente.</p>
+          </div>
+          <div class="feature">
+            <i>⚡</i>
+            <p class="mb-0 text-secondary">Compatível com estratégia de Terminais & Vizinhos e alertas por ciclo.</p>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
+
+    <!-- Atalhos -->
+    <section class="row g-4 mt-1">
+      <div class="col-md-6">
+        <a href="estrategias.html">
+          <div class="card p-4 shadow-soft">
+            <h5 class="mb-1">📘 Estratégias Atualizadas</h5>
+            <p class="text-secondary mb-0">23 padrões revisados (vizinhos, gatilhos e notas).</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-6">
+        <a href="matrix-premium.html">
+          <div class="card p-4 shadow-soft">
+            <h5 class="mb-1">⚡ Matrix Premium (17)</h5>
+            <p class="text-secondary mb-0">Timer contínuo, geração de entradas e console em tempo real.</p>
+          </div>
+        </a>
+      </div>
+    </section>
   </main>
 
   <footer class="py-4 mt-4">
