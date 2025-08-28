@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SC Tips • Números Puxadores — Live</title>
+  <meta name="theme-color" content="#0b1220" />
+  <link rel="icon" href="favicon.png" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #0b1220;
+      --bg2:#0e1526;
+      --card:#111a2e;
+      --ink:#dbe7ff;
+      --muted:#7e8aa6;
+      --accent:#18a0fb;
+      --ok:#39d98a;
+      --warn:#f59e0b;
+      --err:#ef4444;
+    }
+    html,body{background: radial-gradient(1200px 800px at 20% -10%, #122036 0%, #0b1220 50%, #0b1220 100%) fixed;color:var(--ink)}
+    .navbar{background: linear-gradient(90deg,#0b1220,#0c1528) !important;border-bottom:1px solid #1a2540}
+    .brand img{height:36px;margin-right:8px}
+    .brand span{letter-spacing:.4px}
+    .card-custom{background:linear-gradient(180deg,var(--card),#0d172c);border:1px solid #1a2540;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+    .badge-last{width:86px;height:86px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:30px;border:4px solid #2c3e62}
+    .chip{border:1px solid #243252;background:#101a30;color:var(--ink);padding:6px 10px;border-radius:10px}
+    .chip.on{background:#0f2c20;border-color:#185c3f}
+    .dot{display:inline-block;width:8px;height:8px;border-radius:50%}
+    .dot.green{background:#16a34a}.dot.red{background:#dc2626}.dot.black{background:#111}
+    .pill{padding:4px 10px;border-radius:1000px;border:1px solid #263250;background:#0f1830}
+    .title-grad{background:linear-gradient(90deg,#a3b8ff,#e0eaff);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;}
+    .btn-primary{background:#1b5cff;border-color:#1b5cff}
+    .btn-primary:hover{background:#1448c9;border-color:#1448c9}
+    .num-dot{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700}
+    .num-red{background:#dc2626}.num-black{background:#0b0b0b;border:1px solid #222}.num-green{background:#16a34a}
+    .kpi{background:#0f1830;border:1px solid #233259;border-radius:14px}
+    .link-clean{color:#cfe0ff;text-decoration:none}
+    .link-clean:hover{text-decoration:underline}
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar navbar-expand-lg navbar-dark py-3">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center brand" href="index.html">
+        <img src="logo.png" alt="SC Tips">
+        <span>SC TIPS <b class="text-info">VIP</b></span>
+      </a>
+      <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="nav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="estrategias.html">Estratégias</a></li>
+          <li class="nav-item"><a class="nav-link" href="matrix-premium.html">Matrix Premium</a></li>
+          <li class="nav-item"><a class="nav-link active" href="puxadores.html">Puxadores Live</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="py-4">
+    <div class="container">
+      <div class="card-custom p-4 p-md-5">
+        <div class="d-flex flex-wrap align-items-center gap-3">
+          <h1 class="m-0 title-grad fw-extrabold">🎯 Números Puxadores — Live</h1>
+          <span id="badgeLive" class="pill">standby</span>
+          <span class="pill"><span class="me-1">📡</span> Origem: <b class="ms-1" id="origin">—</b></span>
+          <span class="pill"><span class="me-1">🎰</span> Mesa: <b class="ms-1" id="table">—</b></span>
+          <span class="pill"><span class="me-1">⏱️</span> última: <b id="ago">—</b></span>
+          <div class="ms-auto d-flex gap-2">
+            <button class="btn btn-outline-light btn-sm" id="btnCopy">📋 Copiar</button>
+            <button class="btn btn-outline-light btn-sm" id="btnReset">♻️ Reset</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="pb-5">
+    <div class="container">
+      <div class="row g-4">
+        <!-- Col A -->
+        <div class="col-lg-7">
+          <div class="card-custom p-4">
+            <div class="d-flex align-items-center gap-4">
+              <div id="lastBadge" class="badge-last mono text-light d-flex align-items-center justify-content-center">--</div>
+
+              <div class="flex-grow-1">
+                <div class="text-secondary small mb-1">Estratégia atual</div>
+                <div class="d-flex flex-wrap align-items-center gap-3">
+                  <div>
+                    Base:
+                    <select id="baseSelect" class="form-select form-select-sm d-inline-block w-auto ms-2">
+                      <!-- options via JS -->
+                    </select>
+                  </div>
+                  <div> Puxadores: <b id="pullers">—</b></div>
+
+                  <div class="d-flex align-items-center gap-2">
+                    <label class="d-inline-flex align-items-center gap-2">
+                      <input type="checkbox" class="form-check-input" id="autoNei" checked />
+                      Auto vizinhos
+                    </label>
+                    <div id="neiBtns" class="d-flex align-items-center gap-1 d-none">
+                      <button class="btn btn-sm btn-outline-info" data-k="1">1 viz.</button>
+                      <button class="btn btn-sm btn-outline-info" data-k="2">2 viz.</button>
+                      <button class="btn btn-sm btn-outline-info" data-k="3">3 viz.</button>
+                    </div>
+                    <span id="neiAuto" class="pill">2 viz.</span>
+                  </div>
+                </div>
+
+                <div class="mt-3 d-flex gap-2">
+                  <button id="btnSim" class="btn btn-success">🎲 Simulação</button>
+                  <button id="btnManual" class="btn btn-warning">⚡ Inserir nº</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Histórico -->
+            <hr class="border-0" style="border-top:1px solid #1a2540;opacity:.9">
+            <div>
+              <div class="text-secondary small mb-2">Histórico (últimos 36)</div>
+              <div id="hist" class="d-flex flex-wrap gap-1"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Col B -->
+        <div class="col-lg-5">
+          <!-- Sinais ativos -->
+          <div class="card-custom p-4 mb-4">
+            <div class="fw-bold mb-2">👁️ Sinais ativos</div>
+            <div id="activeBox" class="d-grid gap-2"></div>
+            <div id="noActive" class="text-secondary small">Sem sinais no momento.</div>
+          </div>
+
+          <!-- Sinais recentes -->
+          <div class="card-custom p-4 mb-4">
+            <div class="fw-bold mb-2">🧾 Sinais recentes</div>
+            <div id="recentBox" class="d-grid gap-2"></div>
+            <div id="noRecent" class="text-secondary small">Ainda não há histórico.</div>
+          </div>
+
+          <!-- KPIs -->
+          <div class="d-grid grid-template-columns-2 gap-3">
+            <div class="kpi p-3 text-center">
+              <div class="h3 m-0" id="kTotal">0</div>
+              <div class="small text-secondary">Total Spins</div>
+            </div>
+            <div class="kpi p-3 text-center">
+              <div class="h3 m-0" id="kSignals">0</div>
+              <div class="small text-secondary">Sinais Total</div>
+            </div>
+            <div class="kpi p-3 text-center">
+              <div class="h3 m-0 text-success" id="kWins">0</div>
+              <div class="small text-secondary">Wins</div>
+            </div>
+            <div class="kpi p-3 text-center">
+              <div class="h3 m-0 text-danger" id="kLoss">0</div>
+              <div class="small text-secondary">Losses</div>
+            </div>
+          </div>
+
+          <div class="card-custom p-3 mt-3">
+            <div class="small text-secondary">Taxa de acerto: <b id="acc">0%</b> • Eficiência: <b id="eff">0%</b></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-4">
+        <a class="link-clean" href="index.html">← Voltar ao início</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="py-4 text-center text-secondary small">
+    © 2025 SC TIPS — Puxadores Live • Feed: BroadcastChannel(<code class="mono">"sc-tips-live"</code>) / postMessage
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // ======== DADOS BÁSICOS ========
+    const WHEEL = [0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
+    const RED = new Set([1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);
+    const inRange = n => Number.isInteger(n) && n>=0 && n<=36;
+
+    // Tabela de PUXADORES (base → gatilhos/puxadores)
+    const PULLERS = {
+      0:[10,20,30],1:[17,7],2:[2,22],3:[3,33],4:[21,9],5:[25,15,35],
+      6:[20,17,7],7:[7,17,20],8:[30,0,20],9:[9,19],10:[0,20,30],
+      11:[30,0,20],12:[33,15],13:[20,7],14:[17,7],15:[9,5,35],
+      16:[3,33],17:[17,20,7],18:[2,22],19:[19,9],20:[17,7],
+      21:[2,22],22:[2,22],23:[0,10],24:[35,15,25],25:[20,22],
+      26:[0,10,30],27:[17,7,20],28:[7,17,20],29:[7,17,20],30:[0,20,30],
+      31:[9,19],32:[0,10,20,30],33:[3,33],34:[7,20],35:[3,33,15],36:[20,30]
+    };
+
+    // ======== ESTADO ========
+    let history = [];
+    let last = null;
+    let selectedBase = 17;
+
+    let autoNeighbors = true;
+    let neighborsCount = 2;
+
+    let signals = []; // {id, base, pullers[], neighbors, active, ticks, win, closedAt}
+    let liveOn = false;
+    let lastLiveAt = 0;
+    let origin = "—", table = "—";
+
+    // dedupe/cadência
+    const LAST = { n:null, t:0 };
+    const DEDUP_MS = 5000;
+
+    // ======== DOM ========
+    const badgeLive = document.getElementById("badgeLive");
+    const originEl  = document.getElementById("origin");
+    const tableEl   = document.getElementById("table");
+    const agoEl     = document.getElementById("ago");
+
+    const lastBadge = document.getElementById("lastBadge");
+    const baseSelect= document.getElementById("baseSelect");
+    const pullersEl = document.getElementById("pullers");
+    const neiAuto   = document.getElementById("neiAuto");
+    const neiBtns   = document.getElementById("neiBtns");
+    const autoNei   = document.getElementById("autoNei");
+    const histEl    = document.getElementById("hist");
+
+    const activeBox = document.getElementById("activeBox");
+    const noActive  = document.getElementById("noActive");
+    const recentBox = document.getElementById("recentBox");
+    const noRecent  = document.getElementById("noRecent");
+
+    const kTotal = document.getElementById("kTotal");
+    const kSignals = document.getElementById("kSignals");
+    const kWins = document.getElementById("kWins");
+    const kLoss = document.getElementById("kLoss");
+    const accEl = document.getElementById("acc");
+    const effEl = document.getElementById("eff");
+
+    // Fill base select
+    for(let i=0;i<=36;i++){
+      const o=document.createElement("option");
+      o.value=i;o.textContent=`Nº ${i}`;
+      baseSelect.appendChild(o);
+    }
+    baseSelect.value = selectedBase;
+
+    // ======== FUNÇÕES ========
+    const colorOf = n => n===0?'green':(RED.has(n)?'red':'black');
+
+    function wheelNeighbors(n,k){
+      const i=WHEEL.indexOf(n); if(i<0) return [];
+      const out=[];
+      for(let d=1; d<=k; d++){
+        out.push(WHEEL[(i-d+WHEEL.length)%WHEEL.length]);
+        out.push(WHEEL[(i+d)%WHEEL.length]);
+      }
+      return out;
+    }
+
+    function setLast(n){
+      last=n;
+      lastBadge.textContent = inRange(n)? n : "--";
+      lastBadge.style.background = n===0 ? "#16a34a" : (RED.has(n)?"#dc2626":"#0b0b0b");
+      lastBadge.style.borderColor = n===0 ? "#2dd36f" : (RED.has(n)?"#f87171":"#2c3e62");
+    }
+
+    function renderPullers(){
+      const p=PULLERS[selectedBase]||[];
+      pullersEl.textContent = p.length? p.join(", ") : "—";
+    }
+
+    function renderHistory(){
+      histEl.innerHTML = "";
+      history.slice(-36).forEach(n=>{
+        const d=document.createElement("div");
+        d.className="num-dot "+(n===0?"num-green":(RED.has(n)?"num-red":"num-black"));
+        d.textContent=n;
+        histEl.appendChild(d);
+      });
+      kTotal.textContent = history.length;
+    }
+
+    function renderSignals(){
+      // ativos
+      activeBox.innerHTML="";
+      const active = signals.filter(s=>s.active);
+      if(active.length===0){ noActive.style.display="block"; }
+      else{
+        noActive.style.display="none";
+        active.forEach(s=>{
+          const el=document.createElement("div");
+          el.className="p-2 rounded border";
+          el.style.borderColor="#2b3a5e";
+          el.style.background="#0f1830";
+          el.innerHTML = `Base <b>${s.base}</b> • Puxadores <b>${s.pullers.join(", ")}</b> • <b>${s.neighbors}</b> viz. <span class="ms-2 text-secondary small">(${s.ticks} spins)</span>`;
+          activeBox.appendChild(el);
+        });
+      }
+      // recentes
+      recentBox.innerHTML="";
+      const done = signals.filter(s=>!s.active && s.closedAt).slice(-6);
+      if(done.length===0){ noRecent.style.display="block"; }
+      else{
+        noRecent.style.display="none";
+        done.forEach(s=>{
+          const el=document.createElement("div");
+          el.className="px-2 py-1 rounded border small";
+          el.style.borderColor = s.win ? "#1d7a55" : "#7a2323";
+          el.style.background   = s.win ? "#0f2c20" : "#2a1111";
+          el.innerHTML = `Base ${s.base} • <b>${s.win?"WIN":"LOSS"}</b> • ${s.ticks} spins`;
+          recentBox.appendChild(el);
+        });
+      }
+      kSignals.textContent = signals.length;
+      kWins.textContent = signals.filter(s=>s.win).length;
+      kLoss.textContent = signals.filter(s=>!s.active && !s.win && s.closedAt).length;
+
+      const closed = signals.filter(s=>s.closedAt).length;
+      accEl.textContent = (closed? (signals.filter(s=>s.win).length/closed*100):0).toFixed(1)+"%";
+      effEl.textContent = ((signals.length/Math.max(1,history.length))*100).toFixed(1)+"%";
+    }
+
+    function setLive(v){
+      liveOn=v;
+      badgeLive.textContent = v? "LIVE" : "standby";
+      badgeLive.style.background = v? "#0f2c20" : "#101a30";
+      badgeLive.style.border = v? "1px solid #1d7a55" : "1px solid #263250";
+    }
+
+    function timeAgo(){
+      if(!lastLiveAt){ agoEl.textContent="—"; return; }
+      const s=Math.round((Date.now()-lastLiveAt)/1000);
+      agoEl.textContent = s+"s";
+    }
+    setInterval(timeAgo, 1000);
+
+    // Auto vizinhos (heurística simples)
+    function recalcAutoNeighbors(){
+      if(!autoNeighbors) return;
+      const recent = history.slice(-18);
+      if(recent.length<6) return;
+      let colorSwitch=0, step=0;
+      for(let i=1;i<recent.length;i++){
+        const a=recent[i-1], b=recent[i];
+        const ca=a===0?'G':(RED.has(a)?'R':'B');
+        const cb=b===0?'G':(RED.has(b)?'R':'B');
+        if(ca!==cb) colorSwitch++;
+        const ia=WHEEL.indexOf(a), ib=WHEEL.indexOf(b);
+        if(ia>=0 && ib>=0){
+          const raw=Math.abs(ia-ib);
+          step += Math.min(raw, WHEEL.length-raw);
+        }
+      }
+      const avg= step/Math.max(1,recent.length-1);
+      if(avg>=8 || colorSwitch>=10) neighborsCount=3;
+      else if(avg>=5 || colorSwitch>=7) neighborsCount=2;
+      else neighborsCount=1;
+      neiAuto.textContent = neighborsCount+" viz.";
+    }
+
+    function processInbound(number){
+      if(!inRange(number)) return;
+
+      const now=Date.now();
+      if(number===LAST.n && (now-LAST.t)<DEDUP_MS) return;
+      LAST.n=number; LAST.t=now;
+
+      setLive(true); lastLiveAt=now;
+
+      setLast(number);
+      history.push(number);
+      if(history.length>360) history = history.slice(-360);
+      renderHistory();
+
+      recalcAutoNeighbors();
+      processSignals(number);
+      renderSignals();
+    }
+
+    // Sinais
+    function processSignals(number){
+      const pull = PULLERS[selectedBase] || [];
+      const isTrigger = (number===selectedBase) || pull.includes(number);
+
+      // avança tempo/encerra por acerto
+      signals = signals.map(s => {
+        if(!s.active) return s;
+        const neigh = new Set(wheelNeighbors(s.base, s.neighbors));
+        const hit   = (number===s.base) || neigh.has(number);
+        const ticks = (s.ticks||0)+1;
+        return hit ? {...s, active:false, win:true, ticks, closedAt:Date.now()} : {...s, ticks};
+      }).filter(s => s.active || s.closedAt); // mantemos os encerrados
+
+      // cria novo sinal se: houve gatilho e não “respeitou” vizinhos recentemente
+      if(isTrigger){
+        const recent = history.slice(-12);
+        const neigh = new Set(wheelNeighbors(selectedBase, neighborsCount));
+        const respect = recent.some(x => x===selectedBase || neigh.has(x));
+        if(!respect){
+          signals.push({
+            id: Date.now()+Math.random(),
+            base: selectedBase,
+            pullers: pull.slice(),
+            neighbors: neighborsCount,
+            active: true,
+            ticks: 0
+          });
+        }
+      }
+    }
+
+    // ======== CONTROLES ========
+    // base select
+    baseSelect.addEventListener("change", e=>{
+      selectedBase = parseInt(e.target.value,10);
+      renderPullers();
+    });
+
+    // auto vizinhos toggle
+    autoNei.addEventListener("change", e=>{
+      autoNeighbors = e.target.checked;
+      neiBtns.classList.toggle("d-none", autoNeighbors);
+      neiAuto.classList.toggle("d-none", !autoNeighbors);
+      if(autoNeighbors) recalcAutoNeighbors();
+    });
+
+    // botões 1/2/3 vizinhos
+    [...neiBtns.querySelectorAll("button")].forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        neighborsCount = parseInt(btn.dataset.k,10);
+        [...neiBtns.querySelectorAll("button")].forEach(b=>b.classList.remove("active"));
+        btn.classList.add("active");
+      });
+    });
+
+    document.getElementById("btnSim").addEventListener("click", ()=>{
+      if(Date.now()-lastLiveAt<8000) return; // se feed real recente, evita spam
+      processInbound(Math.floor(Math.random()*37));
+    });
+
+    document.getElementById("btnManual").addEventListener("click", ()=>{
+      const n = parseInt(prompt("Digite um número (0-36):"),10);
+      if(inRange(n)) processInbound(n);
+    });
+
+    document.getElementById("btnReset").addEventListener("click", ()=>{
+      history=[]; last=null; setLast(null); signals=[]; setLive(false); lastLiveAt=0; renderHistory(); renderSignals();
+    });
+
+    document.getElementById("btnCopy").addEventListener("click", async ()=>{
+      const txt = inRange(last)
+        ? `Último: ${last} | Base ${selectedBase} → puxadores ${ (PULLERS[selectedBase]||[]).join(", ") } + ${neighborsCount} viz.`
+        : "—";
+      try{ await navigator.clipboard.writeText(txt); }catch{}
+    });
+
+    // ======== FEED REAL ========
+    try{
+      const bc = new BroadcastChannel("sc-tips-live");
+      bc.onmessage = e => {
+        const d=e.data||{};
+        if(inRange(d.number)) processInbound(d.number);
+        if(d.platform) origin=d.platform;
+        if(d.table)    table  =d.table;
+        originEl.textContent = origin;
+        tableEl.textContent  = table;
+      };
+    }catch{}
+
+    window.addEventListener("message", (e)=>{
+      const d=e.data||{};
+      if(typeof d==="number"){ processInbound(d); return; }
+      if(typeof d==="object" && inRange(d.number)) processInbound(d.number);
+    });
+
+    // ======== INIT ========
+    setLast(null);
+    renderPullers();
+    renderHistory();
+    renderSignals();
+    recalcAutoNeighbors();
+  </script>
+</body>
+</html>
