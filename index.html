@@ -2,87 +2,138 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SC TIPS VIP</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SC TIPS VIP - Painel Vizinhos</title>
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/889/889442.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { font-family: 'Segoe UI', Roboto, Arial, sans-serif; }
+    .hero { background: linear-gradient(90deg,#111,#222); color:white; padding:80px 20px; text-align:center; }
+    .hero h1 { font-size:2.5rem; font-weight:bold; }
+    .hero p { font-size:1.2rem; margin-bottom:20px; }
+    .btn-primary { padding:10px 25px; font-weight:bold; }
+    footer { background:#111; color:white; padding:20px; text-align:center; }
+    .card { box-shadow:0 6px 14px rgba(0,0,0,.18); transition:.2s; }
+    .card:hover { transform: translateY(-4px); }
+  </style>
 </head>
 <body>
+
   <!-- NAVBAR -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-      <a class="navbar-brand" href="index.html">SC TIPS VIP</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+      <a class="navbar-brand fw-bold" href="index.html">SC TIPS VIP</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="menu">
+      <div class="collapse navbar-collapse" id="nav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
           <li class="nav-item"><a class="nav-link" href="estrategias.html">Estratégias</a></li>
           <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
-          <li class="nav-item"><a class="btn btn-warning" href="#login">Login</a></li>
         </ul>
+        <a href="#login" class="btn btn-warning ms-3">Login</a>
       </div>
     </div>
   </nav>
 
   <!-- HERO -->
-  <header class="bg-dark text-light text-center p-5">
-    <h1>SC TIPS - Painel Vizinhos VIP</h1>
-    <p>Estatísticas ao vivo, estratégias e alertas automáticos para Mega Fire Blaze e Brazilian Roulette.</p>
-    <a href="#painel" class="btn btn-primary">Ver Painel</a>
-  </header>
+  <section class="hero">
+    <div class="container">
+      <h1>SC TIPS - Painel Vizinhos VIP</h1>
+      <p>Estatísticas ao vivo, estratégias e alertas automáticos para Mega Fire Blaze e Brazilian Roulette.</p>
+      <a href="#painel" class="btn btn-primary">Ver Painel</a>
+    </div>
+  </section>
 
-  <!-- PAINEL -->
-  <section id="painel" class="container my-5">
-    <h2 class="text-center mb-4">Painel Dinâmico</h2>
-    <p class="text-center">Os gráficos abaixo simulam dados em tempo real. Na versão final, eles serão atualizados automaticamente com base nos resultados reais.</p>
-    <canvas id="grafico1"></canvas>
-    <canvas id="grafico2" class="mt-4"></canvas>
+  <!-- PAINEL DINÂMICO -->
+  <section id="painel" class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">Painel Dinâmico</h2>
+      <p class="text-center">Os gráficos abaixo simulam dados em tempo real. Na versão final, eles serão atualizados automaticamente com base nos resultados reais da Mega Fire Blaze e Brazilian Roulette.</p>
+      <div class="row justify-content-center">
+        <div class="col-md-6 mb-3">
+          <div class="card p-3">
+            <canvas id="grafico1"></canvas>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <div class="card p-3">
+            <canvas id="grafico2"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- LOGIN -->
-  <section id="login" class="container my-5">
-    <h2 class="text-center">Login</h2>
-    <form class="mx-auto" style="max-width:400px">
-      <input class="form-control mb-2" type="email" placeholder="E-mail">
-      <input class="form-control mb-2" type="password" placeholder="Senha">
-      <button class="btn btn-dark w-100">Entrar</button>
-    </form>
+  <section id="login" class="py-5 bg-light">
+    <div class="container">
+      <h2 class="text-center mb-4">Login</h2>
+      <p class="text-center">Entre com seu e-mail e senha para acessar o painel completo com estratégias, alertas e histórico de resultados.</p>
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <form>
+            <div class="mb-3">
+              <input type="email" class="form-control" placeholder="E-mail">
+            </div>
+            <div class="mb-3">
+              <input type="password" class="form-control" placeholder="Senha">
+            </div>
+            <button type="submit" class="btn btn-dark w-100">Entrar</button>
+          </form>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- CONTATO -->
-  <section id="contato" class="container my-5">
-    <h2 class="text-center">Contato</h2>
-    <form class="mx-auto" style="max-width:500px">
-      <input class="form-control mb-2" type="text" placeholder="Seu nome">
-      <input class="form-control mb-2" type="email" placeholder="Seu e-mail">
-      <textarea class="form-control mb-2" placeholder="Mensagem"></textarea>
-      <button class="btn btn-primary w-100">Enviar</button>
-    </form>
+  <section id="contato" class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">Contato</h2>
+      <p class="text-center">Tem dúvidas ou deseja suporte? Preencha o formulário abaixo e nossa equipe entrará em contato.</p>
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <form>
+            <div class="mb-3">
+              <input type="text" class="form-control" placeholder="Seu nome">
+            </div>
+            <div class="mb-3">
+              <input type="email" class="form-control" placeholder="Seu e-mail">
+            </div>
+            <div class="mb-3">
+              <textarea class="form-control" rows="4" placeholder="Mensagem..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Enviar</button>
+          </form>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <!-- RODAPÉ -->
-  <footer class="bg-dark text-light text-center p-3">
-    © 2025 SC TIPS - Todos os direitos reservados
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 SC TIPS - Todos os direitos reservados</p>
   </footer>
 
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    const ctx1 = document.getElementById('grafico1');
+    const ctx1 = document.getElementById('grafico1').getContext('2d');
     new Chart(ctx1, {
       type: 'bar',
       data: {
         labels: ['Setor A', 'Setor B', 'Setor C', 'Setor D', 'Setor E'],
-        datasets: [{ label: 'Frequência', data: [5, 7, 14, 9, 17], backgroundColor: '#0d6efd' }]
+        datasets: [{ label: 'Frequência', data: [5,8,14,9,17], backgroundColor: '#1f8bff' }]
       }
     });
-
-    const ctx2 = document.getElementById('grafico2');
+    const ctx2 = document.getElementById('grafico2').getContext('2d');
     new Chart(ctx2, {
       type: 'line',
       data: {
         labels: ['00h','01h','02h','03h','04h','05h'],
-        datasets: [{ label: 'Fire Blasts Detectados', data: [4,5,3,5,5,4], borderColor: '#dc3545', tension:0.3 }]
+        datasets: [{ label: 'Fire Blasts Detectados', data: [4,3,5,2,6,4], borderColor: '#e74c3c', fill:false }]
       }
     });
   </script>
