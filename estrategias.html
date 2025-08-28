@@ -3,38 +3,238 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SC TIPS VIP — Estratégias</title>
-
-  <!-- Bootstrap / ícone (mesmos CDNs usados no seu index) -->
-  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/889/889442.png" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <title>SC TIPS VIP - Estratégias</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    body{font-family: Arial, sans-serif;}
-    .bg-dark-hero{background:#111;}
-    .section{padding:48px 0;}
-    .section-title{text-align:center;margin:0 0 28px;font-weight:800}
-    .muted{color:#777;text-align:center;margin-top:-12px;margin-bottom:24px}
-    .card-custom{background:#15171a;border:1px solid #2a2f36;border-radius:12px;color:#e7e7e7;padding:18px}
-    .card-custom h3{font-size:1.05rem;margin-bottom:10px}
-    .card-custom p{margin:0 0 6px}
-    .estrategias-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
-    footer{background:#111;color:#ddd;padding:24px 0;margin-top:24px}
-    a.nav-link.active{font-weight:700}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;}
+    .hero{background:#111;color:#fff}
+    .card-custom{border-radius:12px;box-shadow:0 6px 14px rgba(0,0,0,.18)}
+    .card-custom:hover{transform:translateY(-2px);transition:.2s}
   </style>
 </head>
-<body class="bg-black text-white">
-
+<body>
   <!-- NAV -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark-hero">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-      <a class="navbar-brand fw-bold" href="/">SC TIPS VIP</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+      <a class="navbar-brand fw-bold" href="index.html">SC TIPS VIP</a>
+      <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div id="nav" class="collapse navbar-collapse">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="/#painel">Painel</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link active" href="estrategias.html">Estratégias</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- TÍTULO -->
+  <header class="hero py-5">
+    <div class="container">
+      <h2 class="mb-2">🎯 Estratégias SC TIPS — 23 Padrões</h2>
+      <p class="mb-0 text-white-50">Números base, gatilhos e quantidade de vizinhos aplicados.</p>
+    </div>
+  </header>
+
+  <!-- LISTA EM CARDS -->
+  <main class="container my-5">
+    <div class="row g-3">
+
+      <!-- 1 -->
+      <div class="col-md-6"><div class="card card-custom p-3">
+        <h5>1. Elite 2X</h5>
+        <p><b>Gatilho:</b> Terminal 4 ou 5</p>
+        <p><b>Números base:</b> 2, 12, 22, 32</p>
+        <p><b>Vizinhos:</b> 2 viz.</p>
+      </div></div>
+
+      <!-- 2 -->
+      <div class="col-md-6"><div class="card card-custom p-3">
+        <h5>2. Quarta Dimensão</h5>
+        <p><b>Gatilho:</b> Terminal 1 ou 3</p>
+        <p><b>Números base:</b> 4, 14, 24, 34</p>
+        <p><b>Vizinhos:</b> 2 viz.</p>
+      </div></div>
+
+      <!-- 3 -->
+      <div class="col-md-6"><div class="card card-custom p-3">
+        <h5>3. Fórmula 5X</h5>
+        <p><b>Gatilho:</b> Terminal 6 ou 8</p>
+        <p><b>Números base:</b> 5, 15, 25, 35</p>
+        <p><b>Vizinhos:</b> 2 viz.</p>
+      </div></div>
+
+      <!-- 4 -->
+      <div class="col-md-6"><div class="card card-custom p-3">
+        <h5>4. Alpha 6</h5>
+        <p><b>Gatilho:</b> Terminal 2 ou 9</p>
+        <p><b>Números base:</b> 6, 16, 26, 36</p>
+        <p><b>Vizinhos:</b> 2 viz.</p>
+      </div></div>
+
+      <!-- 5 -->
+      <div class="col-md-6"><div class="card card-custom p-3">
+        <h5>5. Padrão Black</h5>
+        <p><b>Gatilho:</b> Saída de 13, 31 ou 33</p>
+        <p><b>Números base:</b> 13, 31, 33</p>
+        <p><b>Vizinhos:</b> 1 viz.</p>
+      </div></div>
+
+      <!-- 6 -->
+      <div class="col-md-6"><div class="card card-custom p-3">
+        <h5>6. Padrão Red</h5>
+        <p><b>Gatilho:</b> Saída de 14, 32 ou 34</p>
+        <p><b>Números base:</b> 14, 32, 34</p>
+        <p><b>Vizinhos:</b> 1 viz.</p>
+      </div></div>
+
+      <!-- 7 -->
+      <div class="col-md-6"><div class="card card-custom p-3">
+        <h5>7. Matrix 7</h5>
+        <p><b>Gatilho:</b> Terminal 7</p>
+        <p><b>Números base:</b> 7, 17, 27</p>
+        <p><b>Vizinhos:</b> 2 viz.</p>
+      </div></div>
+
+      <!-- 8 -->
+      <div class="col-md-6"><div class="card card-custom p-3">
+        <h5>8. Power 8</h5>
+        <p><b>Gatilho:</b> Terminal 8</p>
+        <p><b>Números base:</b> 8, 18, 28</p>
+        <p><b>Vizinhos:</b> 2 viz.</p>
+      </div></div>
+
+      <!-- 9 -->
+      <div class="col-md-6"><div class="card card-custom p-3">
+        <h5>9. Golden Zero</h5>
+        <p><b>Gatilho:</b> Saída do 0</p>
+        <p><b>Números base:</b> 0</p>
+        <p><b>Vizinhos:</b> 3 viz.</p>
+      </div></div>
+
+      <!-- 10 -->
+      <div class="col-md-6"><div class="card card-custom p-3">
+        <h5>10. Dúzia Estratégica</h5>
+        <p><b>Gatilho:</b> 1ª ou 2ª dúzia</p>
+        <p><b>Números base:</b> 1–12 ou 13–24</p>
+        <p><b>Vizinhos:</b> 2 viz.</p>
+      </div></div>
+
+      <!-- 11 -->
+      <div class="col-md-6"><div class="card card-custom p-3">
+        <h5>11. Coluna de Ouro</h5>
+        <p><b>Gatilho:</b> Coluna central</p>
+        <p><b>Números base:</b> sequência da coluna</p>
+        <p><b>Vizinhos:</b> 1 viz.</p>
+      </div></div>
+
+      <!-- 12 -->
+      <div class="col-md-6"><div class="card card-custom p-3">
+        <h5>12. Fênix</h5>
+        <p><b>Gatilho:</b> Após sair 36</p>
+        <p><b>Números base:</b> 1, 12, 18, 27</p>
+        <p><b>Vizinhos:</b> 2 viz.</p>
+      </div></div>
+
+      <!-- 13 -->
+      <div class="col-md-6"><div class="card card-custom p-3">
+        <h5>13. Renascimento SC</h5>
+        <p><b>Gatilho:</b> Sequência repetida</p>
+        <p><b>Números base:</b> 19, 20, 21</p>
+        <p><b>Vizinhos:</b> 2 viz.</p>
+      </div></div>
+
+      <!-- 14 -->
+      <div class="col-md-6"><div class="card card-custom p-3">
+        <h5>14. Alvo Inteligente</h5>
+        <p><b>Gatilho:</b> Setor oposto ao último</p>
+        <p><b>Números base:</b> grupo da roda oposta</p>
+        <p><b>Vizinhos:</b> 3 viz.</p>
+      </div></div>
+
+      <!-- 15 -->
+      <div class="col-md-6"><div class="card card-custom p-3">
+        <h5>15. Vizinhos do Zero</h5>
+        <p><b>Gatilho:</b> Próximos ao 0</p>
+        <p><b>Números base:</b> 0, 32, 15, 26, 3</p>
+        <p><b>Vizinhos:</b> 2 viz.</p>
+      </div></div>
+
+      <!-- 16 -->
+      <div class="col-md-6"><div class="card card-custom p-3">
+        <h5>16. Fogo Cruzado</h5>
+        <p><b>Gatilho:</b> Múltiplos de 3</p>
+        <p><b>Números base:</b> 3, 6, 9, 12…</p>
+        <p><b>Vizinhos:</b> 1 viz.</p>
+      </div></div>
+
+      <!-- 17 -->
+      <div class="col-md-6"><div class="card card-custom p-3">
+        <h5>17. Impacto</h5>
+        <p><b>Gatilho:</b> Último número vermelho</p>
+        <p><b>Números base:</b> sequência pares</p>
+        <p><b>Vizinhos:</b> 2 viz.</p>
+      </div></div>
+
+      <!-- 18 -->
+      <div class="col-md-6"><div class="card card-custom p-3">
+        <h5>18. Tiro Seco</h5>
+        <p><b>Gatilho:</b> Número alvo isolado</p>
+        <p><b>Números base:</b> 1 específico</p>
+        <p><b>Vizinhos:</b> sem vizinhos</p>
+      </div></div>
+
+      <!-- 19 -->
+      <div class="col-md-6"><div class="card card-custom p-3">
+        <h5>19. Fire Precision</h5>
+        <p><b>Gatilho:</b> Fire Blast</p>
+        <p><b>Números base:</b> grupo dos multiplicadores</p>
+        <p><b>Vizinhos:</b> 3 viz.</p>
+      </div></div>
+
+      <!-- 20 -->
+      <div class="col-md-6"><div class="card card-custom p-3">
+        <h5>20. Caça Multiplicador</h5>
+        <p><b>Gatilho:</b> Último número com x</p>
+        <p><b>Números base:</b> repetir multiplicado</p>
+        <p><b>Vizinhos:</b> 2 viz.</p>
+      </div></div>
+
+      <!-- 21 -->
+      <div class="col-md-6"><div class="card card-custom p-3">
+        <h5>21. Cavalo SC</h5>
+        <p><b>Gatilho:</b> Grupo quente</p>
+        <p><b>Números base:</b> (1-4-7), (2-5-8), (3-6-9) + fixos</p>
+        <p><b>Vizinhos:</b> 2 viz.</p>
+      </div></div>
+
+      <!-- 22 -->
+      <div class="col-md-6"><div class="card card-custom p-3">
+        <h5>22. Coluna de Fogo</h5>
+        <p><b>Gatilho:</b> Coluna com último Fire</p>
+        <p><b>Números base:</b> sequência dessa coluna</p>
+        <p><b>Vizinhos:</b> 1 viz.</p>
+      </div></div>
+
+      <!-- 23 -->
+      <div class="col-md-6"><div class="card card-custom p-3">
+        <h5>23. Padrão Final</h5>
+        <p><b>Gatilho:</b> Última dúzia</p>
+        <p><b>Números base:</b> 25–36</p>
+        <p><b>Vizinhos:</b> 2 viz.</p>
+      </div></div>
+
+    </div>
+  </main>
+
+  <footer class="bg-dark text-light text-center p-3">
+    © 2025 SC TIPS — Todos os direitos reservados
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>          <li class="nav-item"><a class="nav-link" href="/#painel">Painel</a></li>
           <li class="nav-item"><a class="nav-link active" href="/estrategias.html">Estratégias</a></li>
           <li class="nav-item"><a class="nav-link" href="/#contato">Contato</a></li>
         </ul>
