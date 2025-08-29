@@ -94,5 +94,15 @@ $('#limpar').onclick=()=>{hist.length=0; byNum.clear(); render();};
 try{ const bc=new BroadcastChannel('sc-tips-live'); bc.onmessage=(ev)=>{const msg=ev.data||{}; if(typeof msg.number==='number'){ $('#ult').value=String(msg.number); pushNum(msg.number,(msg.platform||'LIVE').toUpperCase()); }};}catch(e){}
 fillSelects(); render();
 </script>
+  ...
+  
+  <!-- sons SC TIPS -->
+  <style> ... </style>
+  <button id="sndToggle" class="snd-btn">🔊 Som ON</button>
+  <script> ... </script>
+  <!-- /sons -->
+
+</body>
+</html>
 </body>
 </html>
