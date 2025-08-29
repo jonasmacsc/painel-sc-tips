@@ -471,5 +471,26 @@ addLog('demo','SC Tips Estratégias inicializado','SYSTEM');
 renderCardsSet();
 updateKPIs();
 </script>
+  <script>
+  // Autostart + preferências padrão (sons e autoscroll ligados)
+  window.addEventListener('DOMContentLoaded', () => {
+    const clickIf = (sel) => { const el = document.querySelector(sel); if (el) el.click(); };
+    const checkIf = (sel) => { const el = document.querySelector(sel); if (el && !el.checked) el.click(); };
+
+    // ====== ESTRATÉGIAS ======
+    checkIf('#str-sync');      // “Sync ao receber número”
+    checkIf('#str-auto');      // “Auto Mode”
+    clickIf('#str-start');     // Iniciar
+
+    // ====== PUXADORES — LIVE ======
+    checkIf('#live-sync');     // “Sync ao receber número”
+    checkIf('#live-auto');     // “Auto vizinhos / Auto Mode”
+    clickIf('#live-start');    // Iniciar
+
+    // ====== Console (global) ======
+    checkIf('#cons-autoscroll'); // Auto.scroll ligado
+    checkIf('#cons-sound');      // Som ligado
+  });
+  </script>
 </body>
 </html>
