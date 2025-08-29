@@ -592,6 +592,242 @@ setInterval(()=>{
     checkIf('#cons-sound');      // Som ligado
   });
   </script>
+  <!-- ====== PUXADORES LIVE • PLATAFORMAS + MOTOR UI ====== -->
+<style>
+  .plat-panel{background:#0b1420;border:1px solid #1e2a44;border-radius:14px;padding:14px;margin-top:18px}
+  .plat-title{font-weight:800;color:#ffd95e;display:flex;align-items:center;gap:8px;margin-bottom:10px}
+  .plat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .plat{background:#0f172a;border:1px solid #22314f;border-radius:12px;padding:10px;position:relative;cursor:pointer}
+  .plat.active{outline:2px solid #60a5fa;box-shadow:0 0 0 4px rgba(96,165,250,.15) inset}
+  .plat h4{margin:0 0 6px 0;font-weight:700}
+  .lat{position:absolute;top:8px;right:8px;font-size:12px;background:#13223a;border:1px solid #28426d;padding:2px 6px;border-radius:999px}
+  .spark{height:28px;width:100%;display:block;border:1px solid #1f2c49;border-radius:6px;background:#091222}
+  .btn-row{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+  .btnX{background:#113969;border:1px solid #1f4b84;color:#dbeafe;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}
+  .btnGold{background:#f6c453;border:1px solid #c99d2b;color:#1b1205}
+  .btnGhost{background:#0f172a;border:1px solid #22314f;color:#cbd5e1}
+  /* mini barra de cadência no topo (usa #live-cadencia e #live-ultima) */
+  #live-cadbar{height:6px;background:#1e293b;border-radius:999px;overflow:hidden;margin:-6px 0 10px 0}
+  #live-cadbar>i{display:block;height:100%;width:0%;background:#60a5fa}
+</style>
+
+<div id="live-cadbar"><i></i></div>
+
+<div class="plat-panel" id="plat-panel">
+  <div class="plat-title">🎲 Plataformas Matrix</div>
+  <div class="plat-grid" id="plat-grid">
+    <div class="plat active" data-id="donald">
+      <span class="lat" id="lat-donald">—</span>
+      <h4>🎲 Donald</h4>
+      <canvas class="spark" id="spk-donald"></canvas>
+    </div>
+    <div class="plat" data-id="bbtips">
+      <span class="lat" id="lat-bbtips">—</span>
+      <h4>📈 BBTips</h4>
+      <canvas class="spark" id="spk-bbtips"></canvas>
+    </div>
+    <div class="plat" data-id="lucky">
+      <span class="lat" id="lat-lucky">—</span>
+      <h4>🍀 Lucky</h4>
+      <canvas class="spark" id="spk-lucky"></canvas>
+    </div>
+    <div class="plat" data-id="engine">
+      <span class="lat" id="lat-engine">—</span>
+      <h4>🧠 Engine</h4>
+      <canvas class="spark" id="spk-engine"></canvas>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btnX btnGold" id="btn-live-sim">🎲 Simular número</button>
+    <button class="btnX btnGhost" id="btn-live-clear">🧹 Limpar números</button>
+    <button class="btnX btnGhost" id="btn-live-csv">📄 Exportar CSV</button>
+  </div>
+</div>
+
+<script>
+(() => {
+  // ===== CONFIG =====
+  const CAD_MS = 18000;
+  const FEED_CH = "sc-tips-live";
+
+  // ===== ELEMENTOS EXISTENTES (já no seu Live) =====
+  const elUltimaBadge = document.querySelector('[data-last-badge]') || document.querySelector('.ultima-badge');
+  const elUltimaText  = document.getElementById('live-ultima') || document.querySelector('.ultima-label');
+  const elCadencia    = document.getElementById('live-cadencia') || document.querySelector('.cadencia-label');
+  const elCadBar      = document.querySelector('#live-cadbar > i');
+
+  // Botões já existentes (seus ids podem variar – ajuste se necessário)
+  const btnStart = document.getElementById('live-start');
+  const btnPause = document.getElementById('live-pause');
+  const btnReset = document.getElementById('live-reset');
+
+  // Sons globais (já estão na pasta /sounds com .wav)
+  const SND = {
+    green: document.getElementById('snd-green'),
+    red:   document.getElementById('snd-red'),
+    alert: document.getElementById('snd-alerta'),
+    click: document.getElementById('snd-click')
+  };
+
+  // ===== ESTADO =====
+  const state = {
+    activePlatform: 'donald',
+    lastLiveTs: 0,
+    running: true,
+    history: [],           // números recebidos (para export)
+    lat: {donald: '—', bbtips:'—', lucky:'—', engine:'—'}
+  };
+
+  // ===== UI: selecionar plataforma =====
+  document.querySelectorAll('#plat-grid .plat').forEach(card=>{
+    card.addEventListener('click', ()=>{
+      document.querySelectorAll('#plat-grid .plat').forEach(c=>c.classList.remove('active'));
+      card.classList.add('active');
+      state.activePlatform = card.dataset.id;
+      log('SYSTEM', `plataforma ativa: ${state.activePlatform}`);
+    });
+  });
+
+  // ===== Cadência (barra + label 18s) =====
+  if(elCadencia) elCadencia.textContent = '18s';
+  let cadInt=null, cadStart=Date.now();
+  function cadTick() {
+    const elapsed = (Date.now()-cadStart)%CAD_MS;
+    const pct = Math.min(100, (elapsed/CAD_MS)*100);
+    if(elCadBar) elCadBar.style.width = pct+'%';
+  }
+  function cadReset(){ cadStart=Date.now(); cadTick(); }
+  cadInt = setInterval(cadTick, 100);
+
+  // ===== Feed tempo real =====
+  function handleInbound(payload) {
+    let n=null, plat=null, table=null;
+    if (typeof payload === 'number') n=payload;
+    else if (payload && typeof payload==='object') {
+      if (Number.isInteger(payload.number)) n=payload.number;
+      if (payload.platform) plat=String(payload.platform);
+      if (payload.table) table=String(payload.table);
+    }
+    if(n==null || n<0 || n>36) return;
+
+    state.lastLiveTs = Date.now();
+    cadReset();
+
+    // badge "última"
+    if (elUltimaText) elUltimaText.textContent = 'LIVE ' + new Date().toLocaleTimeString();
+    if (elUltimaBadge) elUltimaBadge.textContent = String(n);
+
+    // histórico e log
+    state.history.push({t:state.lastLiveTs, n, plat:plat||state.activePlatform});
+    log('DEMO', `Número ${n} (${n===0?'green':'red/black'}) adicionado`);
+
+    // disparos simples (ex.: vizinhos/regras internas do seu Live)
+    // Se houver função global do seu Live para processar número, chame-a aqui:
+    if (window.SC_LIVE_PROCESS) window.SC_LIVE_PROCESS(n);
+
+    // exemplo de "preditivo" básico: acerto quando cai em pullers/base corrente visual
+    // -> se você já tem essa lógica em outro lugar, pode remover esta parte:
+    if (window.LIVE_PREDICT) {
+      const ok = window.LIVE_PREDICT(n);
+      log('PREDICT', (ok?'✓ Hit: ':'✗ Miss: ') + `nº ${n} ` + (ok?'estava':'não estava') + ' nas previsões');
+      if (SND[ ok?'green':'red' ]) { try{ SND[ ok?'green':'red' ].currentTime=0; SND[ ok?'green':'red' ].play(); }catch{} }
+    }
+  }
+
+  // BroadcastChannel + postMessage
+  try {
+    const bc = new BroadcastChannel(FEED_CH);
+    bc.onmessage = (e)=> handleInbound(e.data);
+  }catch{}
+  window.addEventListener('message', (e)=> handleInbound(e.data));
+
+  // ===== Sparkline fake só pra UI (substitua por dados reais se quiser) =====
+  const spkIds = ['donald','bbtips','lucky','engine'];
+  const spkData = {donald:[],bbtips:[],lucky:[],engine:[]};
+  function drawSpark(id){
+    const cv = document.getElementById('spk-'+id); if(!cv) return;
+    const ctx = cv.getContext('2d');
+    const w = cv.width = cv.clientWidth, h = cv.height = cv.clientHeight;
+    ctx.clearRect(0,0,w,h);
+    const arr = spkData[id];
+    if(arr.length<2) return;
+    ctx.beginPath(); ctx.moveTo(0, h-arr[0]*h);
+    for(let i=1;i<arr.length;i++) ctx.lineTo((i/(arr.length-1))*w, h-arr[i]*h);
+    ctx.strokeStyle = '#22c55e'; ctx.lineWidth=2; ctx.stroke();
+  }
+  setInterval(()=>{
+    spkIds.forEach(id=>{
+      const arr = spkData[id];
+      arr.push(Math.random()*0.9+0.05);
+      if(arr.length>24) arr.shift();
+      drawSpark(id);
+    });
+  }, 800);
+
+  // Latência fake (se vier dado real, atualize state.lat e chame updateLat)
+  function updateLat(){
+    Object.entries(state.lat).forEach(([k,v])=>{
+      const el = document.getElementById('lat-'+k);
+      if(el) el.textContent = typeof v==='number' ? `${v}ms` : '—';
+    });
+  }
+  updateLat();
+  // exemplo de tick de latência “mock”
+  setInterval(()=>{
+    ['donald','bbtips','lucky','engine'].forEach(k=>{
+      state.lat[k] = Math.floor(6 + Math.random()*24);
+    });
+    updateLat();
+  }, 3000);
+
+  // ===== Botões extras =====
+  document.getElementById('btn-live-sim')?.addEventListener('click', ()=>{
+    try{ SND.click.currentTime=0; SND.click.play(); }catch{}
+    handleInbound({number: Math.floor(Math.random()*37), platform: 'Sim'});
+  });
+  document.getElementById('btn-live-clear')?.addEventListener('click', ()=>{
+    state.history = [];
+    log('SYSTEM', 'histórico limpo');
+  });
+  document.getElementById('btn-live-csv')?.addEventListener('click', ()=>{
+    const rows = [['time','number','platform']];
+    state.history.forEach(r=>rows.push([new Date(r.t).toISOString(), r.n, r.plat]));
+    const csv = rows.map(r=>r.join(',')).join('\n');
+    const a = document.createElement('a');
+    a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+    a.download = 'puxadores_history.csv';
+    a.click();
+  });
+
+  // ===== Start/Pause/Reset integrando com seus botões =====
+  btnStart?.addEventListener('click', ()=>{ state.running=true;  cadReset(); log('SYSTEM','Iniciado'); });
+  btnPause?.addEventListener('click', ()=>{ state.running=false;             log('SYSTEM','Pausado');  });
+  btnReset?.addEventListener('click', ()=>{ state.history=[]; cadReset();    log('SYSTEM','Reset');    });
+
+  // ===== Console: autoscroll + som ligados por padrão =====
+  try{
+    const elAuto = document.getElementById('cons-autoscroll');
+    const elSom  = document.getElementById('cons-sound');
+    if(elAuto && !elAuto.checked) elAuto.click();
+    if(elSom  && !elSom.checked)  elSom.click();
+  }catch{}
+
+  // ===== Log helper (usa seu Console se existir) =====
+  function log(tag, text){
+    // se houver função global do seu console:
+    if (window.SCLog) { window.SCLog(tag, text); return; }
+    // fallback simples no console do navegador
+    console.log(`[${tag}] ${text}`);
+  }
+
+  // ===== Auto-start ao abrir a página =====
+  window.addEventListener('DOMContentLoaded', ()=>{
+    btnStart?.click();
+  });
+})();
+</script>
+<!-- ====== /PUXADORES LIVE UPGRADE ====== -->
 </body>
   <!-- === Sons globais (colocar no fim da página, antes de </body>) === -->
 <audio id="snd-green" preload="auto">
