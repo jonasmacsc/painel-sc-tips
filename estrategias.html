@@ -4,42 +4,67 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SC Tips VIP • Estratégias</title>
- <!-- ===== ESTRATÉGIAS • PAINEL LIVE ===== -->
-<div id="str-live" class="panel" style="position:relative;z-index:1;margin-top:18px">
-  <div class="row" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-    <h3 style="margin:0">Status</h3>
-    <span id="str-badge" class="pill standby">standby</span>
-    <span class="pill">última: <b id="str-last">—</b></span>
-    <span class="pill">cadência: <b id="str-left">18s</b></span>
-    <div style="flex:1;min-width:160px;height:6px;background:#0b1320;border:1px solid #1e2a44;border-radius:6px;overflow:hidden">
-      <div id="str-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#22d3ee,#60a5fa)"></div>
-    </div>
-
-    <div style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap">
-      <button type="button" id="str-start" class="btn primary" style="cursor:pointer">▶ Iniciar</button>
-      <button type="button" id="str-pause" class="btn" style="cursor:pointer">⏸ Pausar</button>
-      <button type="button" id="str-reset" class="btn" style="cursor:pointer">↺ Reset</button>
-    </div>
+ <!-- ================== ESTRATÉGIAS — LIVE (PAINEL) ================== -->
+<div id="estr-live" class="panel" style="background:#0b1320;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px;margin-bottom:18px">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+    <h2 style="margin:0;font-size:22px;font-weight:800">🎯 Estratégias — Live</h2>
+    <span id="estr-badge" class="pill standby">standby</span>
+    <span class="pill">última: <b id="estr-ultima">—</b></span>
+    <span class="pill">cadência: <b id="estr-cad">18s</b></span>
   </div>
 
-  <div class="row" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px">
-    <label class="pill" style="cursor:pointer">
-      <input id="str-sync" type="checkbox" checked style="margin-right:6px"> Sync ao receber número
-    </label>
-    <label class="pill" style="cursor:pointer">
-      <input id="str-auto" type="checkbox" checked style="margin-right:6px"> Auto Mode
-    </label>
-    <button type="button" id="str-sim" class="btn" style="cursor:pointer">🎲 Simular número</button>
+  <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px">
+    <select id="estr-select" class="btn" style="background:#0e1b2e;border:1px solid #1e2a44;border-radius:10px;padding:10px 12px;color:#e6f6ff">
+      <option value="Elite 2X">Elite 2X</option>
+      <option value="Quarta Dimensão">Quarta Dimensão</option>
+      <option value="Fórmula 5X">Fórmula 5X</option>
+      <option value="Alpha 6">Alpha 6</option>
+      <option value="Padrão Black">Padrão Black</option>
+      <option value="Triângulo Vermelho">Triângulo Vermelho</option>
+      <option value="Coluna de Ouro">Coluna de Ouro</option>
+      <option value="Coluna de Prata">Coluna de Prata</option>
+      <option value="Coluna de Bronze">Coluna de Bronze</option>
+      <option value="Proteção Zero">Proteção Zero</option>
+      <option value="Cavalo">Cavalo</option>
+      <!-- as demais 23 podem ser adicionadas aqui, o motor aceita qualquer nome -->
+    </select>
+
+    <button id="estr-play"  class="btn" style="background:linear-gradient(180deg,#f6c13a,#cfa02a);color:#111;border:1px solid #f6c13a;border-radius:10px;padding:10px 14px;font-weight:700">▶ Iniciar</button>
+    <button id="estr-pause" class="btn" style="background:#0e1b2e;border:1px solid #1e2a44;border-radius:10px;padding:10px 14px">⏸ Pausar</button>
+    <button id="estr-reset" class="btn" style="background:#0e1b2e;border:1px solid #1e2a44;border-radius:10px;padding:10px 14px">↻ Reset</button>
+
+    <button id="estr-sim"   class="btn" style="margin-left:auto;background:#0e1b2e;border:1px solid #1e2a44;border-radius:10px;padding:10px 14px">🎲 Simular número</button>
   </div>
 
-  <div class="row" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
-    <div class="pill">Base ativa: <b id="str-base">17</b></div>
-    <div class="pill">Puxadores: <b id="str-pux">17, 20, 7</b></div>
-    <div class="pill">Vizinhos: <b id="str-viz">2</b></div>
-    <div class="pill">Spins: <b id="str-spins">0</b></div>
-    <div class="pill">Hits: <b id="str-hits">0</b> • Miss: <b id="str-miss">0</b> • Taxa: <b id="str-rate">0%</b></div>
+  <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:10px">
+    <label class="pill"><input type="checkbox" id="estr-sync" checked> Sync ao receber número</label>
+    <label class="pill"><input type="checkbox" id="estr-auto" checked> Auto Mode</label>
+  </div>
+
+  <div class="row" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px">
+    <div class="pill">Estratégia: <b id="estr-nome">Elite 2X</b></div>
+    <div class="pill">Previstos: <b id="estr-prev">—</b></div>
+    <div class="pill">Spins: <b id="estr-spins">0</b></div>
+    <div class="pill">Hits: <b id="estr-hits">0</b> • Miss: <b id="estr-miss">0</b> • Taxa: <b id="estr-taxa">0%</b></div>
+  </div>
+
+  <div style="background:#0e1b2e;border:1px solid #1e2a44;border-radius:12px;padding:12px">
+    <div style="opacity:.8;margin-bottom:6px">Últimos números (clique para repetir):</div>
+    <div id="estr-hist" style="display:flex;gap:8px;flex-wrap:wrap"></div>
   </div>
 </div>
+
+<style>
+  .pill{background:#0e1b2e;border:1px solid #1e2a44;color:#cfe0ff;border-radius:999px;padding:6px 10px;display:inline-flex;gap:6px;align-items:center}
+  .pill.standby{background:#202838;border-color:#334155;color:#cfe0ff}
+  .panel .btn{cursor:pointer}
+  .estr-badge-num{width:36px;height:36px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-weight:800}
+  .estr-num{width:36px;height:36px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-weight:700}
+  .estr-red{background:#b91c1c;color:#fff}
+  .estr-black{background:#0f172a;color:#cfe0ff}
+  .estr-zero{background:#047857;color:#fff}
+</style>
+<!-- ================== / ESTRATÉGIAS — LIVE (PAINEL) ================== -->
 
 <style>
   .panel{background:#0f172a;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px}
