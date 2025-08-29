@@ -1,0 +1,92 @@
+<!-- Logo animado (SVG) — roda gira + chamas com flicker -->
+<div style="display:inline-block">
+  <svg viewBox="0 0 300 360" width="220" aria-label="Logo SC Tips animado" role="img">
+    <defs>
+      <radialGradient id="g" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#111"/>
+        <stop offset="70%" stop-color="#1b1f2a"/>
+        <stop offset="100%" stop-color="#0b1220"/>
+      </radialGradient>
+      <filter id="flicker">
+        <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="1" seed="2">
+          <animate attributeName="baseFrequency" dur="2s" values="0.8;1.2;0.8" repeatCount="indefinite"/>
+        </feTurbulence>
+        <feColorMatrix type="saturate" values="1.2"/>
+        <feGaussianBlur stdDeviation="0.6"/>
+      </filter>
+    </defs>
+
+    <!-- fundo -->
+    <rect x="0" y="0" width="300" height="360" rx="24" fill="url(#g)"/>
+
+    <!-- chamas -->
+    <g transform="translate(150,95)" filter="url(#flicker)" opacity="0.9">
+      <path d="M-98,30 C-70,-50 -40,-70 0,-95 C40,-70 70,-50 98,30
+               C90,25 70,5 60,10 C80,40 55,58 35,50 C40,70 10,85 0,70
+               C-10,85 -40,70 -35,50 C-55,58 -80,40 -60,10 C-70,5 -90,25 -98,30Z"
+            fill="#ff8a00"/>
+      <path d="M-78,30 C-56,-30 -30,-50 0,-72 C30,-50 56,-30 78,30
+               C70,25 58,10 48,12 C58,36 38,48 24,44 C28,60 6,68 0,58
+               C-6,68 -28,60 -24,44 C-38,48 -58,36 -48,12 C-58,10 -70,25 -78,30Z"
+            fill="#ffc107" opacity="0.9"/>
+    </g>
+
+    <!-- aro externo -->
+    <circle cx="150" cy="200" r="110" fill="#3b0d0d" stroke="#d24726" stroke-width="10"/>
+    <!-- aro médio -->
+    <circle cx="150" cy="200" r="92" fill="#1a1a1a" stroke="#b8301f" stroke-width="6"/>
+
+    <!-- setores (vermelho/preto) -->
+    <g id="wheel" transform="rotate(0 150 200)">
+      <g>
+        <!-- 18 vermelhos + 18 pretos (e 0 separado) -->
+        <!-- desenha retângulos curtos ao redor -->
+        <g>
+          <!-- gera 36 setores -->
+          <!-- vermelhos nos pares -->
+          <!-- (SVG puro: listamos rapidamente 36 retângulos rotacionados) -->
+          <!-- para compactar, aqui vão 18 pares -->
+          <!-- você pode ajustar cores para casar com sua paleta -->
+          <script type="application/ecmascript"><![CDATA[
+            const svg = document.currentScript.ownerDocument.documentElement;
+            const group = svg.getElementById('wheel');
+            const mk = (i,color)=>{
+              const r=80,w=10,h=28,cx=150,cy=200,ang=(i*360/37); // 37 posições (inclui 0)
+              const g=document.createElementNS("http://www.w3.org/2000/svg","rect");
+              g.setAttribute("x",cx-w/2); g.setAttribute("y",cy-r-h);
+              g.setAttribute("width",w); g.setAttribute("height",h);
+              g.setAttribute("rx",3); g.setAttribute("fill",color);
+              g.setAttribute("transform",`rotate(${ang} ${cx} ${cy})`);
+              group.appendChild(g);
+            }
+            // 36 setores alternando (0 será desenhado como bolinha depois)
+            for(let i=0;i<36;i++){
+              const red = (i%2===0);
+              mk(i+1, red ? "#c62828" : "#101418");
+            }
+          ]]></script>
+        </g>
+      </g>
+
+      <!-- animação de rotação -->
+      <animateTransform attributeName="transform" type="rotate"
+        from="0 150 200" to="360 150 200" dur="3.5s" repeatCount="indefinite"/>
+    </g>
+
+    <!-- hub + pino -->
+    <circle cx="150" cy="200" r="28" fill="#6c2f00" stroke="#ffb74d" stroke-width="6"/>
+    <circle cx="150" cy="200" r="6" fill="#ffd54f"/>
+    <circle cx="220" cy="170" r="7" fill="#ffe08a" stroke="#ffcc80" stroke-width="2"/>
+
+    <!-- texto -->
+    <text x="150" y="48" text-anchor="middle" font-family="Inter,system-ui,Segoe UI,Arial"
+          font-weight="900" font-size="28" fill="#ffc107"
+          style="letter-spacing:.5px; text-shadow:0 2px 0 #3b0d0d">ROLETA VEM</text>
+  </svg>
+</div>
+
+<style>
+@media (prefers-reduced-motion: reduce) {
+  svg animateTransform, svg animate { display: none !important; }
+}
+</style>
