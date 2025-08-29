@@ -4,6 +4,167 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>SC Tips • Puxadores — Live</title>
+  <div class="flex items-center gap-2" style="margin:8px 0 12px">
+  <span id="liveBadge" class="badge">standby</span>
+  <span class="pill">última: <b id="lastAgo">—</b></span>
+  <span class="pill">cadência: <b id="cadLeft">18s</b></span>
+  <div style="flex:1; height:6px; background:#0b1320; border:1px solid #1e2a44; border-radius:6px; overflow:hidden">
+    <div id="cadBar" style="height:100%; width:0%; background:linear-gradient(90deg,#22d3ee,#60a5fa)"></div>
+  </div>
+</div>
+<script>
+/* ===== Cadência & “última” para Puxadores Live ===== */
+const CADENCE_MS = 18000;              // alvo 18s
+let lastLiveAt = 0;                    // timestamp do último número real/simulado
+let cadenceStart = Date.now();         // quando começou o ciclo atual
+
+const elLastAgo  = document.getElementById('lastAgo');
+const elCadLeft  = document.getElementById('cadLeft');
+const elCadBar   = document.getElementById('cadBar');
+const elLive     = document.getElementById('liveBadge');
+
+function setLive(isLive){
+  elLive.textContent = isLive ? 'LIVE' : 'standby';
+  elLive.classList.toggle('live', isLive);
+  elLive.classList.toggle('standby', !isLive);
+}
+
+/* Chame isto SEMPRE que chegar um número (real ou simulado) */
+function onNumberArrived(n){
+  // ➜ seu fluxo atual (atualiza último, histórico, sinais, etc.)
+  // ex.: updateLast(n); addToHistory(n); processSignals(n);
+
+  lastLiveAt   = Date.now();           // marca chegada
+  cadenceStart = lastLiveAt;           // reseta cadência
+  setLive(true);
+}
+
+/* Se já existe um handler, apenas injete a chamada acima dentro dele */
+window._handleInbound_original = window.handleInbound;
+window.handleInbound = function(payload, via='?'){
+  // Se você já tem parsing → reaproveite; abaixo um atalho seguro:
+  let n = null;
+  if (typeof payload === 'number') n = payload;
+  else if (payload && typeof payload === 'object' && Number.isInteger(payload.number)) n = payload.number;
+
+  // chama o handler original (se existir)
+  if (typeof window._handleInbound_original === 'function') {
+    window._handleInbound_original(payload, via);
+  }
+  if (Number.isInteger(n) && n >= 0 && n <= 36) onNumberArrived(n);
+};
+
+/* Render loop (1x/seg) */
+setInterval(()=>{
+  const now = Date.now();
+
+  // “última”
+  const agoS = lastLiveAt ? Math.round((now - lastLiveAt)/1000) : null;
+  elLastAgo.textContent = (agoS == null) ? '—' : (agoS + 's');
+
+  // LIVE cai para standby se ficou muito tempo sem número
+  setLive(agoS != null && agoS < 30); // ficou >30s sem número → standby
+
+  // cadência: conto regressivo e barra
+  const elapsed = (now - cadenceStart) % CADENCE_MS;
+  const remain  = CADENCE_MS - elapsed;
+  const remainS = Math.ceil(remain / 1000);
+
+  elCadLeft.textContent = remainS + 's';
+  elCadBar.style.width  = (elapsed / CADENCE_MS * 100) + '%';
+}, 1000);
+
+/* Opcional: se você tem um botão “Simular nº”, garanta que chame onNumberArrived */
+(function hookSimular(){
+  const btn = document.querySelector('[data-action="simular-numero"]') || document.getElementById('btnSimularNumero');
+  if (!btn) return;
+  btn.addEventListener('click', ()=>{
+    const n = Math.floor(Math.random()*37);
+    // chame seu pipeline existente:
+    if (typeof window.handleInbound === 'function') window.handleInbound({ number:n, platform:'Sim' }, 'SIM');
+    else onNumberArrived(n);
+  });
+})();
+</script><script>
+/* ===== Cadência & “última” para Puxadores Live ===== */
+const CADENCE_MS = 18000;              // alvo 18s
+let lastLiveAt = 0;                    // timestamp do último número real/simulado
+let cadenceStart = Date.now();         // quando começou o ciclo atual
+
+const elLastAgo  = document.getElementById('lastAgo');
+const elCadLeft  = document.getElementById('cadLeft');
+const elCadBar   = document.getElementById('cadBar');
+const elLive     = document.getElementById('liveBadge');
+
+function setLive(isLive){
+  elLive.textContent = isLive ? 'LIVE' : 'standby';
+  elLive.classList.toggle('live', isLive);
+  elLive.classList.toggle('standby', !isLive);
+}
+
+/* Chame isto SEMPRE que chegar um número (real ou simulado) */
+function onNumberArrived(n){
+  // ➜ seu fluxo atual (atualiza último, histórico, sinais, etc.)
+  // ex.: updateLast(n); addToHistory(n); processSignals(n);
+
+  lastLiveAt   = Date.now();           // marca chegada
+  cadenceStart = lastLiveAt;           // reseta cadência
+  setLive(true);
+}
+
+/* Se já existe um handler, apenas injete a chamada acima dentro dele */
+window._handleInbound_original = window.handleInbound;
+window.handleInbound = function(payload, via='?'){
+  // Se você já tem parsing → reaproveite; abaixo um atalho seguro:
+  let n = null;
+  if (typeof payload === 'number') n = payload;
+  else if (payload && typeof payload === 'object' && Number.isInteger(payload.number)) n = payload.number;
+
+  // chama o handler original (se existir)
+  if (typeof window._handleInbound_original === 'function') {
+    window._handleInbound_original(payload, via);
+  }
+  if (Number.isInteger(n) && n >= 0 && n <= 36) onNumberArrived(n);
+};
+
+/* Render loop (1x/seg) */
+setInterval(()=>{
+  const now = Date.now();
+
+  // “última”
+  const agoS = lastLiveAt ? Math.round((now - lastLiveAt)/1000) : null;
+  elLastAgo.textContent = (agoS == null) ? '—' : (agoS + 's');
+
+  // LIVE cai para standby se ficou muito tempo sem número
+  setLive(agoS != null && agoS < 30); // ficou >30s sem número → standby
+
+  // cadência: conto regressivo e barra
+  const elapsed = (now - cadenceStart) % CADENCE_MS;
+  const remain  = CADENCE_MS - elapsed;
+  const remainS = Math.ceil(remain / 1000);
+
+  elCadLeft.textContent = remainS + 's';
+  elCadBar.style.width  = (elapsed / CADENCE_MS * 100) + '%';
+}, 1000);
+
+/* Opcional: se você tem um botão “Simular nº”, garanta que chame onNumberArrived */
+(function hookSimular(){
+  const btn = document.querySelector('[data-action="simular-numero"]') || document.getElementById('btnSimularNumero');
+  if (!btn) return;
+  btn.addEventListener('click', ()=>{
+    const n = Math.floor(Math.random()*37);
+    // chame seu pipeline existente:
+    if (typeof window.handleInbound === 'function') window.handleInbound({ number:n, platform:'Sim' }, 'SIM');
+    else onNumberArrived(n);
+  });
+})();
+</script>
+<style>
+  .badge{padding:4px 8px;border-radius:8px;border:1px solid #1e2a44;background:#0f1a2e;color:#cfe0ff;font-size:12px}
+  .pill{padding:4px 8px;border-radius:999px;border:1px solid #1e2a44;background:#0f1a2e;color:#cfe0ff;font-size:12px}
+  .badge.live{background:#063b2e;border-color:#10b981;color:#b7ffdf}
+  .badge.standby{background:#202838;border-color:#334155;color:#cfe0ff}
+</style>
 <link rel="icon" type="image/png" href="./favicon.png" />
 <style>
   :root{--bg:#050b12;--panel:#0f172a;--text:#e6f6ff;--muted:#93c5fd;--brand:#22d3ee;--ok:#10b981;--warn:#f59e0b;--err:#ef4444;}
