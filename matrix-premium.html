@@ -633,5 +633,161 @@ if(q('#chkAuto').checked) startAuto();
   .btn.yellow{ background:linear-gradient(180deg,#ffd36b,#edb940); color:#1b1200; border-color:#c69b2e }
   canvas{ display:block; width:100% }
   </style>
+  <script>
+(function(){
+  // Estado
+  const platforms = ["donald","bbtips","lucky","engine"];
+  let active = localStorage.getItem("sc.platform") || "engine";
+
+  const msMap = {donald:[], bbtips:[], lucky:[], engine:[]};
+  const msSpan = {
+    donald: document.getElementById("ms-donald"),
+    bbtips: document.getElementById("ms-bbtips"),
+    lucky:  document.getElementById("ms-lucky"),
+    engine: document.getElementById("ms-engine")
+  };
+  const spark = {
+    donald: document.getElementById("spark-donald").getContext("2d"),
+    bbtips: document.getElementById("spark-bbtips").getContext("2d"),
+    lucky:  document.getElementById("spark-lucky").getContext("2d"),
+    engine: document.getElementById("spark-engine").getContext("2d")
+  };
+
+  // Ativar tile visualmente
+  function setActive(pf){
+    active = pf;
+    localStorage.setItem("sc.platform", pf);
+    document.querySelectorAll(".pf-tile").forEach(el=>{
+      el.setAttribute("aria-pressed", el.dataset.pf===pf ? "true":"false");
+    });
+    logSys("system", `Plataforma ativa: ${label(pf)}`);
+    // Dispara evento global p/ outras partes do painel (se existirem)
+    window.dispatchEvent(new CustomEvent("sc-platform-change",{detail:{platform:pf}}));
+  }
+  function label(pf){
+    return pf==="bbtips"?"BBTips":pf[0].toUpperCase()+pf.slice(1);
+  }
+
+  // Desenhar sparkline simples
+  function drawSpark(ctx, arr){
+    const w = ctx.canvas.width, h = ctx.canvas.height;
+    ctx.clearRect(0,0,w,h);
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "#36e1b6";
+    ctx.beginPath();
+    const n = arr.length;
+    if(!n) return;
+    const max = Math.max(...arr), min = Math.min(...arr);
+    const span = Math.max(1, max-min);
+    for(let i=0;i<n;i++){
+      const x = (i/(n-1||1))*w;
+      const y = h - ((arr[i]-min)/span)*h;
+      if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+  }
+
+  // Atualização de latência (SIMULADA + INPUT REAL)
+  // 1) Simulação leve para dar vida ao gráfico:
+  setInterval(()=>{
+    platforms.forEach(pf=>{
+      // “ruído” de latência base por plataforma
+      const base = {donald:24, bbtips:14, lucky:9, engine:6}[pf];
+      const jitter = Math.max(3, Math.round(base + (Math.random()-0.5)*8));
+      const arr = msMap[pf];
+      arr.push(jitter);
+      if(arr.length>40) arr.shift();
+      msSpan[pf].textContent = arr[arr.length-1];
+      drawSpark(spark[pf], arr);
+    });
+  }, 1200);
+
+  // 2) Entrada REAL opcional (se o feeder publicar latência):
+  //   window.postMessage({type:"SC_LATENCY", platform:"engine", ms:7})
+  //   BroadcastChannel("sc-tips-live") idem.
+  function applyRealLatency(pf, ms){
+    if(!platforms.includes(pf)) return;
+    const arr = msMap[pf];
+    arr.push(ms);
+    if(arr.length>40) arr.shift();
+    msSpan[pf].textContent = ms;
+    drawSpark(spark[pf], arr);
+  }
+  // BroadcastChannel
+  let bc;
+  try{
+    bc = new BroadcastChannel("sc-tips-live");
+    bc.onmessage = (e)=>{
+      const d = e.data||{};
+      if(d && d.type==="SC_LATENCY" && d.platform && Number.isFinite(d.ms)){
+        applyRealLatency(d.platform.toLowerCase(), d.ms);
+      }
+    };
+  }catch{}
+  // postMessage
+  window.addEventListener("message",(e)=>{
+    const d = e.data||{};
+    if(d && d.type==="SC_LATENCY" && d.platform && Number.isFinite(d.ms)){
+      applyRealLatency(d.platform.toLowerCase(), d.ms);
+    }
+  });
+
+  // Clique nas tiles
+  document.querySelectorAll(".pf-tile").forEach(el=>{
+    el.addEventListener("click", ()=> setActive(el.dataset.pf));
+  });
+  setActive(active); // aplica no carregamento
+
+  // Botões de ação
+  document.getElementById("pf-sim").addEventListener("click", ()=>{
+    const n = Math.floor(Math.random()*37);
+    // preferir feed global do painel, se existir:
+    if(window.handleInbound){
+      window.handleInbound({number:n, platform: label(active)}, "SIM");
+    }else{
+      window.postMessage({type:"ROULETTE_RESULT", number:n, platform:label(active)}, "*");
+    }
+    logSys("demo", `Número ${n} (simulado) adicionado • ${label(active)}`);
+  });
+
+  document.getElementById("pf-clear").addEventListener("click", ()=>{
+    window.dispatchEvent(new Event("sc-clear-history"));
+    window.postMessage({type:"SC_CLEAR"}, "*");
+    logSys("system","Histórico limpo");
+  });
+
+  document.getElementById("pf-csv").addEventListener("click", ()=>{
+    // Se sua página tiver um array global de histórico, use-o. Fallback vazio.
+    const hist = (window.SC_HISTORY && Array.isArray(window.SC_HISTORY)) ? window.SC_HISTORY : [];
+    const csv = "data:text/csv;charset=utf-8," + ["número"].concat(hist).join("\n");
+    const a = document.createElement("a");
+    a.href = encodeURI(csv);
+    a.download = "sc-tips-history.csv";
+    document.body.appendChild(a); a.click(); a.remove();
+    logSys("system","CSV exportado");
+  });
+
+  // Logger → integra no “Console Sistema” se ele existir
+  function logSys(tag, text){
+    // Se você já tem window.SCLog(msg, type), use:
+    if(typeof window.SCLog==="function"){ window.SCLog(text, tag); return; }
+
+    // Fallback: cria um <div id="console-fallback"> no topo da página só p/ debug
+    let box = document.getElementById("console-fallback");
+    if(!box){
+      box = document.createElement("div");
+      box.id="console-fallback";
+      box.style.cssText="margin:12px 0;padding:10px;border:1px solid #334155;background:#0b1220;border-radius:10px;color:#9cc8ff";
+      box.innerHTML = "<b>Console (fallback)</b>";
+      document.getElementById("platforms-panel").insertAdjacentElement("beforebegin", box);
+    }
+    const line = document.createElement("div");
+    const t = new Date().toLocaleTimeString();
+    line.textContent = `[${t}] ${tag.toUpperCase()} • ${text}`;
+    box.appendChild(line);
+    box.scrollTop = box.scrollHeight;
+  }
+})();
+  </script>
 </body>
 </html>
