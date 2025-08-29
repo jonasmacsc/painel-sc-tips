@@ -347,10 +347,23 @@ setInterval(()=>{
   </div>
 </div>
 
-<!-- Sons -->
-<audio id="sndAlert" src="./sounds/alert.mp3" preload="auto"></audio>
-<audio id="sndHit"   src="./sounds/hit.mp3" preload="auto"></audio>
-<audio id="sndMiss"  src="./sounds/miss.mp3" preload="auto"></audio>
+<!-- === Sons globais (colocar no fim da página, antes de </body>) === -->
+<audio id="snd-green" preload="auto">
+  <source src="./sounds/green.wav" type="audio/wav">
+  <source src="./sounds/green.mp3" type="audio/mpeg">
+</audio>
+<audio id="snd-red" preload="auto">
+  <source src="./sounds/red.wav" type="audio/wav">
+  <source src="./sounds/red.mp3" type="audio/mpeg">
+</audio>
+<audio id="snd-alerta" preload="auto">
+  <source src="./sounds/alerta.wav" type="audio/wav">
+  <source src="./sounds/alerta.mp3" type="audio/mpeg">
+</audio>
+<audio id="snd-click" preload="auto">
+  <source src="./sounds/click.wav" type="audio/wav">
+  <source src="./sounds/click.mp3" type="audio/mpeg">
+</audio>
 
 <script>
 (()=>{
