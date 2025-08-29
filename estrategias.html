@@ -4,6 +4,45 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SC Tips VIP • Estratégias</title>
+  <!-- ESTRATÉGIAS • CONTROLES LIVE -->
+<div id="str-live" class="panel" style="margin-top:18px">
+  <div class="row" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+    <h3 style="margin:0">Status</h3>
+    <span id="str-liveBadge" class="pill standby">standby</span>
+    <span class="pill">última: <b id="str-lastAgo">—</b></span>
+    <span class="pill">cadência: <b id="str-cadLeft">18s</b></span>
+    <div style="flex:1;min-width:160px;height:6px;background:#0b1320;border:1px solid #1e2a44;border-radius:6px;overflow:hidden">
+      <div id="str-cadBar" style="height:100%;width:0%;background:linear-gradient(90deg,#22d3ee,#60a5fa)"></div>
+    </div>
+
+    <div style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap">
+      <button id="str-btnStart" class="btn primary">▶ Iniciar</button>
+      <button id="str-btnPause" class="btn">⏸ Pausar</button>
+      <button id="str-btnReset" class="btn">↺ Reset</button>
+    </div>
+  </div>
+
+  <div class="row" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:10px">
+    <label class="pill"><input id="str-sync" type="checkbox" checked style="margin-right:6px"> Sync ao receber número</label>
+    <label class="pill"><input id="str-auto" type="checkbox" checked style="margin-right:6px"> Auto Mode</label>
+    <button id="str-btnSim" class="btn">🎲 Simular número</button>
+  </div>
+
+  <div class="row" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+    <div class="pill">Base ativa: <b id="str-base">17</b></div>
+    <div class="pill">Puxadores: <b id="str-pux">17, 20, 7</b></div>
+    <div class="pill">Vizinhos: <b id="str-viz">2</b></div>
+    <div class="pill">Spins: <b id="str-spins">0</b></div>
+    <div class="pill">Hits: <b id="str-hits">0</b> • Miss: <b id="str-miss">0</b> • Taxa: <b id="str-rate">0%</b></div>
+  </div>
+</div>
+
+<style>
+  .panel{background:#0f172a;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px}
+  .pill{padding:6px 10px;border-radius:999px;border:1px solid #1e2a44;background:#0f1a2e;color:#cfe0ff;font-size:13px}
+  .pill.live{background:#063b2e;border-color:#10b981;color:#b7ffdf}
+  .pill.standby{background:#202838;border-color:#334155;color:#cfe0ff}
+</style>
   <link rel="icon" type="image/png" href="favicon.png" />
   <style>
     :root{--bg:#050b12;--panel:#0f172a;--text:#e6f6ff;--muted:#93c5fd;--brand:#22d3ee;}
