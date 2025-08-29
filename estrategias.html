@@ -434,6 +434,189 @@ function playGlobal(kind){
   }catch{}
 }
   </script>
+  <script>
+(function(){
+  "use strict";
+
+  // --- util DOM
+  const $ = id => document.getElementById(id);
+
+  // --- elementos
+  const elBadge=$('str-badge'), elLast=$('str-last'), elLeft=$('str-left'), elBar=$('str-bar');
+  const bStart=$('str-start'), bPause=$('str-pause'), bReset=$('str-reset'), bSim=$('str-sim');
+  const cbSync=$('str-sync'), cbAuto=$('str-auto');
+  const elBase=$('str-base'), elPux=$('str-pux'), elViz=$('str-viz');
+  const elSpins=$('str-spins'), elHits=$('str-hits'), elMiss=$('str-miss'), elRate=$('str-rate');
+
+  // --- constantes
+  const CAD_MS = 18000;
+  const WHEEL=[0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
+  const isRed=new Set([1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);
+  const inRange=n=>Number.isInteger(n)&&n>=0&&n<=36;
+
+  // --- Puxadores (mesma tabela usada nos outros)
+  const PULLERS = window.PULLERS || {
+    0:[10,20,30],1:[17,7],2:[2,22],3:[3,33],4:[21,9],5:[25,15,35],6:[20,17,7],7:[7,17,20],
+    8:[30,0,20],9:[9,19],10:[0,20,30],11:[30,0,20],12:[33,15],13:[20,7],14:[17,7],15:[9,5,35],
+    16:[3,33],17:[17,20,7],18:[2,22],19:[19,9],20:[17,7],21:[2,22],22:[2,22],23:[0,10],
+    24:[35,15,25],25:[20,22],26:[0,10,30],27:[17,7,20],28:[7,17,20],29:[7,17,20],30:[0,20,30],
+    31:[9,19],32:[0,10,20,30],33:[3,33],34:[7,20],35:[3,33,15],36:[20,30]
+  };
+
+  // --- estado
+  let running = true;            // começa ligado
+  let cadStart = Date.now();
+  let lastLiveAt = 0;
+  let spins=0,hits=0,miss=0;
+  let base=17, viz=2;
+  let activeSignal = null, ticks=0;
+
+  // históricos
+  const H = { local: [] }; // fallback se não houver SC_HISTORY
+
+  // --- console/som helpers (usam seu console se existir)
+  const LOG = (msg, tag='system', ok=true)=>{
+    if (typeof window.SC_LOG === 'function') return window.SC_LOG(msg, tag, ok);
+    // fallback simples:
+    console.log(`[${tag}] ${msg}`);
+  };
+  const play = (kind)=>{
+    const map={green:'snd-green', red:'snd-red', alerta:'snd-alerta', click:'snd-click'};
+    const el=document.getElementById(map[kind]); if (el){ try{ el.currentTime=0; el.play(); }catch{} }
+  };
+
+  // --- UI helpers
+  function setBadge(live){
+    elBadge.textContent = live ? 'LIVE' : 'standby';
+    elBadge.classList.toggle('live', live);
+    elBadge.classList.toggle('standby', !live);
+  }
+  function uiStats(){
+    elSpins.textContent=spins;
+    elHits.textContent=hits;
+    elMiss.textContent=miss;
+    elRate.textContent=((hits/Math.max(1,hits+miss))*100).toFixed(0)+'%';
+    elBase.textContent=base;
+    elViz.textContent=viz;
+    elPux.textContent=(PULLERS[base]||[]).join(', ')||'—';
+  }
+
+  // --- vizinhos
+  function neighbors(n,c){
+    if (!inRange(n)||c<=0) return [];
+    const i=WHEEL.indexOf(n); if (i<0) return [];
+    const out=[]; for(let k=1;k<=c;k++){ out.push(WHEEL[(i-k+WHEEL.length)%WHEEL.length]); out.push(WHEEL[(i+k)%WHEEL.length]); }
+    return out;
+  }
+  function autoNeighbors(history){
+    const recent=history.slice(-18); if (recent.length<6) return 2;
+    let colorSwitch=0, step=0;
+    for(let i=1;i<recent.length;i++){
+      const a=recent[i-1], b=recent[i];
+      if(!inRange(a)||!inRange(b)) continue;
+      const ca=a===0?'G':(isRed.has(a)?'R':'B'); const cb=b===0?'G':(isRed.has(b)?'R':'B');
+      if(ca!==cb) colorSwitch++;
+      const ia=WHEEL.indexOf(a), ib=WHEEL.indexOf(b);
+      const raw=Math.abs(ia-ib); step += Math.min(raw, WHEEL.length-raw);
+    }
+    const avg=step/Math.max(1,recent.length-1);
+    if (avg>=8 || colorSwitch>=10) return 3;
+    if (avg>=5 || colorSwitch>=7)  return 2;
+    return 1;
+  }
+
+  // --- ciclo automático (a cada virada de 18s)
+  function onCycle(){
+    if (!running) return;
+    const hist = (window.SC_HISTORY && SC_HISTORY.length) ? SC_HISTORY.slice() : H.local.slice();
+    const last = hist[hist.length-1];
+    // base candidata: 1º puxador do último número; fallback mantém base
+    const cand = inRange(last) && (PULLERS[last]||[])[0] || base;
+    base = inRange(cand) ? cand : base;
+    if (cbAuto.checked) viz = autoNeighbors(hist);
+    activeSignal = { base, viz }; ticks=0;
+    uiStats();
+    LOG(`Sinal armado • Base ${base} • ${viz} viz. • pux ${ (PULLERS[base]||[]).join(', ') }`,'ENGINE',true);
+    play('alerta');
+  }
+
+  // --- chegada de número
+  function onNumber(n){
+    lastLiveAt = Date.now(); cadStart = lastLiveAt;
+    setBadge(true);
+    spins++; uiStats();
+
+    if (activeSignal){
+      const hit = (n===activeSignal.base) || (new Set(neighbors(activeSignal.base, activeSignal.viz))).has(n);
+      if (hit){ activeSignal=null; hits++; uiStats(); LOG(`✔ Hit: nº ${n} nas vizinhanças/base`,'PREDICT',true); play('green'); }
+      else if (++ticks >= 18){ activeSignal=null; miss++; uiStats(); LOG(`✖ Miss (vigência expirada)`,'PREDICT',false); play('red'); }
+    }
+  }
+
+  // --- integra ao handler real (se existir)
+  (function wrapInbound(){
+    const orig = window.handleInbound;
+    window.handleInbound = function(payload, via){
+      if (typeof orig === 'function') orig(payload, via);
+      if (!cbSync.checked) return;
+      let n=null;
+      if (typeof payload==='number') n=payload;
+      else if (payload && typeof payload==='object' && inRange(payload.number)) n=payload.number;
+      if (inRange(n)){
+        if (window.SC_HISTORY) SC_HISTORY.push(n);
+        else { H.local.push(n); if (H.local.length>300) H.local.shift(); }
+        onNumber(n);
+      }
+    };
+  })();
+
+  // --- animação cadência + última + troca de ciclo
+  function tick(){
+    const now=Date.now();
+    // última
+    const ago = lastLiveAt ? Math.round((now-lastLiveAt)/1000) : null;
+    elLast.textContent = (ago==null)?'—':(ago+'s');
+    setBadge(ago!=null && ago<30);
+
+    // cadência
+    const elapsed = (now - cadStart) % CAD_MS;
+    const remain  = CAD_MS - elapsed;
+    elLeft.textContent = Math.ceil(remain/1000)+'s';
+    elBar.style.width = (elapsed/CAD_MS*100)+'%';
+
+    // se acabou de virar o ciclo, dispara análise
+    if (elapsed < 120){ onCycle(); }
+    requestAnimationFrame(tick);
+  }
+
+  // --- botões
+  bStart.addEventListener('click', ()=>{ running=true; LOG('Iniciado','system',true); });
+  bPause.addEventListener('click', ()=>{ running=false; LOG('Pausado','system',true); });
+  bReset.addEventListener('click', ()=>{
+    running=true; spins=hits=miss=0; uiStats();
+    activeSignal=null; ticks=0; cadStart=Date.now(); LOG('Reset','system',true);
+  });
+  bSim.addEventListener('click', ()=>{
+    const n=Math.floor(Math.random()*37);
+    H.local.push(n); if (H.local.length>300) H.local.shift();
+    onNumber(n);
+    if (typeof window.SC_LOG==='function') LOG(`Número ${n} (sim)`,'DEMO',true);
+  });
+
+  // --- liga Auto-scroll + Som do Console (se existir)
+  document.addEventListener('DOMContentLoaded', ()=>{
+    try{
+      const as = document.querySelector('#console-autoscroll input, [data-console="autoscroll"] input');
+      const so = document.querySelector('#console-sound input, [data-console="sound"] input');
+      if (as){ as.checked=true; if (typeof window.SC_setAutoscroll==='function') SC_setAutoscroll(true); }
+      if (so){ so.checked=true; if (typeof window.SC_setSound==='function') SC_setSound(true); }
+    }catch{}
+    uiStats();
+    tick();  // inicia o loop
+  });
+
+})();
+  </script>
 </body>
   <audio id="snd-green"  src="./sounds/green.mp3"  preload="auto"></audio>
 <audio id="snd-red"    src="./sounds/red.mp3"    preload="auto"></audio>
