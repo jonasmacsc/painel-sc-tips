@@ -1,90 +1,95 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SC TIPS • Contato</title>
-  <style>
-    :root{
-      --bg:#0a0f1a;
-      --card:#121a29;
-      --stroke:#2b3a55;
-      --muted:#9aa4b2;
-      --ok:#2ecc71;
-      --warn:#f1c40f;
-      --err:#e74c3c;
-      --brand:#1f8bff;
-      --brand2:#2ba84a;
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{
-      background:var(--bg);
-      color:#eef3ff;
-      font-family:Inter,system-ui,Arial,sans-serif;
-    }
-    .wrap{max-width:900px;margin:0 auto;padding:20px}
-    /* NAV */
-    .nav{background:#0e1525;border-bottom:1px solid var(--stroke);padding:12px 20px;position:sticky;top:0;z-index:10}
-    .nav .wrap{display:flex;align-items:center;justify-content:space-between}
-    .brand{font-weight:800;font-size:18px;color:#fff}
-    .brand b{color:var(--brand)}
-    .menu{display:flex;gap:10px}
-    .menu a{
-      color:#eef3ff;text-decoration:none;
-      padding:8px 12px;border-radius:8px;
-      border:1px solid transparent;
-      transition:.2s;
-    }
-    .menu a:hover{background:rgba(255,255,255,.08)}
-    .menu a.active{background:var(--brand);color:#fff}
-    /* CONTEÚDO */
-    h1{font-size:28px;margin:20px 0;color:var(--brand)}
-    p{margin:8px 0 20px;color:var(--muted)}
-    .card{background:var(--card);border:1px solid var(--stroke);border-radius:12px;padding:20px;margin-bottom:20px}
-    .card h2{margin-bottom:10px;color:#fff}
-    .info{font-size:16px;margin:6px 0}
-    .info b{color:var(--brand)}
-    .footer{margin-top:20px;text-align:center;font-size:13px;color:var(--muted)}
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SC Tips • Contatos</title>
+<link rel="icon" type="image/png" href="./favicon.png" />
+<style>
+  :root {
+    --bg:#050b12; --panel:#0f172a; --text:#e6f6ff; --muted:#93c5fd; 
+    --brand:#22d3ee; --btn:#2563eb; --btn2:#0ea5e9;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:"Inter",system-ui,Segoe UI,Roboto,Arial}
+  .wrap{max-width:900px;margin:0 auto;padding:20px}
+
+  .nav{position:sticky;top:0;z-index:10;background:#0e1525;border-bottom:1px solid #1e2a44}
+  .nav .row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 20px}
+  .brand{font-weight:800;color:#fff;display:flex;gap:8px;align-items:center}
+  .brand b{color:var(--brand)}
+  .menu{display:flex;gap:10px}
+  .menu a{padding:8px 14px;border-radius:8px;color:#cfe0ff;text-decoration:none}
+  .menu a:hover{background:rgba(255,255,255,.08)}
+  .menu a.active{background:linear-gradient(135deg,#22d3ee,#60a5fa);color:#001428;font-weight:600}
+
+  h1{color:var(--brand);margin:18px 0}
+  .card{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:18px;margin-bottom:20px}
+  .muted{color:var(--muted)}
+
+  .form-group{margin-bottom:14px;display:flex;flex-direction:column}
+  label{font-weight:600;margin-bottom:6px}
+  input,select,textarea{padding:10px 12px;border-radius:8px;border:1px solid #2c3a55;background:#0c1425;color:#fff}
+  button{background:var(--btn);color:#fff;padding:12px 18px;border:0;border-radius:10px;cursor:pointer;font-weight:600}
+  button:hover{background:var(--btn2)}
+</style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <div class="nav">
-    <div class="wrap">
-      <div class="brand">SC TIPS <b>VIP</b></div>
-      <div class="menu">
-        <a href="index.html">Home</a>
-        <a href="estrategias.html">Estratégias</a>
-        <a href="matrix-premium.html">Matrix Premium</a>
-        <a href="puxadores.html">Puxadores Live</a>
-        <a href="contato.html" class="active">Contato</a>
+<!-- NAV -->
+<div class="nav">
+  <div class="row">
+    <div class="brand">SC TIPS <b>VIP</b></div>
+    <div class="menu">
+      <a href="index.html">Home</a>
+      <a href="estrategias.html">Estratégias</a>
+      <a href="matrix-premium.html">Matrix Premium</a>
+      <a href="puxadores.html">Puxadores Live</a>
+      <a href="contato.html" class="active">Contato</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <h1>📩 Entre em Contato</h1>
+
+  <div class="card">
+    <p><b>Email:</b> <a href="mailto:vemevesc@gmail.com">vemevesc@gmail.com</a></p>
+    <p><b>Telegram:</b> <a href="https://t.me/JonasMacielSC" target="_blank">@JonasMacielSC</a></p>
+  </div>
+
+  <div class="card">
+    <h2>💡 Solicitar Teste Gratuito</h2>
+    <form>
+      <div class="form-group">
+        <label for="email">Seu Email</label>
+        <input type="email" id="email" placeholder="exemplo@email.com" required />
       </div>
-    </div>
+      <div class="form-group">
+        <label for="contato">Telegram ou WhatsApp</label>
+        <input type="text" id="contato" placeholder="@usuario ou (99) 99999-9999" required />
+      </div>
+      <div class="form-group">
+        <label for="plano">Duração do Teste</label>
+        <select id="plano" required>
+          <option value="">Selecione</option>
+          <option value="24h">24 horas</option>
+          <option value="48h">48 horas</option>
+        </select>
+      </div>
+      <button type="submit">🚀 Solicitar Teste</button>
+    </form>
   </div>
 
-  <div class="wrap">
-    <h1>📩 Contato</h1>
-    <p>Entre em contato comigo para suporte, dúvidas ou para adquirir o acesso VIP completo do painel SC TIPS.</p>
-
-    <div class="card">
-      <h2>📧 E-mail</h2>
-      <div class="info"><b>Email:</b> <a href="mailto:vemevesc@gmail.com">vemevesc@gmail.com</a></div>
-    </div>
-
-    <div class="card">
-      <h2>💬 Telegram</h2>
-      <div class="info"><b>Usuário:</b> <a href="https://t.me/JonasMacielSC" target="_blank">@JonasMacielSC</a></div>
-    </div>
-
-    <div class="card">
-      <h2>🔑 Acesso ao Painel</h2>
-      <p><b>Plano Free:</b> limitado a 1 estratégia (demonstração ~30%).</p>
-      <p><b>Plano VIP:</b> acesso completo às 23 estratégias, atualizações e suporte exclusivo.</p>
-    </div>
-
-    <div class="footer">© 2025 SC TIPS — Todos os direitos reservados.</div>
+  <div class="card">
+    <h2>🎯 Planos Disponíveis</h2>
+    <ul>
+      <li><b>Free Limitado:</b> acesso restrito (1 estratégia / 30% do painel)</li>
+      <li><b>VIP Completo:</b> acesso a todas as 23 estratégias + recursos avançados</li>
+    </ul>
+    <p class="muted">Faça o teste gratuito e depois atualize para o VIP.</p>
   </div>
+</div>
 
 </body>
 </html>
