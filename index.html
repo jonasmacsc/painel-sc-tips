@@ -9,16 +9,35 @@
   :root{--bg:#050b12;--panel:#0f172a;--text:#e6f6ff;--muted:#93c5fd;--brand:#22d3ee;--btn:#2563eb;--btn2:#0ea5e9;}
   *{box-sizing:border-box} html,body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 "Inter",system-ui,Segoe UI,Roboto,Arial}
   .wrap{max-width:1200px;margin:0 auto;padding:18px}
-  /* NAV */
-  .nav{position:sticky;top:0;z-index:10;background:rgba(2,6,12,.9);backdrop-filter:saturate(140%) blur(6px);border-bottom:1px solid rgba(255,255,255,.06)}
-  .nav .inner{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:12px 18px}
-  .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.3px}
+  <!-- NAV -->
+<div class="nav">
+  <div class="row wrap">
+    <div class="brand">
+      <img src="logo.png" alt="SC Tips Logo" />
+      <span>SC TIPS</span>
+      <small>VIP</small>
+    </div>
+    <nav class="menu">
+      <a href="index.html">Home</a>
+      <a href="estrategias.html">Estratégias</a>
+      <a href="matrix-premium.html">Matrix Premium</a>
+      <a href="puxadores.html">Puxadores Live</a>
+      <a href="contato.html">Contatos</a>
+    </nav>
+  </div>
+</div>
+
+<style>
+  .nav{position:sticky;top:0;z-index:10;background:#0e1525;border-bottom:1px solid #1e2a44}
+  .nav .row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 20px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;color:#fff}
   .brand img{height:28px;width:auto}
-  .brand b{color:var(--brand)}
-  .menu{display:flex;gap:10px;flex-wrap:wrap}
-  .menu a{color:#cfe0ff;text-decoration:none;padding:8px 12px;border:1px solid rgba(255,255,255,.12);border-radius:10px}
-  .menu a:hover{background:rgba(255,255,255,.06)}
-  .menu a.active{background:linear-gradient(135deg,#38bdf8,#22d3ee);color:#05202a;border-color:transparent}
+  .brand small{background:#0b1220;border:1px solid #1e2a44;padding:2px 8px;border-radius:999px;color:#22d3ee}
+  .menu{display:flex;gap:8px;flex-wrap:wrap}
+  .menu a{padding:8px 14px;border:1px solid transparent;border-radius:10px;color:#cfe0ff;transition:.2s}
+  .menu a:hover{background:rgba(255,255,255,.08)}
+  .menu a.active{background:linear-gradient(135deg,#22d3ee,#60a5fa);color:#001428;font-weight:600}
+</style>
   /* HERO */
   .hero{padding:50px 18px}
   h1{font-size:36px;margin:0 0 8px 0}
