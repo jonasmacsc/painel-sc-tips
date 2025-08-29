@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SC Tips VIP • Contato</title>
+<link rel="icon" type="image/png" href="./favicon.png" />
+<style>
+  :root{--bg:#050b12;--panel:#0f172a;--text:#e6f6ff;--muted:#93c5fd;--brand:#22d3ee;}
+  *{box-sizing:border-box} html,body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 "Inter",system-ui}
+  .wrap{max-width:1100px;margin:0 auto;padding:18px}
+  .nav{position:sticky;top:0;z-index:10;background:rgba(2,6,12,.9);border-bottom:1px solid rgba(255,255,255,.06)}
+  .nav .inner{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:12px 18px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800}
+  .brand img{height:28px}
+  .brand b{color:var(--brand)}
+  .menu{display:flex;gap:10px;flex-wrap:wrap}
+  .menu a{color:#cfe0ff;text-decoration:none;padding:8px 12px;border:1px solid rgba(255,255,255,.12);border-radius:10px}
+  .menu a:hover{background:rgba(255,255,255,.06)}
+  .menu a.active{background:linear-gradient(135deg,#38bdf8,#22d3ee);color:#05202a;border-color:transparent}
+  .card{background:#0b1628;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px;margin-top:18px}
+  .cta a{display:inline-block;margin-right:10px;margin-top:8px;padding:10px 14px;border-radius:10px;text-decoration:none}
+  .btn{border:1px solid #60a5fa;color:#e6f6ff}
+  .btn.primary{background:#2563eb;border-color:#2563eb}
+  .muted{color:#9cc1ff}
+</style>
+</head>
+<body>
+  <div class="nav">
+    <div class="inner">
+      <a class="brand" href="./index.html">
+        <img src="./logo.png" alt="SC Tips" onerror="this.style.display='none'"> SC TIPS <b>VIP</b>
+      </a>
+      <div class="menu">
+        <a href="./index.html">Home</a>
+        <a href="./estrategias.html">Estratégias</a>
+        <a href="./matrix.html">Matrix Premium</a>
+        <a href="./puxadores.html">Puxadores Live</a>
+        <a href="./contato.html" class="active">Contato</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <h1>📬 Contato</h1>
+    <div class="card">
+      <p class="muted">Fale comigo para dúvidas, suporte ou para ativar o <b>VIP</b>.</p>
+      <div class="cta">
+        <a class="btn primary" href="mailto:vemevesc@gmail.com" target="_blank">✉️ E-mail: vemevesc@gmail.com</a>
+        <a class="btn" href="https://t.me/JonasMacielSC" target="_blank">💬 Telegram: @JonasMacielSC</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Planos</h3>
+      <ul>
+        <li><b>FREE (limitado):</b> 1 estratégia, sugestões reduzidas, sem Auto Mode.</li>
+        <li><b>VIP:</b> 23 estratégias, motor completo, Auto, histórico e updates.</li>
+      </ul>
+      <div class="cta">
+        <a class="btn" href="./matrix.html?tier=free">Usar versão FREE</a>
+        <a class="btn primary" href="https://t.me/JonasMacielSC" target="_blank">Quero o VIP</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
