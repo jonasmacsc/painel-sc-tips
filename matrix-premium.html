@@ -596,5 +596,42 @@ renderPrediction();
 log('SYSTEM','SC Tips Matrix Premium inicializado');
 if(q('#chkAuto').checked) startAuto();
 </script>
+  <style>
+  .panel.gold{
+    background:#0f1323;
+    border:1px solid rgba(255,215,128,.25);
+    border-radius:14px; padding:14px; margin:16px 0;
+    box-shadow:0 0 0 1px rgba(255,215,128,.05) inset, 0 8px 24px rgba(0,0,0,.35);
+  }
+  .panel.gold .panel-title{
+    font-weight:800; color:#ffd36b; letter-spacing:.5px; margin-bottom:10px;
+    text-shadow:0 1px 0 #3b2a00;
+  }
+  .pf-grid{
+    display:grid; gap:12px;
+    grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+  }
+  .pf-tile{
+    background:rgba(255,215,128,.05);
+    border:1px solid rgba(255,215,128,.25);
+    border-radius:12px; padding:10px; text-align:left;
+    cursor:pointer; transition:.2s; outline:none;
+  }
+  .pf-tile:hover{ background:rgba(255,215,128,.09) }
+  .pf-tile[aria-pressed="true"]{
+    box-shadow:0 0 0 2px #ffd36b inset, 0 0 18px rgba(255,215,128,.25);
+  }
+  .pf-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:6px }
+  .pf-badge{
+    background:#0b1220; border:1px solid #1e2a44; color:#9cc8ff;
+    padding:2px 8px; border-radius:999px; font-size:12px
+  }
+  .pf-actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:12px }
+  .btn{ background:#0f172a; border:1px solid #263554; color:#dbeafe;
+        padding:10px 14px; border-radius:10px; cursor:pointer }
+  .btn:hover{ background:#17223a }
+  .btn.yellow{ background:linear-gradient(180deg,#ffd36b,#edb940); color:#1b1200; border-color:#c69b2e }
+  canvas{ display:block; width:100% }
+  </style>
 </body>
 </html>
