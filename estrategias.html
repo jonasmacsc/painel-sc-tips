@@ -92,25 +92,25 @@ const ESTRATEGIAS = [
   {id:22,nome:"Cold",gatilho:"Menos frequente",base:["vizinhos do cold"],viz:2},
   {id:23,nome:"Final Manual",gatilho:"Ativação manual",base:["nº escolhido"],viz:0},
 ];
-const $ = (s)=>document.querySelector(s);
-function matchesQuery(it,q){ if(!q) return true; const h=(it.nome+' '+it.gatilho+' '+(it.base||[]).join(',')+' '+(it.nota||'')).toLowerCase(); return h.includes(q.toLowerCase());}
-function matchesViz(it,v){ return !v || String(it.viz)===String(v); }
-function chip(v){ return Array.isArray(v)? v.join(', ') : String(v); }
+const $=(s)=>document.querySelector(s);
+function matchesQuery(it,q){if(!q)return true;const h=(it.nome+' '+it.gatilho+' '+(it.base||[]).join(',')+' '+(it.nota||'')).toLowerCase();return h.includes(q.toLowerCase());}
+function matchesViz(it,v){return !v||String(it.viz)===String(v);}
+function chip(v){return Array.isArray(v)?v.join(', '):String(v);}
 function render(){
   const q=$('#q').value.trim(), v=$('#viz').value, box=$('#cards'); box.innerHTML='';
   const data=ESTRATEGIAS.filter(it=>matchesQuery(it,q)&&matchesViz(it,v));
-  if(!data.length){ box.innerHTML='<div class="card"><b>Nenhum resultado</b><br><span class="muted">Ajuste os filtros.</span></div>'; return; }
+  if(!data.length){box.innerHTML='<div class="card"><b>Nenhum resultado</b><br><span class="muted">Ajuste os filtros.</span></div>';return;}
   data.forEach(it=>{
-    const el=document.createElement('div'); el.className='card';
+    const el=document.createElement('div');el.className='card';
     el.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center">
-        <div><b>${it.id}. ${it.nome}</b></div><span class="tag">${it.viz} viz.</span></div>
+      <div><b>${it.id}. ${it.nome}</b></div><span class="tag">${it.viz} viz.</span></div>
       <div style="margin-top:6px"><b>Gatilho:</b> ${it.gatilho}</div>
       <div><b>Números base:</b> ${chip(it.base)}</div>
       ${it.nota?`<div class="muted" style="margin-top:6px">${it.nota}</div>`:''}`;
     box.appendChild(el);
   });
 }
-function resetFilters(){ $('#q').value=''; $('#viz').value=''; render(); }
+function resetFilters(){$('#q').value='';$('#viz').value='';render();}
 render();
 </script>
 </body>
