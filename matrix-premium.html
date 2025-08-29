@@ -1,29 +1,43 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SC Tips VIP • Matrix Premium</title>
-  <link rel="icon" type="image/png" href="favicon.png" />
-  <style>
-    :root{--bg:#050b12;--panel:#0f172a;--text:#e6f6ff;--muted:#93c5fd;--brand:#22d3ee;--gold:#ffd700;}
-    *{box-sizing:border-box}
-    html,body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 "Inter",system-ui,Segoe UI,Roboto,Arial}
-    .wrap{max-width:1200px;margin:0 auto;padding:18px}
-    /* NAV (igual ao index) */
-    .nav{position:sticky;top:0;z-index:10;background:#0e1525;border-bottom:1px solid #1e2a44}
-    .nav .row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 20px}
-    .brand{display:flex;align-items:center;gap:10px;font-weight:800;color:#fff}
-    .brand img{height:28px;width:auto}
-    .brand small{background:#0b1220;border:1px solid #1e2a44;padding:2px 8px;border-radius:999px;color:#22d3ee}
-    .menu{display:flex;gap:8px;flex-wrap:wrap}
-    .menu a{padding:8px 14px;border:1px solid transparent;border-radius:10px;color:#cfe0ff;transition:.2s;text-decoration:none}
-    .menu a:hover{background:rgba(255,255,255,.08)}
-    .menu a.active{background:linear-gradient(135deg,#22d3ee,#60a5fa);color:#001428;font-weight:600}
-    /* Page */
-    h1{margin:8px 0 14px 0}
-    .panel{background:linear-gradient(180deg,#0b1324,#0b1220);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px;margin-top:24px}
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SC Tips VIP • Matrix Premium</title>
+<link rel="icon" type="image/png" href="favicon.png" />
+<style>
+  :root{--bg:#050b12;--panel:#0f172a;--text:#e6f6ff;--muted:#93c5fd;--brand:#22d3ee;--gold:#ffd700;--ok:#00ff88;--warn:#ffe468;--err:#ff6161;--stroke:#1aff7a;}
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 "Inter",system-ui,Segoe UI,Roboto,Arial}
+  .wrap{max-width:1200px;margin:0 auto;padding:18px}
+  /* NAV */
+  .nav{position:sticky;top:0;z-index:10;background:#0e1525;border-bottom:1px solid #1e2a44}
+  .nav .row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 20px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;color:#fff}
+  .brand img{height:28px;width:auto}
+  .brand small{background:#0b1220;border:1px solid #1e2a44;padding:2px 8px;border-radius:999px;color:#22d3ee}
+  .menu{display:flex;gap:8px;flex-wrap:wrap}
+  .menu a{padding:8px 14px;border:1px solid transparent;border-radius:10px;color:#cfe0ff;transition:.2s;text-decoration:none}
+  .menu a:hover{background:rgba(255,255,255,.08)}
+  .menu a.active{background:linear-gradient(135deg,#22d3ee,#60a5fa);color:#001428;font-weight:600}
+  /* Cards / UI */
+  .panel{background:linear-gradient(180deg,#0b1324,#0b1220);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px;margin-top:24px}
+  .card{background:rgba(255,215,0,.06);border:1px solid rgba(255,215,0,.35);border-radius:14px;padding:14px;box-shadow:0 10px 26px rgba(0,0,0,.55)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .stat{display:flex;flex-direction:column;gap:4px}
+  .kpi{display:grid;grid-template-columns:repeat(4,minmax(120px,1fr));gap:10px}
+  .kpi .box{background:#0c1013;border:1px solid #19354d;border-radius:12px;padding:10px;text-align:center}
+  .entry{border:1px solid #18412a;background:linear-gradient(135deg,rgba(0,255,120,.08),rgba(255,215,0,.06));border-radius:12px;padding:10px}
+  .progress{height:10px;border:1px solid var(--stroke);border-radius:99px;background:#000;overflow:hidden;position:relative}
+  .bar{height:100%;width:0;background:linear-gradient(90deg,#00ff88,var(--gold));transition:width .2s}
+  .progress small{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#d1fae5;font-size:11px}
+  .s-card{border:1px solid rgba(255,215,0,.28);background:rgba(255,215,0,.07);border-radius:12px;padding:12px}
+  .list{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+  button{cursor:pointer;border:1px solid var(--gold);background:linear-gradient(135deg,rgba(255,215,0,.22),rgba(255,215,0,.08));color:#fff;border-radius:10px;padding:10px 14px}
+  button.primary{background:linear-gradient(135deg, var(--gold), #b8860b);border:0;color:#000;font-weight:700}
+  button:disabled{opacity:.55;cursor:not-allowed}
+</style>
 </head>
 <body>
   <!-- NAV -->
@@ -46,9 +60,327 @@
       <div class="muted">Mostramos apenas <b>Gatilho</b> e <b>Números base</b>. O motor aplica lógica anti-head (vizinhos, terminais, cavalo, puxadores, tendência, hot/cold e proteção do zero).</div>
     </div>
 
-    <!-- ===== AQUI ABAIXO COLE O SEU MOTOR (código que já está em produção) ===== -->
-    <!-- Eu mantive o seu JS original. Se quiser, cole exatamente a versão que você validou. -->
-    <!-- ... seu motor completo ... -->
+    <!-- TOPO: TIMER + CONTROLES -->
+    <div class="grid" style="margin-top:14px">
+      <div class="card">
+        <div class="row" style="justify-content:space-between">
+          <div class="timer" id="countdown" style="font-weight:900;font-size:38px;color:var(--gold);text-shadow:0 0 16px rgba(255,215,0,.8)">18</div>
+          <div class="stat">
+            <span class="muted">Status</span>
+            <span id="status" class="badge">🟢 Ativo</span>
+          </div>
+        </div>
+        <div class="progress" style="margin:10px 0 8px">
+          <div class="bar" id="bar"></div>
+          <small id="barTxt">00:18</small>
+        </div>
+        <div class="row">
+          <button class="primary" id="bStart">▶️ Iniciar</button>
+          <button id="bPause" disabled>⏸️ Pausar</button>
+          <button id="bReset">🔄 Reset</button>
+          <label style="display:inline-flex;gap:8px;align-items:center;border:1px solid var(--gold);border-radius:999px;padding:8px 12px;background:rgba(255,215,0,.10)"><input type="checkbox" id="cbSync" checked> Sync ao receber número</label>
+        </div>
+        <div class="row" style="margin-top:10px;gap:16px">
+          <div class="stat"><span class="muted">Ciclos</span><b id="kCic">0</b></div>
+          <div class="stat"><span class="muted">Hits</span><b id="kHit" style="color:var(--ok)">0</b></div>
+          <div class="stat"><span class="muted">Miss</span><b id="kMis" style="color:var(--err)">0</b></div>
+          <div class="stat"><span class="muted">Taxa</span><b id="kTax">0%</b></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🎛️ Motor & Ações</h3>
+        <div class="row">
+          <button class="primary" id="bGen">⚡ Gerar Entradas</button>
+          <button id="bAuto">🤖 Auto Mode</button>
+          <button id="bSim">🎲 Simular nº</button>
+          <button id="bClear">🧹 Limpar histórico</button>
+        </div>
+        <div class="kpi" style="margin-top:10px">
+          <div class="box"><div class="muted">Total</div><b id="kTot">0</b></div>
+          <div class="box"><div class="muted">Vermelho</div><b id="kRed">0</b></div>
+          <div class="box"><div class="muted">Preto</div><b id="kBlk">0</b></div>
+          <div class="box"><div class="muted">Zero</div><b id="kGre">0</b></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LISTA: GATILHO + BASE -->
+    <div class="card" style="margin-top:14px">
+      <h3>🎯 Estratégias (23) — Gatilho & Números base</h3>
+      <div id="sList" class="list"></div>
+    </div>
+
+    <!-- ENTRADAS -->
+    <div class="card" style="margin-top:14px">
+      <h3>✅ Sugestões do Motor</h3>
+      <div id="entries" class="grid"><div class="muted">Clique em <b>Gerar Entradas</b> para ver as sugestões.</div></div>
+    </div>
+
+    <!-- ÚLTIMOS NÚMEROS -->
+    <div class="card" style="margin-top:14px">
+      <h3>🎯 Últimos números (clique para repetir)</h3>
+      <div id="recent" class="row" style="flex-wrap:wrap"></div>
+    </div>
   </div>
+
+<script>
+(()=>{
+// ======== ESTADO BÁSICO ========
+const red = new Set([1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);
+const wheel = [0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
+
+const st = {
+  t:18, T:18, timer:null, running:false, paused:true, cycles:0,
+  hist:[], byNum:new Map(), tot:{r:0,b:0,g:0},
+  hits:0, miss:0, auto:false, preds:[]
+};
+
+const $ = sel => document.querySelector(sel);
+const el = id => document.getElementById(id);
+const pad2 = n => (n<10?'0':'')+n;
+const col = n => n===0? 'g' : (red.has(n)?'r':'b');
+const rnd = (a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+
+// ======== ESTRATÉGIAS (23) — APENAS GATILHO & BASE ========
+const STRATS = [
+  {id:'elite2x', name:'1. Elite 2X', gat:'Terminal 4 ou 5', base:[2,12,22,32], viz:2},
+  {id:'dim4', name:'2. Quarta Dimensão', gat:'Terminal 1 ou 3', base:[4,14,24,34], viz:2},
+  {id:'f5x', name:'3. Fórmula 5X', gat:'Terminal 6 ou 8', base:[5,15,25,35], viz:2},
+  {id:'alpha6', name:'4. Alpha 6', gat:'Terminal 2 ou 9', base:[6,16,26,36], viz:2},
+  {id:'black', name:'5. Padrão Black', gat:'Saída de 13, 31 ou 33', base:[13,31,33], viz:2},
+  {id:'triVerm', name:'6. Triângulo Vermelho', gat:'Saída de 9, 27 ou 30', base:[9,27,30], viz:2},
+  {id:'col1', name:'7. Coluna de Ouro', gat:'Saída em Coluna 1', base:[1,4,7,10,13,16,19,22,25,28,31,34]},
+  {id:'col2', name:'8. Coluna de Prata', gat:'Saída em Coluna 2', base:[2,5,8,11,14,17,20,23,26,29,32,35]},
+  {id:'col3', name:'9. Coluna de Bronze', gat:'Saída em Coluna 3', base:[3,6,9,12,15,18,21,24,27,30,33,36]},
+  {id:'dz1', name:'10. Dúzia 1', gat:'Tendência fora da 1ª dúzia', base:[1,2,3,4,5,6,7,8,9,10,11,12]},
+  {id:'dz2', name:'11. Dúzia 2', gat:'Tendência fora da 2ª dúzia', base:[13,14,15,16,17,18,19,20,21,22,23,24]},
+  {id:'dz3', name:'12. Dúzia 3', gat:'Tendência fora da 3ª dúzia', base:[25,26,27,28,29,30,31,32,33,34,35,36]},
+  {id:'zero', name:'13. Proteção Zero', gat:'Zero ausente por muito tempo', base:[0], viz:1},
+  {id:'term5', name:'14. Terminais 5', gat:'Último termina em 6 ou 8', base:[5,15,25,35], viz:1},
+  {id:'repet', name:'15. Repetição', gat:'Repetição direta', base:[], viz:0},
+  {id:'viz1', name:'16. Vizinhos 1', gat:'A partir do último nº', base:[], viz:1},
+  {id:'viz2', name:'17. Vizinhos 2', gat:'A partir do último nº', base:[], viz:2},
+  {id:'cav258', name:'18. Cavalos 258', gat:'Padrão 2-5-8', base:[2,5,8]},
+  {id:'cav369', name:'19. Cavalos 369', gat:'Padrão 3-6-9', base:[3,6,9]},
+  {id:'puxa', name:'20. Puxadores (comum)', gat:'Nºs que se puxam', base:[], viz:1},
+  {id:'breaker', name:'21. Pattern Breaker', gat:'Sequência longa de cor', base:[], viz:0},
+  {id:'hot', name:'22. Hot Number', gat:'Mais frequente do período', base:[], viz:1},
+  {id:'cold', name:'23. Cold Chase', gat:'Menos frequente do período', base:[], viz:2}
+];
+
+// mapa simplificado de “puxadores” (números em comum)
+const PUXA = {
+  0:[32,26,3], 1:[20,33,14], 2:[25,21,4], 3:[26,35,12], 4:[19,21,34],
+  5:[24,10,16], 6:[34,27,13], 7:[28,29,12], 8:[30,23,10], 9:[31,22,18],
+  10:[23,8,24], 11:[30,36,13], 12:[3,7,35], 13:[6,36,27], 14:[31,20,33],
+  15:[32,19,34], 16:[33,24,5], 17:[25,34,2], 18:[22,29,9], 19:[4,15,32],
+  20:[14,1,33], 21:[2,4,16], 22:[9,31,18], 23:[10,8,30], 24:[5,10,16],
+  25:[2,17,32], 26:[3,0,32], 27:[6,13,36], 28:[7,12,29], 29:[7,18,22],
+  30:[8,11,23], 31:[14,22,9], 32:[0,15,19], 33:[1,14,16], 34:[6,4,17],
+  35:[3,12,26], 36:[11,13,27]
+};
+
+// ======== UI: render da lista ========
+function renderStrats(){
+  const box = el('sList'); box.innerHTML = '';
+  STRATS.forEach(s=>{
+    const div = document.createElement('div');
+    div.className = 's-card';
+    let base = s.base?.length ? s.base.join(', ') : 'dinâmica';
+    if(s.id==='viz1') base='vizinhos k=1 do último';
+    if(s.id==='viz2') base='vizinhos k=2 do último';
+    if(s.id==='repet') base='último número';
+    if(s.id==='puxa') base='mapeamento por número puxador';
+    if(s.id==='hot') base='mais frequente da janela';
+    if(s.id==='cold') base='menos frequente da janela';
+    div.innerHTML = `
+      <h4 style="margin:0 0 6px 0">${s.name}</h4>
+      <div style="font-size:12px;color:#bef264">Gatilho:</div><div>${s.gat}</div>
+      <div style="font-size:12px;color:#bef264;margin-top:6px">Números base:</div><div>${base}</div>
+    `;
+    box.appendChild(div);
+  });
+}
+
+// ======== AUX ========
+function neighbors(n,k){
+  const i = wheel.indexOf(n); if(i<0) return [];
+  const out=[]; for(let d=-k; d<=k; d++) out.push(wheel[(i+d+wheel.length)%wheel.length]);
+  return [...new Set(out)];
+}
+
+// ======== ESTATÍSTICA & HISTÓRICO ========
+function addNumber(n,source='LIVE'){
+  if(!Number.isInteger(n)||n<0||n>36) return;
+  const c = col(n); st.hist.unshift({n,c,ts:Date.now(),src:source});
+  st.tot[c]++; st.byNum.set(n,(st.byNum.get(n)||0)+1);
+  updateRecents(); updateKpis();
+  if(el('cbSync').checked && st.running){ st.t = st.T; updateTimerBar(); }
+}
+
+function updateRecents(){
+  const r = el('recent'); r.innerHTML='';
+  st.hist.slice(0,30).forEach(h=>{
+    const b=document.createElement('button');
+    b.textContent=h.n;
+    b.style.cssText=`width:36px;height:36px;border-radius:10px;border:1px solid #1f9f6a;
+      background:${h.c==='r'?'#7a1d1d':(h.c==='b'?'#101925':'#0b3a1f')};color:#fff`;
+    b.title=`${h.n} • ${h.src}`;
+    b.onclick=()=>addNumber(h.n,'REPEAT');
+    r.appendChild(b);
+  });
+}
+
+function updateKpis(){
+  const total = st.tot.r + st.tot.b + st.tot.g;
+  el('kTot').textContent=total; el('kRed').textContent=st.tot.r;
+  el('kBlk').textContent=st.tot.b; el('kGre').textContent=st.tot.g;
+  const tHit = st.hits + st.miss; el('kTax').textContent = tHit? Math.round((st.hits/tHit)*100)+'%':'0%';
+}
+
+// ======== TIMER ========
+function updateTimerBar(){
+  el('countdown').textContent = st.t;
+  el('barTxt').textContent = '00:'+pad2(st.t);
+  const pct = ((st.T - st.t)/st.T)*100; el('bar').style.width = pct+'%';
+}
+function step(){
+  if(st.paused) return;
+  st.t--; updateTimerBar();
+  if(st.t<=0){ st.t=st.T; st.cycles++; el('kCic').textContent=st.cycles;
+    if(st.auto){ simulate(); setTimeout(generate,600); }
+  }
+}
+
+// ======== GERADOR ========
+function topHot(){ let best=null,max=-1; st.byNum.forEach((v,k)=>{if(v>max){max=v;best=k;}}); return best; }
+function topCold(){ let worst=null,min=1e9; st.byNum.forEach((v,k)=>{if(v<min){min=v;worst=k;}}); return worst; }
+
+function generate(){
+  const out = [];
+  const H = st.hist; const last = H[0]?.n;
+
+  if(last==null){ renderEntries(out); return; }
+
+  out.push({id:'viz1',label:'Vizinhos 1',bets:neighbors(last,1),conf:72,why:`k=1 de ${last}`});
+  out.push({id:'viz2',label:'Vizinhos 2',bets:neighbors(last,2),conf:66,why:`k=2 de ${last}`});
+
+  const d = last%10;
+  if(d===4||d===5) out.push({id:'elite2x',label:'Elite 2X',bets:[2,12,22,32],conf:68,why:'term 4/5'});
+  if(d===1||d===3) out.push({id:'dim4',label:'Quarta Dimensão',bets:[4,14,24,34],conf:66,why:'term 1/3'});
+  if(d===6||d===8) out.push({id:'f5x',label:'Fórmula 5X',bets:[5,15,25,35].concat(neighbors(5,1)).filter((v,i,a)=>a.indexOf(v)===i),conf:70,why:'term 6/8 ⇒ finais 5 + viz'});
+  if(d===2||d===9) out.push({id:'alpha6',label:'Alpha 6',bets:[6,16,26,36],conf:64,why:'term 2/9'});
+
+  if([13,31,33].includes(last)) out.push({id:'black',label:'Padrão Black',bets:[13,31,33].flatMap(n=>neighbors(n,2)).filter((v,i,a)=>a.indexOf(v)===i),conf:72,why:'13/31/33 + k=2'});
+  if([9,27,30].includes(last)) out.push({id:'triVerm',label:'Triângulo Vermelho',bets:[9,27,30].flatMap(n=>neighbors(n,1)),conf:64,why:'9/27/30 + k=1'});
+
+  out.push({id:'cav258',label:'Cavalos 258',bets:[2,5,8],conf:58,why:'padrão 2-5-8'});
+  out.push({id:'cav369',label:'Cavalos 369',bets:[3,6,9],conf:58,why:'padrão 3-6-9'});
+
+  const pux = (PUXA[last]||[]).slice(0,3);
+  if(pux.length) out.push({id:'puxa',label:'Puxadores',bets:pux.flatMap(n=>neighbors(n,1)),conf:62,why:`${last} puxa ${pux.join(',')}`});
+
+  const last12 = H.slice(0,12);
+  const colCount=[0,0,0]; const dzCount=[0,0,0];
+  last12.forEach(h=>{
+    if(h.n===0) return;
+    const colIdx = (h.n-1)%3; colCount[colIdx]++;
+    const dzIdx = Math.floor((h.n-1)/12); dzCount[dzIdx]++;
+  });
+  const maxCol = Math.max(...colCount), minCol = Math.min(...colCount);
+  if(maxCol-minCol>=4){
+    const lean = colCount.indexOf(minCol);
+    const cols = [STRATS[6],STRATS[7],STRATS[8]][lean].base;
+    out.push({id:'colX',label:'Coluna Oposta',bets:cols,conf:55,why:'anti-concentração'});
+  }
+  const maxDz = Math.max(...dzCount), minDz = Math.min(...dzCount);
+  if(maxDz-minDz>=5){
+    const lean = dzCount.indexOf(minDz);
+    const dzBases = [STRATS[9].base,STRATS[10].base,STRATS[11].base][lean];
+    out.push({id:'dzX',label:'Dúzia Oposta',bets:dzBases,conf:54,why:'anti-concentração'});
+  }
+
+  const seq = H.slice(0,8).map(h=>h.c).join('');
+  const longR = /r{4,}/.test(seq), longB = /b{4,}/.test(seq);
+  if(longR||longB){
+    const fav = longR? 'b' : 'r';
+    const bet = Array.from({length:37},(_,i)=>i).filter(n=>n!==0 && (fav==='r'? red.has(n):!red.has(n)));
+    out.push({id:'breaker',label:'Pattern Breaker',bets:bet.slice(0,10),conf:56,why:(longR?'vermelho longo':'preto longo')+' ⇒ oposto'});
+  }
+
+  const hot = topHot(); if(hot!=null) out.push({id:'hot',label:'Hot Number',bets:neighbors(hot,1),conf:60,why:'mais frequente'});
+  const cold = topCold(); if(cold!=null) out.push({id:'cold',label:'Cold Chase',bets:neighbors(cold,2),conf:52,why:'menos frequente'});
+
+  const since0 = H.findIndex(h=>h.n===0);
+  if(since0>=60 || since0===-1 && H.length>=60){
+    out.push({id:'zero',label:'Proteção Zero',bets:neighbors(0,1),conf:50,why:'zero ausente'});
+  }
+
+  out.push({id:'repet',label:'Repetição',bets:[last],conf:48,why:'eco do último'});
+
+  const norm = [];
+  const seen = new Set();
+  out.forEach(s=>{
+    const key = s.id+'|'+(s.bets||[]).sort((a,b)=>a-b).join('-');
+    if(seen.has(key)) return;
+    seen.add(key);
+    s.bets = [...new Set(s.bets.filter(n=>n>=0 && n<=36))].slice(0,18);
+    if(s.bets.length) norm.push(s);
+  });
+
+  st.preds = norm;
+  renderEntries(norm);
+}
+
+function renderEntries(list){
+  const box = el('entries'); box.innerHTML='';
+  if(!list.length){ box.innerHTML='<div class="muted">Sem sugestões no momento.</div>'; return; }
+  list.forEach(s=>{
+    const d=document.createElement('div'); d.className='entry';
+    d.innerHTML=`<b>${s.label}</b><br><small>${s.why}</small><br>
+      <span class="muted">Números:</span> ${s.bets.join(', ')} <span class="muted">• Conf:</span> ${s.conf}%`;
+    box.appendChild(d);
+  });
+}
+
+function onSpin(n){
+  if(!st.preds.length) return;
+  const ok = st.preds.some(p=>p.bets.includes(n));
+  if(ok){ st.hits++; el('kHit').textContent=st.hits; } else { st.miss++; el('kMis').textContent=st.miss; }
+  updateKpis();
+}
+
+// ======== CONTROLES ========
+function simulate(){ addNumber(rnd(0,36),'SIM'); }
+function clearAll(){
+  st.hist=[]; st.byNum.clear(); st.tot={r:0,b:0,g:0}; st.hits=0; st.miss=0; st.preds=[];
+  updateRecents(); updateKpis(); renderEntries([]);
+}
+
+el('bStart').onclick=()=>{ st.paused=false; st.running=true; el('bPause').disabled=false; el('status').textContent='🟢 Rodando'; };
+el('bPause').onclick=()=>{ st.paused=true; el('status').textContent='🟡 Pausado'; };
+el('bReset').onclick=()=>{ st.t=st.T; updateTimerBar(); el('status').textContent='🔄 Resetado'; };
+el('bGen').onclick=generate;
+el('bAuto').onclick=()=>{ st.auto=!st.auto; el('bAuto').textContent = st.auto? '🤖 Auto ON':'🤖 Auto Mode'; };
+el('bSim').onclick=simulate;
+el('bClear').onclick=clearAll;
+
+// ======== BROADCAST LIVE ========
+try{
+  const bc = new BroadcastChannel('sc-tips-live');
+  bc.onmessage = (ev)=>{
+    const msg = ev.data||{};
+    if(typeof msg.number==='number'){ addNumber(msg.number, (msg.platform||'LIVE').toUpperCase()); onSpin(msg.number); }
+  };
+}catch(e){/* ignore */}
+
+// ======== INIT ========
+renderStrats();
+updateKpis(); updateRecents(); updateTimerBar();
+st.timer=setInterval(step,1000);
+setTimeout(()=>{ simulate(); setTimeout(generate,400); },1200);
+})();
+</script>
 </body>
 </html>
