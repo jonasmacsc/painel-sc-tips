@@ -1,650 +1,463 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SC Tips VIP • Estratégias</title>
- <!-- ================== ESTRATÉGIAS — LIVE (PAINEL) ================== -->
-<div id="estr-live" class="panel" style="background:#0b1320;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px;margin-bottom:18px">
-  <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
-    <h2 style="margin:0;font-size:22px;font-weight:800">🎯 Estratégias — Live</h2>
-    <span id="estr-badge" class="pill standby">standby</span>
-    <span class="pill">última: <b id="estr-ultima">—</b></span>
-    <span class="pill">cadência: <b id="estr-cad">18s</b></span>
-  </div>
-
-  <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px">
-    <select id="estr-select" class="btn" style="background:#0e1b2e;border:1px solid #1e2a44;border-radius:10px;padding:10px 12px;color:#e6f6ff">
-      <option value="Elite 2X">Elite 2X</option>
-      <option value="Quarta Dimensão">Quarta Dimensão</option>
-      <option value="Fórmula 5X">Fórmula 5X</option>
-      <option value="Alpha 6">Alpha 6</option>
-      <option value="Padrão Black">Padrão Black</option>
-      <option value="Triângulo Vermelho">Triângulo Vermelho</option>
-      <option value="Coluna de Ouro">Coluna de Ouro</option>
-      <option value="Coluna de Prata">Coluna de Prata</option>
-      <option value="Coluna de Bronze">Coluna de Bronze</option>
-      <option value="Proteção Zero">Proteção Zero</option>
-      <option value="Cavalo">Cavalo</option>
-      <!-- as demais 23 podem ser adicionadas aqui, o motor aceita qualquer nome -->
-    </select>
-
-    <button id="estr-play"  class="btn" style="background:linear-gradient(180deg,#f6c13a,#cfa02a);color:#111;border:1px solid #f6c13a;border-radius:10px;padding:10px 14px;font-weight:700">▶ Iniciar</button>
-    <button id="estr-pause" class="btn" style="background:#0e1b2e;border:1px solid #1e2a44;border-radius:10px;padding:10px 14px">⏸ Pausar</button>
-    <button id="estr-reset" class="btn" style="background:#0e1b2e;border:1px solid #1e2a44;border-radius:10px;padding:10px 14px">↻ Reset</button>
-
-    <button id="estr-sim"   class="btn" style="margin-left:auto;background:#0e1b2e;border:1px solid #1e2a44;border-radius:10px;padding:10px 14px">🎲 Simular número</button>
-  </div>
-
-  <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:10px">
-    <label class="pill"><input type="checkbox" id="estr-sync" checked> Sync ao receber número</label>
-    <label class="pill"><input type="checkbox" id="estr-auto" checked> Auto Mode</label>
-  </div>
-
-  <div class="row" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px">
-    <div class="pill">Estratégia: <b id="estr-nome">Elite 2X</b></div>
-    <div class="pill">Previstos: <b id="estr-prev">—</b></div>
-    <div class="pill">Spins: <b id="estr-spins">0</b></div>
-    <div class="pill">Hits: <b id="estr-hits">0</b> • Miss: <b id="estr-miss">0</b> • Taxa: <b id="estr-taxa">0%</b></div>
-  </div>
-
-  <div style="background:#0e1b2e;border:1px solid #1e2a44;border-radius:12px;padding:12px">
-    <div style="opacity:.8;margin-bottom:6px">Últimos números (clique para repetir):</div>
-    <div id="estr-hist" style="display:flex;gap:8px;flex-wrap:wrap"></div>
-  </div>
-</div>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SC Tips VIP • Estratégias</title>
+<link rel="icon" type="image/png" href="./favicon.png">
 <style>
-  .pill{background:#0e1b2e;border:1px solid #1e2a44;color:#cfe0ff;border-radius:999px;padding:6px 10px;display:inline-flex;gap:6px;align-items:center}
-  .pill.standby{background:#202838;border-color:#334155;color:#cfe0ff}
-  .panel .btn{cursor:pointer}
-  .estr-badge-num{width:36px;height:36px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-weight:800}
-  .estr-num{width:36px;height:36px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-weight:700}
-  .estr-red{background:#b91c1c;color:#fff}
-  .estr-black{background:#0f172a;color:#cfe0ff}
-  .estr-zero{background:#047857;color:#fff}
-</style>
-<!-- ================== / ESTRATÉGIAS — LIVE (PAINEL) ================== -->
+  :root{
+    --bg:#0b1220;--card:#0e1525;--card2:#111a2e;
+    --bd:#1e2a44;--txt:#e6f6ff;--mut:#9cc1ff;
+    --accent:#22d3ee;--btn:#2563eb;--gold:#f1c40f;
+    --ok:#10b981;--warn:#f59e0b;--bad:#ef4444;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.55 Inter,system-ui,Segoe UI,Roboto,Arial}
+  a{color:#cfe0ff;text-decoration:none}
+  .wrap{max-width:1200px;margin:0 auto;padding:18px}
+  /* NAV */
+  .nav{position:sticky;top:0;z-index:10;background:#0e1525;border-bottom:1px solid var(--bd)}
+  .nav .row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 18px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800}
+  .brand img{height:26px}
+  .brand small{background:#0b1220;border:1px solid var(--bd);padding:2px 8px;border-radius:999px;color:#22d3ee}
+  .menu{display:flex;gap:8px;flex-wrap:wrap}
+  .menu a{padding:8px 14px;border:1px solid transparent;border-radius:10px;color:#cfe0ff;transition:.2s}
+  .menu a:hover{background:rgba(255,255,255,.08)}
+  .menu a.active{background:linear-gradient(135deg,#22d3ee,#60a5fa);color:#001428;font-weight:700}
 
-<style>
-  .panel{background:#0f172a;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px}
-  .pill{padding:6px 10px;border-radius:999px;border:1px solid #1e2a44;background:#0f1a2e;color:#cfe0ff;font-size:13px}
-  .pill.live{background:#063b2e;border-color:#10b981;color:#b7ffdf}
-  .pill.standby{background:#202838;border-color:#334155;color:#cfe0ff}
-  .btn{padding:10px 14px;border-radius:10px;border:1px solid #1e2a44;background:#0f1a2e;color:#e6f6ff}
-  .btn.primary{background:#2563eb}
+  /* Blocks */
+  .panel{background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px;margin-top:18px}
+  .panel.hi{background:linear-gradient(180deg,#0f172a,#0b1220)}
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .pill{display:inline-flex;gap:8px;align-items:center;padding:6px 10px;border:1px solid var(--bd);border-radius:999px;background:#0c1427;color:#cfe0ff}
+  .pill.badge{background:#0b1220}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid var(--bd);border-radius:10px;background:#0d1830;color:#fff;cursor:pointer}
   .btn:hover{filter:brightness(1.05)}
-</style>
-<!-- ===== /ESTRATÉGIAS • PAINEL LIVE ===== -->
+  .btn.primary{background:linear-gradient(180deg,#2d6be8,#1d4ed8)}
+  .btn.warn{background:#53350a;border-color:#8a5a14}
+  .btn.alt{background:#0b1220}
+  .kpi{text-align:center;background:var(--card2);border:1px solid var(--bd);border-radius:12px;padding:12px;min-width:120px}
+  .kpi b{font-size:22px}
+  .grid{display:grid;gap:12px}
+  .g-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .g-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .g-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+  @media(max-width:900px){.g-3,.g-4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:620px){.g-2,.g-3,.g-4{grid-template-columns:1fr}}
 
-<style>
-  .panel{background:#0f172a;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px}
-  .pill{padding:6px 10px;border-radius:999px;border:1px solid #1e2a44;background:#0f1a2e;color:#cfe0ff;font-size:13px}
-  .pill.live{background:#063b2e;border-color:#10b981;color:#b7ffdf}
-  .pill.standby{background:#202838;border-color:#334155;color:#cfe0ff}
+  /* Estratégias cards */
+  .estr{background:var(--card2);border:1px solid var(--bd);border-radius:14px;padding:14px}
+  .estr h4{margin:0 0 6px 0}
+  .estr small{color:var(--mut)}
+  .estr .tag{border:1px solid var(--bd);padding:2px 8px;border-radius:999px;background:#0b1220;margin-left:8px}
+
+  /* Console */
+  .console{background:#0c162a;border:1px solid var(--bd);border-radius:14px;padding:12px;position:relative}
+  .log{border-left:4px solid #0a3; background:#052; padding:8px 10px;border-radius:10px;margin:6px 0}
+  .log.engine{border-left-color:#0a3;background:#063}
+  .log.predict{border-left-color:#985; background:#2a1f09}
+  .log.demo{border-left-color:#1f4b82;background:#0c223d}
+  .log.bad{border-left-color:#a11;background:#3a0f13}
+  .log .time{opacity:.75;margin-right:10px}
+  .log .tag{display:inline-block;margin-left:8px;border:1px solid var(--bd);background:#0b1220;border-radius:999px;padding:2px 6px}
+  .console .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+  .console input[type="text"]{flex:1 1 220px;background:#0b1220;border:1px solid var(--bd);color:#cfe0ff;border-radius:10px;padding:8px 10px}
+
+  /* Lista números históricos */
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{width:36px;height:36px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-weight:700}
+  .red{background:#b91c1c}.black{background:#0f172a}.green{background:#047857}
 </style>
-  <link rel="icon" type="image/png" href="favicon.png" />
-  <style>
-    :root{--bg:#050b12;--panel:#0f172a;--text:#e6f6ff;--muted:#93c5fd;--brand:#22d3ee;}
-    *{box-sizing:border-box}
-    html,body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 "Inter",system-ui,Segoe UI,Roboto,Arial}
-    .wrap{max-width:1200px;margin:0 auto;padding:18px}
-    /* NAV */
-    .nav{position:sticky;top:0;z-index:10;background:#0e1525;border-bottom:1px solid #1e2a44}
-    .nav .row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 20px}
-    .brand{display:flex;align-items:center;gap:10px;font-weight:800;color:#fff}
-    .brand img{height:28px;width:auto}
-    .brand small{background:#0b1220;border:1px solid #1e2a44;padding:2px 8px;border-radius:999px;color:#22d3ee}
-    .menu{display:flex;gap:8px;flex-wrap:wrap}
-    .menu a{padding:8px 14px;border:1px solid transparent;border-radius:10px;color:#cfe0ff;transition:.2s;text-decoration:none}
-    .menu a:hover{background:rgba(255,255,255,.08)}
-    .menu a.active{background:linear-gradient(135deg,#22d3ee,#60a5fa);color:#001428;font-weight:600}
-    /* PAGE */
-    h1{margin:8px 0 14px 0}
-    .header{background:linear-gradient(180deg,#0b1324,#0b1220);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px;margin-top:24px}
-    .muted{color:var(--muted)}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:16px}
-    .card{background:#0f172a;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px;box-shadow:0 10px 26px rgba(0,0,0,.45)}
-    .tag{display:inline-block;font-size:12px;padding:4px 8px;border-radius:999px;background:rgba(34,211,238,.12);border:1px solid #22d3ee;color:#aaf}
-    .filters{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
-    input[type="search"],select{background:#0a0f19;border:1px solid #274162;border-radius:10px;color:#e6f6ff;padding:10px 12px}
-    .small{font-size:12px;color:#9cc}
-  </style>
 </head>
 <body>
-  <!-- ===== Console Sistema (SC TIPS) ===== -->
-<div id="sc-console" class="sc-card">
-  <div class="sc-console-header">
-    <div class="sc-title">🖥️ Console Sistema</div>
-    <div class="sc-tools">
-      <button class="sc-btn" id="sc-btn-clear">🧹 Limpar</button>
-      <button class="sc-btn" id="sc-btn-export">⬇️ Exportar TXT</button>
-      <label class="sc-toggle"><input type="checkbox" id="sc-auto" /> Auto.scroll</label>
-      <label class="sc-toggle"><input type="checkbox" id="sc-sound" /> Som</label>
-      <input id="sc-search" class="sc-input" type="text" placeholder="Pesquisar logs…" />
+
+<!-- NAV -->
+<div class="nav">
+  <div class="row wrap">
+    <div class="brand">
+      <img src="logo.png" alt="SC Tips Logo"/>
+      <span>SC TIPS</span><small>VIP</small>
     </div>
+    <nav class="menu">
+      <a href="index.html">Home</a>
+      <a href="estrategias.html" class="active">Estratégias</a>
+      <a href="matrix-premium.html">Matrix Premium</a>
+      <a href="puxadores.html">Puxadores Live</a>
+      <a href="contato.html">Contato</a>
+    </nav>
   </div>
-  <div id="sc-stream" class="sc-stream"></div>
 </div>
-<!-- ===== fim Console ===== -->
 
-<style>
-  /* estilos do console */
-  .sc-card{background:#0b1220;border:1px solid #3b2f0a;border-radius:16px;
-           padding:14px;margin:22px 0;box-shadow:inset 0 0 0 1px #171103}
-  .sc-console-header{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
-  .sc-title{font:700 22px/1.2 Inter,system-ui;color:#ffd873;text-shadow:0 0 8px rgba(255,215,115,.25)}
-  .sc-tools{display:flex;gap:8px;align-items:center;margin-left:auto}
-  .sc-btn{background:#1a1530;border:1px solid #4b3b12;color:#e9f3ff;border-radius:10px;
-         padding:8px 12px;cursor:pointer}
-  .sc-btn:hover{background:#231a42}
-  .sc-toggle{display:inline-flex;gap:6px;align-items:center;color:#d9e3ff;font-size:14px;background:#11182a;
-             border:1px solid #2b223f;padding:7px 10px;border-radius:999px}
-  .sc-input{background:#0c1324;border:1px solid #24314d;border-radius:10px;padding:8px 10px;color:#e6f6ff;min-width:220px}
-  .sc-stream{max-height:360px;overflow:auto;background:linear-gradient(180deg,#0c1018,#0a0f14);
-             border:1px solid #0a350a;border-radius:12px;padding:8px 6px}
-  .sc-row{display:flex;gap:8px;align-items:center;background:#082b08;border:1px solid #0da10d;
-         border-radius:10px;margin:6px;padding:8px 10px;color:#c8ffd0}
-  .sc-time{font-family:ui-monospace,Consolas,monospace;color:#90ff97;background:#051d05;border-radius:6px;
-           padding:2px 6px;border:1px solid #0a350a}
-  .sc-tag{font-weight:700;color:#171103;background:#ffd873;border:1px solid #ffb300;border-radius:10px;
-          padding:3px 8px}
-  .sc-msg{flex:1}
-  .sc-cat{font-family:ui-monospace,monospace;color:#79ff85}
-  .sc-STRATEGY{background:#2d260b;border-color:#a98000;color:#ffeab3}
-  .sc-PREDICT{background:#2d0b0b;border-color:#a40000;color:#ffc6c6}
-  .sc-SYSTEM{background:#0b1f2d;border-color:#1f78a1;color:#c7ecff}
-  .sc-ENGINE{background:#0b2d24;border-color:#15a17f;color:#bcfff0}
-  .sc-USER{background:#26112f;border-color:#8c2bb8;color:#f0caff}
-  .sc-DEMO{background:#272707;border-color:#a3a314;color:#fffec2}
-</style>
-  <!-- NAV -->
-  <div class="nav">
-    <div class="row wrap">
-      <div class="brand"><img src="logo.png" alt="SC Tips Logo"/><span>SC TIPS</span><small>VIP</small></div>
-      <nav class="menu">
-        <a href="index.html">Home</a>
-        <a href="estrategias.html" class="active">Estratégias</a>
-        <a href="matrix-premium.html">Matrix Premium</a>
-        <a href="puxadores.html">Puxadores Live</a>
-        <a href="contato.html">Contatos</a>
-      </nav>
-    </div>
-  </div>
+<div class="wrap">
 
-  <div class="wrap">
-    <div class="header">
-      <h1>🎯 Estratégias SC TIPS — 23 Padrões (Atualizadas)</h1>
-      <div class="muted">Visual Matrix no estilo preto/dourado. Filtre, pesquise e veja os detalhes corrigidos de cada padrão.</div>
-      <div class="filters">
-        <input id="q" type="search" placeholder="Pesquisar por nome, gatilho, base…" oninput="render()" />
-        <select id="viz" onchange="render()">
-          <option value="">Vizinhos (todos)</option>
-          <option value="0">0 viz.</option><option value="1">1 viz.</option>
-          <option value="2">2 viz.</option><option value="3">3 viz.</option>
-        </select>
-        <button onclick="resetFilters()">Limpar filtros</button>
+  <!-- STATUS / MOTOR -->
+  <div class="panel hi" id="statusBox">
+    <div class="row" style="margin-bottom:10px">
+      <h2 style="margin:0">🎯 Estratégias — Motor</h2>
+      <span class="pill badge" id="pillState">standby</span>
+      <span class="pill">última: <b id="pillLast">—</b></span>
+      <span class="pill">cadência: <b>18s</b></span>
+      <div class="row" style="margin-left:auto">
+        <button class="btn primary" id="btnStart">▶ Iniciar</button>
+        <button class="btn alt" id="btnPause">⏸ Pausar</button>
+        <button class="btn alt" id="btnReset">↻ Reset</button>
       </div>
     </div>
 
-    <div id="cards" class="grid"></div>
-    <div class="small" style="margin-top:12px">© 2025 SC TIPS — Catálogo informativo.</div>
+    <div class="row" style="margin-bottom:10px">
+      <label class="pill"><input id="chkSync" type="checkbox" checked style="accent-color:#22d3ee"> Sync ao receber número</label>
+      <label class="pill"><input id="chkAuto" type="checkbox" checked style="accent-color:#22d3ee"> Auto Mode</label>
+      <button class="btn" id="btnSim">🎲 Simular número</button>
+    </div>
+
+    <div class="row">
+      <div class="pill">Spins: <b id="kSpins">0</b></div>
+      <div class="pill">Hits: <b id="kHits">0</b></div>
+      <div class="pill">Miss: <b id="kMiss">0</b></div>
+      <div class="pill">Taxa: <b id="kRate">0%</b></div>
+    </div>
+
+    <div class="panel" style="margin-top:12px">
+      <div style="opacity:.8;margin-bottom:8px">Últimos números (clique para repetir):</div>
+      <div class="chips" id="chips"></div>
+    </div>
   </div>
 
-<script>
-const ESTRATEGIAS = [
-  {id:1,nome:"Elite 2X",gatilho:"Terminal 4 ou 5",base:[2,12,22,32],viz:2,nota:"Clássico 2X; proteger 2 vizinhos."},
-  {id:2,nome:"Quarta Dimensão",gatilho:"Terminal 1 ou 3",base:[4,14,24,34],viz:2,nota:"Múltiplos de 10 + 4."},
-  {id:3,nome:"Fórmula 5X",gatilho:"Terminal 6 ou 8",base:[5,15,25,35],viz:2,nota:"Sequência de finais 5."},
-  {id:4,nome:"Alpha 6",gatilho:"Terminal 2 ou 9",base:[6,16,26,36],viz:2,nota:"Linha dos finais 6."},
-  {id:5,nome:"Padrão Black",gatilho:"Saída de 13, 31 ou 33",base:[13,31,33],viz:2,nota:"Ajuste vizinhos se mesa lenta."},
-  {id:6,nome:"Triângulo Vermelho",gatilho:"Saída de 9, 27 ou 30",base:[9,27,30],viz:2,nota:"Comportamento triangular."},
-  {id:7,nome:"Coluna de Ouro",gatilho:"Saída em Coluna 1",base:[1,4,7,10,13,16,19,22,25,28,31,34],viz:1,nota:"Exemplo."},
-  {id:8,nome:"Coluna de Prata",gatilho:"Saída em Coluna 2",base:[2,5,8,11,14,17,20,23,26,29,32,35],viz:1,nota:"Exemplo."},
-  {id:9,nome:"Coluna de Bronze",gatilho:"Saída em Coluna 3",base:[3,6,9,12,15,18,21,24,27,30,33,36],viz:1,nota:"Exemplo."},
-  {id:10,nome:"Proteção Zero",gatilho:"Zero ausente",base:[0],viz:1,nota:"Cap k=1."},
-  {id:11,nome:"Cavalos 258",gatilho:"Padrão 2-5-8",base:[2,5,8],viz:1},
-  {id:12,nome:"Cavalos 369",gatilho:"Padrão 3-6-9",base:[3,6,9],viz:1},
-  {id:13,nome:"Dúzia 1",gatilho:"Fora da 1ª dúzia",base:[1,2,3,4,5,6,7,8,9,10,11,12],viz:0},
-  {id:14,nome:"Dúzia 2",gatilho:"Fora da 2ª dúzia",base:[13,14,15,16,17,18,19,20,21,22,23,24],viz:0},
-  {id:15,nome:"Dúzia 3",gatilho:"Fora da 3ª dúzia",base:[25,26,27,28,29,30,31,32,33,34,35,36],viz:0},
-  {id:16,nome:"Vizinhos 1",gatilho:"A partir do último",base:["k=1 do último"],viz:1},
-  {id:17,nome:"Vizinhos 2",gatilho:"A partir do último",base:["k=2 do último"],viz:2},
-  {id:18,nome:"Repetição",gatilho:"Eco do último",base:["último nº"],viz:0},
-  {id:19,nome:"Puxadores",gatilho:"Nºs que se puxam",base:["mapeados"],viz:1},
-  {id:20,nome:"Pattern Breaker",gatilho:"Sequência longa de cor",base:["oposto"],viz:0},
-  {id:21,nome:"Hot",gatilho:"Mais frequente",base:["vizinhos do hot"],viz:1},
-  {id:22,nome:"Cold",gatilho:"Menos frequente",base:["vizinhos do cold"],viz:2},
-  {id:23,nome:"Final Manual",gatilho:"Ativação manual",base:["nº escolhido"],viz:0},
-];
-const $=(s)=>document.querySelector(s);
-function matchesQuery(it,q){if(!q)return true;const h=(it.nome+' '+it.gatilho+' '+(it.base||[]).join(',')+' '+(it.nota||'')).toLowerCase();return h.includes(q.toLowerCase());}
-function matchesViz(it,v){return !v||String(it.viz)===String(v);}
-function chip(v){return Array.isArray(v)?v.join(', '):String(v);}
-function render(){
-  const q=$('#q').value.trim(), v=$('#viz').value, box=$('#cards'); box.innerHTML='';
-  const data=ESTRATEGIAS.filter(it=>matchesQuery(it,q)&&matchesViz(it,v));
-  if(!data.length){box.innerHTML='<div class="card"><b>Nenhum resultado</b><br><span class="muted">Ajuste os filtros.</span></div>';return;}
-  data.forEach(it=>{
-    const el=document.createElement('div');el.className='card';
-    el.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center">
-      <div><b>${it.id}. ${it.nome}</b></div><span class="tag">${it.viz} viz.</span></div>
-      <div style="margin-top:6px"><b>Gatilho:</b> ${it.gatilho}</div>
-      <div><b>Números base:</b> ${chip(it.base)}</div>
-      ${it.nota?`<div class="muted" style="margin-top:6px">${it.nota}</div>`:''}`;
-    box.appendChild(el);
-  });
-}
-function resetFilters(){$('#q').value='';$('#viz').value='';render();}
-render();
-</script>
-   <!-- sons SC TIPS -->
-  <style> ... </style>
-  <button id="sndToggle" class="snd-btn">🔊 Som ON</button>
-  <script> ... </script>
-<!-- Sons Globais SC TIPS -->
+  <!-- CONSOLE -->
+  <div class="panel console" id="consoleBox">
+    <div class="toolbar">
+      <button class="btn warn" id="btnClear">🪄 Limpar</button>
+      <button class="btn alt" id="btnExport">⬇ Exportar TXT</button>
+      <label class="pill"><input id="chkScroll" type="checkbox" checked style="accent-color:#22d3ee"> Auto.scroll</label>
+      <label class="pill"><input id="chkSound" type="checkbox" checked style="accent-color:#22d3ee"> Som</label>
+      <input type="text" id="searchLog" placeholder="Pesquisar logs…">
+    </div>
+    <div id="logs"></div>
+  </div>
+
+  <!-- CONTROLES DE ESTRATÉGIAS -->
+  <div class="panel">
+    <h3 style="margin:0 0 10px 0">🎯 Estratégias SC TIPS — 23 Padrões (Atualizadas)</h3>
+    <div class="row" style="margin-bottom:8px">
+      <button class="btn" id="btnAll">✅ Todas</button>
+      <button class="btn" id="btnBest">🎯 Ótimas</button>
+      <button class="btn" id="btnNone">❌ Limpar</button>
+    </div>
+
+    <div class="grid g-2" id="estrGrid"></div>
+  </div>
+
+</div>
+
+<!-- Sons globais (usa sua pasta ./sounds) -->
 <audio id="snd-green" src="./sounds/green.mp3" preload="auto"></audio>
-<audio id="snd-red" src="./sounds/red.mp3" preload="auto"></audio>
-<audio id="snd-alerta" src="./sounds/alerta.mp3" preload="auto"></audio>
-<audio id="snd-click" src="./sounds/click.mp3" preload="auto"></audio>
+<audio id="snd-red"   src="./sounds/red.mp3"   preload="auto"></audio>
+<audio id="snd-alert" src="./sounds/alerta.mp3" preload="auto"></audio>
+<audio id="snd-click" src="./sounds/click.mp3"  preload="auto"></audio>
 
 <script>
-  // Funções rápidas para tocar sons
-  function playGreen(){ 
-    document.getElementById("snd-green").currentTime = 0;
-    document.getElementById("snd-green").play(); 
-  }
-  function playRed(){ 
-    document.getElementById("snd-red").currentTime = 0;
-    document.getElementById("snd-red").play(); 
-  }
-  function playAlerta(){ 
-    document.getElementById("snd-alerta").currentTime = 0;
-    document.getElementById("snd-alerta").play(); 
-  }
-  function playClick(){ 
-    document.getElementById("snd-click").currentTime = 0;
-    document.getElementById("snd-click").play(); 
-  }
-</script>
-  <script>
-/* ===== Estratégias • Live controls (18s) ===== */
-const STR_CAD_MS = 18000;
-let str_running   = true;           // começa ligado
-let str_lastLive  = 0;
-let str_cadStart  = Date.now();
-let str_spins = 0, str_hits = 0, str_miss = 0;
-
-const PULLERS = window.PULLERS || {
-  0:[10,20,30],1:[17,7],2:[2,22],3:[3,33],4:[21,9],5:[25,15,35],6:[20,17,7],7:[7,17,20],
-  8:[30,0,20],9:[9,19],10:[0,20,30],11:[30,0,20],12:[33,15],13:[20,7],14:[17,7],15:[9,5,35],
-  16:[3,33],17:[17,20,7],18:[2,22],19:[19,9],20:[17,7],21:[2,22],22:[2,22],23:[0,10],
-  24:[35,15,25],25:[20,22],26:[0,10,30],27:[17,7,20],28:[7,17,20],29:[7,17,20],30:[0,20,30],
-  31:[9,19],32:[0,10,20,30],33:[3,33],34:[7,20],35:[3,33,15],36:[20,30]
-};
+/* ======= UTIL ======= */
 const WHEEL = [0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
-const isRed = new Set([1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);
-const inRange = (n)=>Number.isInteger(n)&&n>=0&&n<=36;
+const red = new Set([1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);
+const inRange = n => Number.isInteger(n)&&n>=0&&n<=36;
+const nowHMS = ()=> new Date().toTimeString().slice(0,8);
+const el = id => document.getElementById(id);
+const logBox = el('logs');
 
-let str_base = 17;
-let str_viz = 2;
-let str_activeSignal = null;
-
-// refs
-const $ = (id)=>document.getElementById(id);
-const elLast  = $('str-lastAgo'), elLeft=$('str-cadLeft'), elBar=$('str-cadBar'), elBadge=$('str-liveBadge');
-const elBase  = $('str-base'), elPux=$('str-pux'), elViz=$('str-viz'), elSpins=$('str-spins'), elHits=$('str-hits'), elMiss=$('str-miss'), elRate=$('str-rate');
-const cbSync  = $('str-sync'), cbAuto=$('str-auto');
-const bStart  = $('str-btnStart'), bPause=$('str-btnPause'), bReset=$('str-btnReset'), bSim=$('str-btnSim');
-
-// console helpers (seu console já deve ter essas globals; se não, tratamos)
-const logBus = window.SC_LOG || ((msg,tag='system',ok=true)=>{
-  // fallback simples
-  console.log(`[${tag}] ${msg}`);
-});
-
-// ===== live/standby badge
-function setBadge(live){
-  elBadge.textContent = live ? 'LIVE' : 'standby';
-  elBadge.classList.toggle('live', live);
-  elBadge.classList.toggle('standby', !live);
+function pushChip(n){
+  const d=document.createElement('div');
+  d.className='chip '+(n===0?'green':(red.has(n)?'red':'black'));
+  d.textContent=n; d.title='Repetir '+n;
+  d.onclick=()=>ingest({number:n, platform:'Manual'});
+  el('chips').prepend(d);
+  while(el('chips').children.length>36) el('chips').lastChild.remove();
 }
 
-// ===== heurística de vizinhos (dispersão)
-function autoNeighbors(history){
-  const recent = history.slice(-18);
-  if (recent.length < 6) return 2;
-  let colorSwitch=0, step=0;
-  for (let i=1;i<recent.length;i++){
-    const a=recent[i-1], b=recent[i];
-    if (!inRange(a)||!inRange(b)) continue;
-    const ca= a===0?'G':(isRed.has(a)?'R':'B');
-    const cb= b===0?'G':(isRed.has(b)?'R':'B');
-    if (ca!==cb) colorSwitch++;
-    const ia=WHEEL.indexOf(a), ib=WHEEL.indexOf(b);
-    const raw=Math.abs(ia-ib); step += Math.min(raw, WHEEL.length-raw);
+/* ======= CONSOLE ======= */
+function addLog(kind,msg,extra=''){
+  const q = document.createElement('div');
+  q.className='log '+kind+(kind==='predict'&&/Hit/.test(msg)?'':'');
+  q.dataset.kind=kind;
+  q.innerHTML = `<span class="time">[${nowHMS()}]</span> ${msg} ${extra?`<span class="tag">${extra}</span>`:''}`;
+  logBox.appendChild(q);
+  // filtro
+  const term = el('searchLog').value.trim().toLowerCase();
+  if(term){ q.style.display = q.textContent.toLowerCase().includes(term)?'':'none'; }
+  if(el('chkScroll').checked) q.scrollIntoView({behavior:'smooth',block:'end'});
+  if(el('chkSound').checked){
+    if(kind==='predict' && /Hit/.test(msg)) el('snd-green').play().catch(()=>{});
+    else if(kind==='predict' && /Miss/.test(msg)) el('snd-red').play().catch(()=>{});
+    else if(kind==='engine') el('snd-alert').play().catch(()=>{});
   }
-  const avg = step/Math.max(1,recent.length-1);
-  if (avg>=8 || colorSwitch>=10) return 3;
-  if (avg>=5 || colorSwitch>=7)  return 2;
-  return 1;
 }
-
-// ===== quando chega número (do feed ou simulado)
-function STR_onNumber(n){
-  str_lastLive = Date.now();
-  str_cadStart = str_lastLive;
-  setBadge(true);
-
-  str_spins++; elSpins.textContent = str_spins;
-
-  // sinal ativo bateu?
-  if (str_activeSignal){
-    const neigh = new Set(getNeighbors(str_activeSignal.base, str_activeSignal.viz));
-    const hit = (n===str_activeSignal.base) || neigh.has(n);
-    if (hit){ str_hits++; str_activeSignal=null; logBus('✔ Hit nas vizinhanças/base','PREDICT',true); playGlobal('green'); }
-    else if (++str_activeTicks >= 18){ str_miss++; str_activeSignal=null; logBus('✖ Miss após vigência','PREDICT',false); playGlobal('red'); }
-  }
-  elHits.textContent = str_hits; elMiss.textContent = str_miss;
-  elRate.textContent = ((str_hits/Math.max(1,(str_hits+str_miss)))*100).toFixed(0)+'%';
+el('btnClear').onclick=()=>{ logBox.innerHTML=''; }
+el('btnExport').onclick=()=>{
+  const txt=[...logBox.querySelectorAll('.log')].map(x=>x.innerText).join('\n');
+  const blob=new Blob([txt],{type:'text/plain'}), url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download=`SC_TIPS_Logs_${Date.now()}.txt`; a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
-
-// vizinhos util
-function getNeighbors(number, count){
-  if (!inRange(number) || count<=0) return [];
-  const idx = WHEEL.indexOf(number);
-  if (idx===-1) return [];
-  const res=[]; for (let i=1;i<=count;i++){ res.push(WHEEL[(idx-i+WHEEL.length)%WHEEL.length]); res.push(WHEEL[(idx+i)%WHEEL.length]); }
-  return res;
-}
-
-// ===== motor auto (a cada ciclo decide base/vizinhos e arma um sinal)
-let str_activeTicks = 0;
-function STR_cycle(history){
-  if (!str_running) return;
-  const last = history[history.length-1];
-  // base candidata: se há last, escolha um dos puxadores dele; senão mantenha
-  let cand = inRange(last) ? (PULLERS[last]||[])[0] : str_base;
-  if (!inRange(cand)) cand = str_base;
-
-  // vizinhos dinâmicos
-  if (cbAuto.checked) str_viz = autoNeighbors(history);
-  elViz.textContent = str_viz;
-
-  // aplica
-  str_base = cand; elBase.textContent = str_base;
-  const pux = PULLERS[str_base]||[]; elPux.textContent = pux.join(', ')||'—';
-
-  // arma sinal (vigência até 18 spins)
-  str_activeSignal = { base:str_base, viz:str_viz }; str_activeTicks = 0;
-  logBus(`Sinal armado • Base ${str_base} • ${str_viz} viz. • pux ${pux.join(', ')}`,'ENGINE',true);
-  playGlobal('alerta');
-}
-
-// ===== loop visual cadência + standby
-setInterval(()=>{
-  const now = Date.now();
-
-  // “última”
-  const ago = str_lastLive ? Math.round((now - str_lastLive)/1000) : null;
-  elLast.textContent = (ago==null) ? '—' : (ago+'s');
-  setBadge(ago!=null && ago<30);
-
-  // cadência
-  const elapsed = (now - str_cadStart) % STR_CAD_MS;
-  const remain  = STR_CAD_MS - elapsed;
-  elLeft.textContent = Math.ceil(remain/1000) + 's';
-  elBar.style.width = (elapsed/STR_CAD_MS*100) + '%';
-
-  // quando vira o ciclo e Auto Mode ligado → dispara análise
-  if (cbAuto.checked && elapsed < 900){   // janela de troca
-    // use o histórico global, se existir; senão, mantenha um local simples
-    const hist = (window.SC_HISTORY && SC_HISTORY.length) ? SC_HISTORY.slice() : (window._strHist||[]);
-    STR_cycle(hist);
-  }
-}, 200);
-
-// ===== hooks nos botões
-bStart.onclick = ()=>{ str_running = true; logBus('Iniciado','system',true); };
-bPause.onclick = ()=>{ str_running = false; logBus('Pausado','system',true); };
-bReset.onclick = ()=>{
-  str_running=true; str_spins=str_hits=str_miss=0;
-  elSpins.textContent=0; elHits.textContent=0; elMiss.textContent=0; elRate.textContent='0%';
-  str_cadStart = Date.now(); str_activeSignal=null; logBus('Reset','system',true);
-};
-bSim.onclick = ()=>{
-  const n = Math.floor(Math.random()*37);
-  // registra em um histórico local para o auto mode (se não existe global)
-  window._strHist = (window._strHist||[]); window._strHist.push(n); if (window._strHist.length>300) window._strHist.shift();
-  STR_onNumber(n);
-  if (typeof window.handleInbound === 'function'){
-    window.handleInbound({ number:n, platform:'Sim' }, 'SIM'); // mantém tudo em sincronia
-  }
+el('searchLog').oninput=()=>{
+  const term=el('searchLog').value.toLowerCase();
+  [...logBox.children].forEach(x=> x.style.display = x.textContent.toLowerCase().includes(term)?'':'none');
 };
 
-// ===== integra ao seu handler real (para Sync ao receber número)
-(function wrapInbound(){
-  const orig = window.handleInbound;
-  window.handleInbound = function(payload, via){
-    if (typeof orig === 'function') orig(payload, via);
-    if (!cbSync.checked) return;
-    let n=null;
-    if (typeof payload==='number') n=payload;
-    else if (payload&&typeof payload==='object'&&Number.isInteger(payload.number)) n=payload.number;
-    if (inRange(n)){
-      // empilha no histórico global, se existir, senão local
-      if (window.SC_HISTORY) SC_HISTORY.push(n);
-      else{ window._strHist = (window._strHist||[]); window._strHist.push(n); if (window._strHist.length>300) window._strHist.shift(); }
-      STR_onNumber(n);
-    }
-  }
-})();
+/* ======= ESTRATÉGIAS (23) ======= */
+/* Cada estratégia define: id, nome, “tier” (otimas/normal), e um método predict(history)
+   → retorna até 8 números sugeridos. (Heurísticas simples, mas independentes do Live). */
+const STRATS = [
+  {id:'elite2x', nome:'Elite 2X', tier:'otima',
+    predict:(H)=> pickEnds([2,12,22,32],H)},
+  {id:'quarta', nome:'Quarta Dimensão', tier:'otima',
+    predict:(H)=> add10plus4([4,14,24,34])},
+  {id:'formula5x', nome:'Fórmula 5X', tier:'otima',
+    predict:(H)=> pickEnds([5,15,25,35],H)},
+  {id:'alpha6', nome:'Alpha 6', tier:'otima',
+    predict:(H)=> pickEnds([6,16,26,36],H)},
+  {id:'black', nome:'Padrão Black', tier:'normal',
+    predict:(H)=> H.length? neighbors(H.at(-1),2):[]},
+  {id:'triVerm', nome:'Triângulo Vermelho', tier:'normal',
+    predict:(H)=> reds()},
+  {id:'colOuro', nome:'Coluna de Ouro', tier:'otima',
+    predict:(H)=> coluna(1)},
+  {id:'colPrata', nome:'Coluna de Prata', tier:'normal',
+    predict:(H)=> coluna(2)},
+  {id:'colBronze', nome:'Coluna de Bronze', tier:'normal',
+    predict:(H)=> coluna(3)},
+  {id:'protZero', nome:'Proteção Zero', tier:'normal',
+    predict:(H)=> [0]},
+  {id:'cavalo', nome:'Cavalo SC', tier:'otima',
+    predict:(H)=> cavalo(H)},
+  {id:'pad258', nome:'Cavalos 258', tier:'normal',
+    predict:(H)=> [2,5,8]},
+  {id:'pad369', nome:'Cavalos 369', tier:'normal',
+    predict:(H)=> [3,6,9]},
+  {id:'pattern', nome:'Pattern Breaker', tier:'normal',
+    predict:(H)=> breakPattern(H)},
+  {id:'cores', nome:'Predição de Cores', tier:'normal',
+    predict:(H)=> colorBias(H)},
+  {id:'hotcold', nome:'Hot/Cold', tier:'normal',
+    predict:(H)=> hotCold(H)},
+  {id:'rep', nome:'Caçador de Repetições', tier:'normal',
+    predict:(H)=> repeats(H)},
+  {id:'tiro', nome:'Tiro Seco SC', tier:'otima',
+    predict:(H)=> H.length?[H.at(-1)]:[]},
+  {id:'sector', nome:'Sector Target SC', tier:'otima',
+    predict:(H)=> sectorFrom(H)},
+  {id:'fixos', nome:'Fixos (0 + finais)', tier:'normal',
+    predict:(H)=> [0,10,20,30]},
+  {id:'duzias', nome:'Dúzias & Colunas', tier:'normal',
+    predict:(H)=> dozenColumnMix(H)},
+  {id:'time', nome:'Time Window (High/Low)', tier:'normal',
+    predict:(H)=> highLow(H)},
+  {id:'dealer', nome:'Troca de Dealer', tier:'normal',
+    predict:(H)=> dealerShift(H)},
+];
 
-// ===== sons/console default: deixa Auto-scroll + Som ligados
-document.addEventListener('DOMContentLoaded', ()=>{
-  try{
-    const chkAuto = document.querySelector('#console-autoscroll input, [data-console="autoscroll"] input');
-    const chkSom  = document.querySelector('#console-sound input, [data-console="sound"] input');
-    if (chkAuto){ chkAuto.checked = true; if (typeof window.SC_setAutoscroll==='function') SC_setAutoscroll(true); }
-    if (chkSom ){ chkSom.checked  = true; if (typeof window.SC_setSound==='function') SC_setSound(true); }
-  }catch{}
-});
-
-// ===== tocar sons globais (usa os ids do seu /sounds/*.mp3)
-function playGlobal(kind){
-  try{
-    const map = { green:'snd-green', red:'snd-red', alerta:'snd-alerta', click:'snd-click' };
-    const el = document.getElementById(map[kind]);
-    if (el){ el.currentTime = 0; el.play().catch(()=>{}); }
-  }catch{}
+/* Heurísticas auxiliares bem levinhas */
+function pickEnds(arr,H){ return arr.slice(0,8); }
+function add10plus4(arr){ return arr.slice(0,8); }
+function reds(){ return [...red].slice(0,8); }
+function coluna(k){ // 1..3
+  const all=Array.from({length:36},(_,i)=>i+1).filter(n=> (n%3||3)===k%3);
+  return all.slice(0,8);
 }
-  </script>
-  <script>
-(function(){
-  "use strict";
+function neighbors(n,k){ if(!inRange(n))return[]; const i=WHEEL.indexOf(n);const out=[];
+  for(let j=1;j<=k;j++){ out.push(WHEEL[(i-j+WHEEL.length)%WHEEL.length]); out.push(WHEEL[(i+j)%WHEEL.length]); }
+  return out.slice(0,8);
+}
+function cavalo(H){ // dois próximos na roda do último conhecido
+  if(!H.length) return [];
+  return neighbors(H.at(-1),1);
+}
+function breakPattern(H){
+  const last8=H.slice(-8); // se repetiu cor muitas vezes, inverte
+  const redsC=last8.filter(n=>red.has(n)).length;
+  if(redsC>=6) return Array.from({length:18},(_,i)=>i*2+2).slice(0,8); // muitos vermelhos → sugere pretos pares
+  return [];
+}
+function colorBias(H){
+  const last12=H.slice(-12), r=last12.filter(n=>red.has(n)).length;
+  if(r>=8) return Array.from({length:18},(_,i)=>i*2+2).slice(0,8);
+  if(r<=4) return Array.from({length:18},(_,i)=>i*2+1).slice(0,8);
+  return [];
+}
+function hotCold(H){
+  const cnt=new Map(); H.forEach(n=>cnt.set(n,(cnt.get(n)||0)+1));
+  const sorted=[...cnt.entries()].sort((a,b)=>b[1]-a[1]).map(v=>v[0]);
+  return (sorted.slice(0,8).length?sorted.slice(0,8):[]);
+}
+function repeats(H){ const a=H.at(-1),b=H.at(-2); return (a===b && inRange(a))?[a]:[]; }
+function sectorFrom(H){ if(!H.length) return []; return neighbors(H.at(-1),2); }
+function dozenColumnMix(H){
+  // pega a dúzia/coluna mais presente nos últimos 12 e retorna 8 representativos
+  const last=H.slice(-12).filter(inRange);
+  if(!last.length) return [];
+  const dozen=[0,0,0]; last.forEach(n=>{ const d=Math.floor((n-1)/12); if(d>=0) dozen[d]++; });
+  const best = dozen.indexOf(Math.max(...dozen))+1; // 1..3
+  const arr=Array.from({length:36},(_,i)=>i+1).filter(n=> Math.ceil(n/12)===best);
+  return arr.slice(0,8);
+}
+function highLow(H){
+  const last=H.slice(-12).filter(inRange);
+  const lows=last.filter(n=>n<=18).length, highs=last.length-lows;
+  return (highs>lows)? Array.from({length:18},(_,i)=>i+19).slice(0,8)
+                     : Array.from({length:18},(_,i)=>i+1).slice(0,8);
+}
+function dealerShift(H){ // sem feed de dealer, usa pulo grande na roda como proxy
+  if(H.length<2) return [];
+  const a=H.at(-2), b=H.at(-1);
+  const ia=WHEEL.indexOf(a), ib=WHEEL.indexOf(b);
+  const step=Math.min(Math.abs(ia-ib),WHEEL.length-Math.abs(ia-ib));
+  return step>=10 ? neighbors(b,2) : [];
+}
 
-  // --- util DOM
-  const $ = id => document.getElementById(id);
-
-  // --- elementos
-  const elBadge=$('str-badge'), elLast=$('str-last'), elLeft=$('str-left'), elBar=$('str-bar');
-  const bStart=$('str-start'), bPause=$('str-pause'), bReset=$('str-reset'), bSim=$('str-sim');
-  const cbSync=$('str-sync'), cbAuto=$('str-auto');
-  const elBase=$('str-base'), elPux=$('str-pux'), elViz=$('str-viz');
-  const elSpins=$('str-spins'), elHits=$('str-hits'), elMiss=$('str-miss'), elRate=$('str-rate');
-
-  // --- constantes
-  const CAD_MS = 18000;
-  const WHEEL=[0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
-  const isRed=new Set([1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);
-  const inRange=n=>Number.isInteger(n)&&n>=0&&n<=36;
-
-  // --- Puxadores (mesma tabela usada nos outros)
-  const PULLERS = window.PULLERS || {
-    0:[10,20,30],1:[17,7],2:[2,22],3:[3,33],4:[21,9],5:[25,15,35],6:[20,17,7],7:[7,17,20],
-    8:[30,0,20],9:[9,19],10:[0,20,30],11:[30,0,20],12:[33,15],13:[20,7],14:[17,7],15:[9,5,35],
-    16:[3,33],17:[17,20,7],18:[2,22],19:[19,9],20:[17,7],21:[2,22],22:[2,22],23:[0,10],
-    24:[35,15,25],25:[20,22],26:[0,10,30],27:[17,7,20],28:[7,17,20],29:[7,17,20],30:[0,20,30],
-    31:[9,19],32:[0,10,20,30],33:[3,33],34:[7,20],35:[3,33,15],36:[20,30]
-  };
-
-  // --- estado
-  let running = true;            // começa ligado
-  let cadStart = Date.now();
-  let lastLiveAt = 0;
-  let spins=0,hits=0,miss=0;
-  let base=17, viz=2;
-  let activeSignal = null, ticks=0;
-
-  // históricos
-  const H = { local: [] }; // fallback se não houver SC_HISTORY
-
-  // --- console/som helpers (usam seu console se existir)
-  const LOG = (msg, tag='system', ok=true)=>{
-    if (typeof window.SC_LOG === 'function') return window.SC_LOG(msg, tag, ok);
-    // fallback simples:
-    console.log(`[${tag}] ${msg}`);
-  };
-  const play = (kind)=>{
-    const map={green:'snd-green', red:'snd-red', alerta:'snd-alerta', click:'snd-click'};
-    const el=document.getElementById(map[kind]); if (el){ try{ el.currentTime=0; el.play(); }catch{} }
-  };
-
-  // --- UI helpers
-  function setBadge(live){
-    elBadge.textContent = live ? 'LIVE' : 'standby';
-    elBadge.classList.toggle('live', live);
-    elBadge.classList.toggle('standby', !live);
-  }
-  function uiStats(){
-    elSpins.textContent=spins;
-    elHits.textContent=hits;
-    elMiss.textContent=miss;
-    elRate.textContent=((hits/Math.max(1,hits+miss))*100).toFixed(0)+'%';
-    elBase.textContent=base;
-    elViz.textContent=viz;
-    elPux.textContent=(PULLERS[base]||[]).join(', ')||'—';
-  }
-
-  // --- vizinhos
-  function neighbors(n,c){
-    if (!inRange(n)||c<=0) return [];
-    const i=WHEEL.indexOf(n); if (i<0) return [];
-    const out=[]; for(let k=1;k<=c;k++){ out.push(WHEEL[(i-k+WHEEL.length)%WHEEL.length]); out.push(WHEEL[(i+k)%WHEEL.length]); }
-    return out;
-  }
-  function autoNeighbors(history){
-    const recent=history.slice(-18); if (recent.length<6) return 2;
-    let colorSwitch=0, step=0;
-    for(let i=1;i<recent.length;i++){
-      const a=recent[i-1], b=recent[i];
-      if(!inRange(a)||!inRange(b)) continue;
-      const ca=a===0?'G':(isRed.has(a)?'R':'B'); const cb=b===0?'G':(isRed.has(b)?'R':'B');
-      if(ca!==cb) colorSwitch++;
-      const ia=WHEEL.indexOf(a), ib=WHEEL.indexOf(b);
-      const raw=Math.abs(ia-ib); step += Math.min(raw, WHEEL.length-raw);
-    }
-    const avg=step/Math.max(1,recent.length-1);
-    if (avg>=8 || colorSwitch>=10) return 3;
-    if (avg>=5 || colorSwitch>=7)  return 2;
-    return 1;
-  }
-
-  // --- ciclo automático (a cada virada de 18s)
-  function onCycle(){
-    if (!running) return;
-    const hist = (window.SC_HISTORY && SC_HISTORY.length) ? SC_HISTORY.slice() : H.local.slice();
-    const last = hist[hist.length-1];
-    // base candidata: 1º puxador do último número; fallback mantém base
-    const cand = inRange(last) && (PULLERS[last]||[])[0] || base;
-    base = inRange(cand) ? cand : base;
-    if (cbAuto.checked) viz = autoNeighbors(hist);
-    activeSignal = { base, viz }; ticks=0;
-    uiStats();
-    LOG(`Sinal armado • Base ${base} • ${viz} viz. • pux ${ (PULLERS[base]||[]).join(', ') }`,'ENGINE',true);
-    play('alerta');
-  }
-
-  // --- chegada de número
-  function onNumber(n){
-    lastLiveAt = Date.now(); cadStart = lastLiveAt;
-    setBadge(true);
-    spins++; uiStats();
-
-    if (activeSignal){
-      const hit = (n===activeSignal.base) || (new Set(neighbors(activeSignal.base, activeSignal.viz))).has(n);
-      if (hit){ activeSignal=null; hits++; uiStats(); LOG(`✔ Hit: nº ${n} nas vizinhanças/base`,'PREDICT',true); play('green'); }
-      else if (++ticks >= 18){ activeSignal=null; miss++; uiStats(); LOG(`✖ Miss (vigência expirada)`,'PREDICT',false); play('red'); }
-    }
-  }
-
-  // --- integra ao handler real (se existir)
-  (function wrapInbound(){
-    const orig = window.handleInbound;
-    window.handleInbound = function(payload, via){
-      if (typeof orig === 'function') orig(payload, via);
-      if (!cbSync.checked) return;
-      let n=null;
-      if (typeof payload==='number') n=payload;
-      else if (payload && typeof payload==='object' && inRange(payload.number)) n=payload.number;
-      if (inRange(n)){
-        if (window.SC_HISTORY) SC_HISTORY.push(n);
-        else { H.local.push(n); if (H.local.length>300) H.local.shift(); }
-        onNumber(n);
-      }
+/* Monta grid de cards com checkbox */
+const estrSel=new Set(); // ids ativos
+function renderCards(){
+  const g=el('estrGrid'); g.innerHTML='';
+  STRATS.forEach(s=>{
+    const card=document.createElement('label');
+    card.className='estr';
+    card.innerHTML=`
+      <div class="row" style="justify-content:space-between">
+        <h4>${s.nome} ${s.tier==='otima'?'<span class="tag">ótima</span>':''}</h4>
+        <input type="checkbox" data-id="${s.id}" ${s.tier==='otima'?'checked':''} style="transform:scale(1.2)">
+      </div>
+      <small>ID: ${s.id}</small>
+    `;
+    g.appendChild(card);
+    if(s.tier==='otima') estrSel.add(s.id);
+    card.querySelector('input').onchange=(e)=>{
+      e.target.checked?estrSel.add(s.id):estrSel.delete(s.id);
     };
-  })();
-
-  // --- animação cadência + última + troca de ciclo
-  function tick(){
-    const now=Date.now();
-    // última
-    const ago = lastLiveAt ? Math.round((now-lastLiveAt)/1000) : null;
-    elLast.textContent = (ago==null)?'—':(ago+'s');
-    setBadge(ago!=null && ago<30);
-
-    // cadência
-    const elapsed = (now - cadStart) % CAD_MS;
-    const remain  = CAD_MS - elapsed;
-    elLeft.textContent = Math.ceil(remain/1000)+'s';
-    elBar.style.width = (elapsed/CAD_MS*100)+'%';
-
-    // se acabou de virar o ciclo, dispara análise
-    if (elapsed < 120){ onCycle(); }
-    requestAnimationFrame(tick);
-  }
-
-  // --- botões
-  bStart.addEventListener('click', ()=>{ running=true; LOG('Iniciado','system',true); });
-  bPause.addEventListener('click', ()=>{ running=false; LOG('Pausado','system',true); });
-  bReset.addEventListener('click', ()=>{
-    running=true; spins=hits=miss=0; uiStats();
-    activeSignal=null; ticks=0; cadStart=Date.now(); LOG('Reset','system',true);
   });
-  bSim.addEventListener('click', ()=>{
-    const n=Math.floor(Math.random()*37);
-    H.local.push(n); if (H.local.length>300) H.local.shift();
-    onNumber(n);
-    if (typeof window.SC_LOG==='function') LOG(`Número ${n} (sim)`,'DEMO',true);
+}
+renderCards();
+el('btnAll').onclick=()=>{estrSel.clear(); STRATS.forEach(s=>estrSel.add(s.id)); renderCardsSet();};
+el('btnBest').onclick=()=>{estrSel.clear(); STRATS.filter(s=>s.tier==='otima').forEach(s=>estrSel.add(s.id)); renderCardsSet();};
+el('btnNone').onclick=()=>{estrSel.clear(); renderCardsSet();};
+function renderCardsSet(){ // re-checa de acordo com estrSel
+  [...el('estrGrid').querySelectorAll('input[type=checkbox]')].forEach(ch=>{
+    const id=ch.dataset.id; ch.checked=estrSel.has(id);
+    ch.onchange=(e)=>{ e.target.checked?estrSel.add(id):estrSel.delete(id); };
   });
+}
 
-  // --- liga Auto-scroll + Som do Console (se existir)
-  document.addEventListener('DOMContentLoaded', ()=>{
+/* ======= MOTOR ======= */
+const state = {
+  liveOn:false, lastAt:0, history:[], spins:0, hits:0, miss:0,
+  running:false, timer:null
+};
+const DEDUP_MS=2500; // anti-spam postMessage
+let lastSeen = {n:null,t:0};
+
+function setBadge(txt){ el('pillState').textContent=txt; }
+
+function rate(){ const closed=state.hits+state.miss; return ((state.hits/Math.max(1,closed))*100).toFixed(0); }
+function updateKPIs(){
+  el('kSpins').textContent=state.spins;
+  el('kHits').textContent=state.hits;
+  el('kMiss').textContent=state.miss;
+  el('kRate').textContent=rate()+'%';
+}
+
+function predictFromHistory(){
+  const H=state.history.slice();
+  let bag=[];
+  STRATS.filter(s=>estrSel.has(s.id)).forEach(s=>{
     try{
-      const as = document.querySelector('#console-autoscroll input, [data-console="autoscroll"] input');
-      const so = document.querySelector('#console-sound input, [data-console="sound"] input');
-      if (as){ as.checked=true; if (typeof window.SC_setAutoscroll==='function') SC_setAutoscroll(true); }
-      if (so){ so.checked=true; if (typeof window.SC_setSound==='function') SC_setSound(true); }
-    }catch{}
-    uiStats();
-    tick();  // inicia o loop
+      const arr=s.predict(H)||[];
+      if(arr.length){
+        bag = bag.concat(arr.map(n=>({n,by:s.nome})));
+      }
+    }catch(e){}
   });
+  // normaliza: top 8 por frequência
+  const cnt=new Map();
+  bag.forEach(({n})=> cnt.set(n,(cnt.get(n)||0)+1));
+  const top=[...cnt.entries()].sort((a,b)=>b[1]-a[1]).slice(0,8).map(x=>x[0]);
+  addLog('engine', `forçando previsão • ${top.length} previstos`);
+  return top;
+}
 
-})();
-  </script>
+function handleSpin(number, reason='feed'){
+  if(!inRange(number)) return;
+  pushChip(number);
+  state.spins++; el('pillLast').textContent = (state.liveOn?'LIVE ':'')+nowHMS();
+  // Avalia acerto nas últimas previsões (se rodamos engine antes)
+  const preds = predictFromHistory(); // gera antes de marcar
+  const hit = preds.includes(number);
+  if(hit){ state.hits++; addLog('predict', `✔ Hit: nº ${number} estava nas previsões`, 'PREDICT'); }
+  else   { state.miss++; addLog('predict', `✖ Miss: nº ${number} não estava nas previsões`, 'PREDICT'); }
+  updateKPIs();
+}
+
+function cadenceTick(){
+  if(!state.running) return;
+  // Apenas log de ciclo (previsões já são geradas dentro do handleSpin no feed real e também aqui para "ciclo vazio")
+  addLog('engine','tick de cadência • aguardando número…','ENGINE');
+}
+
+function start(){
+  if(state.running) return;
+  state.running=true; setBadge('rodando');
+  state.timer = setInterval(cadenceTick, 18000);
+}
+
+function pause(){
+  state.running=false; setBadge('pausado');
+  if(state.timer) clearInterval(state.timer), state.timer=null;
+}
+
+function resetAll(){
+  pause();
+  state.spins=state.hits=state.miss=0; updateKPIs();
+  state.history=[]; el('chips').innerHTML=''; el('pillLast').textContent='—';
+  addLog('demo','Reset executado','SYSTEM');
+}
+
+/* Botões */
+el('btnStart').onclick=()=>{ start(); addLog('demo','Iniciado','SYSTEM'); };
+el('btnPause').onclick=()=>{ pause(); addLog('demo','Pausado','SYSTEM'); };
+el('btnReset').onclick=()=> resetAll();
+el('btnSim').onclick=()=>{
+  const n=Math.floor(Math.random()*37);
+  ingest({number:n, platform:'Sim'});
+};
+
+/* ======= FEED REAL (BroadcastChannel + postMessage) ======= */
+function ingest(payload){
+  let n=null;
+  if(typeof payload==='number') n=payload;
+  else if(typeof payload==='object' && inRange(payload.number)) n=payload.number;
+  else if(typeof payload==='string'){ const m=payload.match(/\b([0-9]|[12][0-9]|3[0-6])\b/); if(m) n=parseInt(m[1],10); }
+  if(!inRange(n)) return;
+
+  const now=Date.now(); if(lastSeen.n===n && now-lastSeen.t<DEDUP_MS) return;
+  lastSeen={n,t:now};
+
+  state.liveOn=true; state.lastAt=now;
+  state.history.push(n); if(state.history.length>400) state.history=state.history.slice(-400);
+
+  if(el('chkSync').checked){ handleSpin(n,'feed'); }
+  else { pushChip(n); addLog('demo',`Número ${n} recebido (sync off)`,'FEED'); }
+}
+
+try{
+  const bc=new BroadcastChannel('sc-tips-live');
+  bc.onmessage=(e)=> ingest(e.data);
+}catch{}
+window.addEventListener('message',e=>ingest(e.data));
+
+/* ======= Auto-scroll & som já ligados (padrão) ======= */
+addLog('demo','SC Tips Estratégias inicializado','SYSTEM');
+
+/* ======= Seleção inicial (ótimas marcadas) ======= */
+renderCardsSet();
+updateKPIs();
+</script>
 </body>
-  <audio id="snd-green"  src="./sounds/green.mp3"  preload="auto"></audio>
-<audio id="snd-red"    src="./sounds/red.mp3"    preload="auto"></audio>
-<audio id="snd-alerta" src="./sounds/alerta.mp3" preload="auto"></audio>
-<audio id="snd-click"  src="./sounds/click.mp3"  preload="auto"></audio>
 </html>
