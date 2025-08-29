@@ -62,10 +62,51 @@
   .ball.black{background:#15161a;border:1px solid #303746}
   .ball.zero{background:#138a43}
 
-  /* CENTRO (PLATAFORMAS) */
-  .mini{background:var(--chipb);border:1px solid var(--line);border-radius:12px;padding:10px}
-  .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:#0d1320}
+  <!-- ========== Plataformas Matrix ========== -->
+<div id="platforms-panel" class="panel gold">
+  <div class="panel-title">🎲 Plataformas Matrix</div>
 
+  <div class="pf-grid">
+    <button class="pf-tile" data-pf="donald" aria-pressed="false">
+      <div class="pf-head">
+        <b>🎲 Donald</b>
+        <span class="pf-badge"><span id="ms-donald">--</span>ms</span>
+      </div>
+      <canvas id="spark-donald" width="180" height="28"></canvas>
+    </button>
+
+    <button class="pf-tile" data-pf="bbtips" aria-pressed="false">
+      <div class="pf-head">
+        <b>📈 BBTips</b>
+        <span class="pf-badge"><span id="ms-bbtips">--</span>ms</span>
+      </div>
+      <canvas id="spark-bbtips" width="180" height="28"></canvas>
+    </button>
+
+    <button class="pf-tile" data-pf="lucky" aria-pressed="false">
+      <div class="pf-head">
+        <b>🍀 Lucky</b>
+        <span class="pf-badge"><span id="ms-lucky">--</span>ms</span>
+      </div>
+      <canvas id="spark-lucky" width="180" height="28"></canvas>
+    </button>
+
+    <button class="pf-tile" data-pf="engine" aria-pressed="true">
+      <div class="pf-head">
+        <b>🧠 Engine</b>
+        <span class="pf-badge"><span id="ms-engine">--</span>ms</span>
+      </div>
+      <canvas id="spark-engine" width="180" height="28"></canvas>
+    </button>
+  </div>
+
+  <div class="pf-actions">
+    <button id="pf-sim"   class="btn yellow">🎲 Simular Número</button>
+    <button id="pf-clear" class="btn">🧹 Limpar números</button>
+    <button id="pf-csv"   class="btn">📄 Exportar CSV</button>
+  </div>
+</div>
+<!-- ========== /Plataformas Matrix ========== -->
   /* DIREITA (LISTA ESTRATÉGIAS) */
   .list{display:grid;gap:8px}
   .item{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--chipb);border:1px solid var(--line);padding:10px;border-radius:12px}
