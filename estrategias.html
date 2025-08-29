@@ -1,90 +1,51 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>SC Tips • Estratégias Atualizadas (23 Padrões)</title>
-<link rel="icon" type="image/png" href="./favicon.png" />
-<style>
-  :root{
-    --bg: #000; --gold: #ffd700; --dark-gold: #b8860b; --text: #e8fbe8; --muted: #6dd56d; --stroke: #1aff1a;
-  }
-  *{box-sizing:border-box} html,body{margin:0;background:#000;color:var(--text);font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-  .wrap{max-width:1200px;margin:0 auto;padding:20px}
-  /* NAV */
-  .nav{position:sticky;top:0;z-index:10;background:rgba(0,0,0,.85);backdrop-filter:saturate(140%) blur(6px);border-bottom:1px solid rgba(255,215,0,.15)}
-  .nav .inner{max-width:1200px;margin:0 auto;display:flex;gap:12px;align-items:center;justify-content:space-between;padding:12px 20px}
-  .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.4px;color:#fff}
-  .brand img{height:26px}
-  .brand b{color:#67e8f9}
-  .menu{display:flex;gap:10px;flex-wrap:wrap}
-  .menu a{padding:8px 12px;border:1px solid rgba(255,215,0,.25);border-radius:10px;color:#e8fbe8;text-decoration:none}
-  .menu a:hover{background:rgba(255,215,0,.15)}
-  .menu a.active{background:linear-gradient(135deg,var(--gold),var(--dark-gold));color:#000;border-color:transparent}
-  /* HEADER */
-  .header{background:rgba(255,215,0,.12);border:1px solid rgba(255,215,0,.45);border-radius:18px;padding:18px;margin:18px 0;box-shadow:0 0 28px rgba(255,215,0,.25)}
-  h1{margin:0 0 6px 0;color:var(--gold);font-size:28px}
-  .muted{color:var(--muted);font-size:14px}
-  /* GRID */
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-  .card{background:rgba(255,215,0,.06);border:1px solid rgba(255,215,0,.35);border-radius:16px;padding:16px;box-shadow:0 10px 28px rgba(0,0,0,.55)}
-  .title{font-weight:700;color:#fff;margin:0 0 4px 0}
-  .tag{display:inline-block;font-size:12px;padding:3px 8px;border:1px solid var(--stroke);border-radius:999px;color:#fff;background:rgba(0,255,0,.06);margin-right:6px}
-  .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-  .lbl{font-weight:700;color:#fff}
-  .val{color:#e8fbe8}
-  .footer{margin-top:18px;border-top:1px dashed rgba(255,215,0,.25);padding-top:12px;font-size:12px;color:#8aa;text-align:center}
-  /* SEARCH / FILTERS */
-  .filters{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
-  input[type="search"],select{background:#050905;border:1px solid rgba(255,215,0,.3);color:#fff;border-radius:10px;padding:10px 12px;outline:none}
-  input[type="search"]{flex:1;min-width:220px}
-  .pill{padding:8px 12px;border:1px solid rgba(255,215,0,.3);border-radius:999px;color:#fff;background:rgba(255,215,0,.10);cursor:pointer}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SC Tips VIP • Estratégias</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <style>
+    :root{--bg:#050b12;--panel:#0f172a;--text:#e6f6ff;--muted:#93c5fd;--brand:#22d3ee;}
+    *{box-sizing:border-box}
+    html,body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 "Inter",system-ui,Segoe UI,Roboto,Arial}
+    .wrap{max-width:1200px;margin:0 auto;padding:18px}
+    /* NAV */
+    .nav{position:sticky;top:0;z-index:10;background:#0e1525;border-bottom:1px solid #1e2a44}
+    .nav .row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 20px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;color:#fff}
+    .brand img{height:28px;width:auto}
+    .brand small{background:#0b1220;border:1px solid #1e2a44;padding:2px 8px;border-radius:999px;color:#22d3ee}
+    .menu{display:flex;gap:8px;flex-wrap:wrap}
+    .menu a{padding:8px 14px;border:1px solid transparent;border-radius:10px;color:#cfe0ff;transition:.2s;text-decoration:none}
+    .menu a:hover{background:rgba(255,255,255,.08)}
+    .menu a.active{background:linear-gradient(135deg,#22d3ee,#60a5fa);color:#001428;font-weight:600}
+    /* PAGE */
+    h1{margin:8px 0 14px 0}
+    .header{background:linear-gradient(180deg,#0b1324,#0b1220);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px;margin-top:24px}
+    .muted{color:var(--muted)}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:16px}
+    .card{background:#0f172a;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px;box-shadow:0 10px 26px rgba(0,0,0,.45)}
+    .tag{display:inline-block;font-size:12px;padding:4px 8px;border-radius:999px;background:rgba(34,211,238,.12);border:1px solid #22d3ee;color:#aaf}
+    .filters{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    input[type="search"],select{background:#0a0f19;border:1px solid #274162;border-radius:10px;color:#e6f6ff;padding:10px 12px}
+    .small{font-size:12px;color:#9cc}
+  </style>
 </head>
 <body>
   <!-- NAV -->
-<div class="nav">
-  <div class="row wrap">
-    <div class="brand">
-      <img src="logo.png" alt="SC Tips Logo" />
-      <span>SC TIPS</span>
-      <small>VIP</small>
-    </div>
-    <nav class="menu">
-      <a href="index.html">Home</a>
-      <a href="estrategias.html">Estratégias</a>
-      <a href="matrix-premium.html">Matrix Premium</a>
-      <a href="puxadores.html">Puxadores Live</a>
-      <a href="contato.html">Contatos</a>
-    </nav>
-  </div>
-</div>
-
-<style>
-  .nav{position:sticky;top:0;z-index:10;background:#0e1525;border-bottom:1px solid #1e2a44}
-  .nav .row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 20px}
-  .brand{display:flex;align-items:center;gap:10px;font-weight:800;color:#fff}
-  .brand img{height:28px;width:auto}
-  .brand small{background:#0b1220;border:1px solid #1e2a44;padding:2px 8px;border-radius:999px;color:#22d3ee}
-  .menu{display:flex;gap:8px;flex-wrap:wrap}
-  .menu a{padding:8px 14px;border:1px solid transparent;border-radius:10px;color:#cfe0ff;transition:.2s}
-  .menu a:hover{background:rgba(255,255,255,.08)}
-  .menu a.active{background:linear-gradient(135deg,#22d3ee,#60a5fa);color:#001428;font-weight:600}
-</style>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navMenu">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="estrategias.html">Estratégias</a></li>
-        <li class="nav-item"><a class="nav-link" href="matrix-premium.html">Matrix Premium</a></li>
-        <li class="nav-item"><a class="nav-link" href="puxadores.html">Puxadores Live</a></li>
-        <li class="nav-item"><a class="nav-link" href="contatos.html">Contatos</a></li>
-      </ul>
+  <div class="nav">
+    <div class="row wrap">
+      <div class="brand"><img src="logo.png" alt="SC Tips Logo"/><span>SC TIPS</span><small>VIP</small></div>
+      <nav class="menu">
+        <a href="index.html">Home</a>
+        <a href="estrategias.html" class="active">Estratégias</a>
+        <a href="matrix-premium.html">Matrix Premium</a>
+        <a href="puxadores.html">Puxadores Live</a>
+        <a href="contato.html">Contatos</a>
+      </nav>
     </div>
   </div>
-</nav>
 
   <div class="wrap">
     <div class="header">
@@ -94,66 +55,62 @@
         <input id="q" type="search" placeholder="Pesquisar por nome, gatilho, base…" oninput="render()" />
         <select id="viz" onchange="render()">
           <option value="">Vizinhos (todos)</option>
-          <option value="0">0 viz.</option>
-          <option value="1">1 viz.</option>
-          <option value="2">2 viz.</option>
-          <option value="3">3 viz.</option>
+          <option value="0">0 viz.</option><option value="1">1 viz.</option>
+          <option value="2">2 viz.</option><option value="3">3 viz.</option>
         </select>
-        <button class="pill" onclick="document.getElementById('q').value='';document.getElementById('viz').value='';render()">Limpar filtros</button>
+        <button onclick="resetFilters()">Limpar filtros</button>
       </div>
     </div>
 
     <div id="cards" class="grid"></div>
-    <div class="footer">© 2025 SC TIPS — Estratégias revisadas. Este catálogo é apenas informativo.</div>
+    <div class="small" style="margin-top:12px">© 2025 SC TIPS — Catálogo informativo.</div>
   </div>
 
 <script>
-/* === LISTA (com seus 6 primeiros corrigidos) – ajuste os demais conforme sua planilha === */
 const ESTRATEGIAS = [
-  { id:1, nome:"Elite 2X", gatilho:"Terminal 4 ou 5", base:[2,12,22,32], viz:2, nota:"Clássico 2X; proteger 2 vizinhos." },
-  { id:2, nome:"Quarta Dimensão", gatilho:"Terminal 1 ou 3", base:[4,14,24,34], viz:2, nota:"Base múltiplos de 10 +4." },
-  { id:3, nome:"Fórmula 5X", gatilho:"Terminal 6 ou 8", base:[5,15,25,35], viz:2, nota:"Sequência de finais 5." },
-  { id:4, nome:"Alpha 6", gatilho:"Terminal 2 ou 9", base:[6,16,26,36], viz:2, nota:"Linha dos finais 6." },
-  { id:5, nome:"Padrão Black", gatilho:"Saída de 13, 31 ou 33", base:[13,31,33], viz:2, nota:"Especial de pretos." },
-  { id:6, nome:"Triângulo Vermelho", gatilho:"Saída de 9, 27 ou 30", base:[9,27,30], viz:2, nota:"Comportamento triangular no cilindro." },
-  { id:7, nome:"Coluna de Ouro", gatilho:"Saída em Coluna 1", base:[1,4,7,10,13,16,19,22,25,28,31,34], viz:1, nota:"Exemplo – ajuste conforme sua lista" },
-  { id:8, nome:"Coluna de Prata", gatilho:"Saída em Coluna 2", base:[2,5,8,11,14,17,20,23,26,29,32,35], viz:1, nota:"Exemplo" },
-  { id:9, nome:"Coluna de Bronze", gatilho:"Saída em Coluna 3", base:[3,6,9,12,15,18,21,24,27,30,33,36], viz:1, nota:"Exemplo" },
-  { id:10, nome:"Setor Norte", gatilho:"Série vizinha do 0 ativa", base:[0,32,15,19,4,21,2,25], viz:1, nota:"Exemplo" },
-  { id:11, nome:"Setor Sul", gatilho:"Série do 5/8 ativa", base:[5,23,10,16,24,33,1,20,14,31,9], viz:1, nota:"Exemplo" },
-  { id:12, nome:"Par Ímpar Swing", gatilho:"Sequência longa de Par/Ímpar", base:["pares","ímpares"], viz:0, nota:"Exemplo" },
-  { id:13, nome:"Dúzias Press", gatilho:"Repetição de dúzia", base:["1ª dúzia","2ª dúzia","3ª dúzia"], viz:0, nota:"Exemplo" },
-  { id:14, nome:"Cavalos 258", gatilho:"Padrão 2-5-8", base:[2,5,8], viz:1, nota:"Exemplo" },
-  { id:15, nome:"Cavalos 369", gatilho:"Padrão 3-6-9", base:[3,6,9], viz:1, nota:"Exemplo" },
-  { id:16, nome:"Terminais 0/10/20/30", gatilho:"Zero recente", base:[0,10,20,30], viz:1, nota:"Proteção ao 0" },
-  { id:17, nome:"Hot/Cold Mix", gatilho:"Hot > Cold 3x", base:["Hot","Cold"], viz:0, nota:"Exemplo" },
-  { id:18, nome:"Diagonal Negra", gatilho:"2 pretos consecutivos", base:["pretos da mesa"], viz:0, nota:"Exemplo" },
-  { id:19, nome:"Escada 4-7-10", gatilho:"Escadinha crescente", base:[4,7,10,13,16,19,22,25,28,31,34], viz:1, nota:"Exemplo" },
-  { id:20, nome:"Vizinhos do Último", gatilho:"Último nº fora do cluster", base:["vizinhos k=2"], viz:2, nota:"Aplicar k=2" },
-  { id:21, nome:"Setor Oeste", gatilho:"Dealer swap + queda lateral", base:[26,3,35,12,28,7,29,18,22], viz:1, nota:"Exemplo" },
-  { id:22, nome:"Linha 2-5-8-11", gatilho:"Repetição na linha", base:[2,5,8,11,14,17,20,23,26,29,32,35], viz:1, nota:"Exemplo" },
-  { id:23, nome:"Padrão Final", gatilho:"Ativação manual", base:["Número único"], viz:0, nota:"Sem proteção" }
+  {id:1,nome:"Elite 2X",gatilho:"Terminal 4 ou 5",base:[2,12,22,32],viz:2,nota:"Clássico 2X; proteger 2 vizinhos."},
+  {id:2,nome:"Quarta Dimensão",gatilho:"Terminal 1 ou 3",base:[4,14,24,34],viz:2,nota:"Múltiplos de 10 + 4."},
+  {id:3,nome:"Fórmula 5X",gatilho:"Terminal 6 ou 8",base:[5,15,25,35],viz:2,nota:"Sequência de finais 5."},
+  {id:4,nome:"Alpha 6",gatilho:"Terminal 2 ou 9",base:[6,16,26,36],viz:2,nota:"Linha dos finais 6."},
+  {id:5,nome:"Padrão Black",gatilho:"Saída de 13, 31 ou 33",base:[13,31,33],viz:2,nota:"Ajuste vizinhos se mesa lenta."},
+  {id:6,nome:"Triângulo Vermelho",gatilho:"Saída de 9, 27 ou 30",base:[9,27,30],viz:2,nota:"Comportamento triangular."},
+  {id:7,nome:"Coluna de Ouro",gatilho:"Saída em Coluna 1",base:[1,4,7,10,13,16,19,22,25,28,31,34],viz:1,nota:"Exemplo."},
+  {id:8,nome:"Coluna de Prata",gatilho:"Saída em Coluna 2",base:[2,5,8,11,14,17,20,23,26,29,32,35],viz:1,nota:"Exemplo."},
+  {id:9,nome:"Coluna de Bronze",gatilho:"Saída em Coluna 3",base:[3,6,9,12,15,18,21,24,27,30,33,36],viz:1,nota:"Exemplo."},
+  {id:10,nome:"Proteção Zero",gatilho:"Zero ausente",base:[0],viz:1,nota:"Cap k=1."},
+  {id:11,nome:"Cavalos 258",gatilho:"Padrão 2-5-8",base:[2,5,8],viz:1},
+  {id:12,nome:"Cavalos 369",gatilho:"Padrão 3-6-9",base:[3,6,9],viz:1},
+  {id:13,nome:"Dúzia 1",gatilho:"Fora da 1ª dúzia",base:[1,2,3,4,5,6,7,8,9,10,11,12],viz:0},
+  {id:14,nome:"Dúzia 2",gatilho:"Fora da 2ª dúzia",base:[13,14,15,16,17,18,19,20,21,22,23,24],viz:0},
+  {id:15,nome:"Dúzia 3",gatilho:"Fora da 3ª dúzia",base:[25,26,27,28,29,30,31,32,33,34,35,36],viz:0},
+  {id:16,nome:"Vizinhos 1",gatilho:"A partir do último",base:["k=1 do último"],viz:1},
+  {id:17,nome:"Vizinhos 2",gatilho:"A partir do último",base:["k=2 do último"],viz:2},
+  {id:18,nome:"Repetição",gatilho:"Eco do último",base:["último nº"],viz:0},
+  {id:19,nome:"Puxadores",gatilho:"Nºs que se puxam",base:["mapeados"],viz:1},
+  {id:20,nome:"Pattern Breaker",gatilho:"Sequência longa de cor",base:["oposto"],viz:0},
+  {id:21,nome:"Hot",gatilho:"Mais frequente",base:["vizinhos do hot"],viz:1},
+  {id:22,nome:"Cold",gatilho:"Menos frequente",base:["vizinhos do cold"],viz:2},
+  {id:23,nome:"Final Manual",gatilho:"Ativação manual",base:["nº escolhido"],viz:0},
 ];
-
-function matchesQuery(item, q){ if(!q) return true; const hay=(item.nome+' '+item.gatilho+' '+(item.base||[]).join(',')+' '+(item.nota||'')).toLowerCase(); return hay.includes(q.toLowerCase()); }
-function matchesViz(item, v){ if(v===''||v==null) return true; return String(item.viz)===String(v); }
+const $ = (s)=>document.querySelector(s);
+function matchesQuery(it,q){ if(!q) return true; const h=(it.nome+' '+it.gatilho+' '+(it.base||[]).join(',')+' '+(it.nota||'')).toLowerCase(); return h.includes(q.toLowerCase());}
+function matchesViz(it,v){ return !v || String(it.viz)===String(v); }
 function chip(v){ return Array.isArray(v)? v.join(', ') : String(v); }
-
 function render(){
-  const q=document.getElementById('q').value.trim();
-  const v=document.getElementById('viz').value;
-  const box=document.getElementById('cards'); box.innerHTML='';
+  const q=$('#q').value.trim(), v=$('#viz').value, box=$('#cards'); box.innerHTML='';
   const data=ESTRATEGIAS.filter(it=>matchesQuery(it,q)&&matchesViz(it,v));
   if(!data.length){ box.innerHTML='<div class="card"><b>Nenhum resultado</b><br><span class="muted">Ajuste os filtros.</span></div>'; return; }
   data.forEach(it=>{
     const el=document.createElement('div'); el.className='card';
-    el.innerHTML=`<div class="row" style="justify-content:space-between"><div class="title">${it.id}. ${it.nome}</div><span class="tag">${it.viz} viz.</span></div>
-      <div style="margin:6px 0"><span class="lbl">Gatilho: </span><span class="val">${it.gatilho}</span></div>
-      <div><span class="lbl">Números base: </span><span class="val">${chip(it.base)}</span></div>
-      ${it.nota?`<div style="margin-top:6px" class="muted">${it.nota}</div>`:''}`;
+    el.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center">
+        <div><b>${it.id}. ${it.nome}</b></div><span class="tag">${it.viz} viz.</span></div>
+      <div style="margin-top:6px"><b>Gatilho:</b> ${it.gatilho}</div>
+      <div><b>Números base:</b> ${chip(it.base)}</div>
+      ${it.nota?`<div class="muted" style="margin-top:6px">${it.nota}</div>`:''}`;
     box.appendChild(el);
   });
 }
+function resetFilters(){ $('#q').value=''; $('#viz').value=''; render(); }
 render();
 </script>
 </body>
