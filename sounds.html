@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SC Tips VIP • Sons</title>
+<style>
+  body{margin:0;background:#0b1220;color:#e6f6ff;font:16px/1.6 "Inter",system-ui,Segoe UI,Roboto,Arial}
+  .wrap{max-width:900px;margin:0 auto;padding:20px}
+  h1{font-size:24px;font-weight:800;margin-bottom:20px}
+  .row{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:16px}
+  .btn{cursor:pointer;padding:12px 18px;border-radius:10px;border:1px solid #20304c;background:#0f1629;color:#e9f2ff;font-weight:600}
+  .btn:hover{background:#152239}
+  .btn.green{background:#16a34a;border-color:#16a34a}
+  .btn.red{background:#dc2626;border-color:#dc2626}
+  .btn.yellow{background:#f59e0b;border-color:#f59e0b}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🎶 Sons do Painel SC TIPS</h1>
+  <p>Aqui ficam os sons de notificação que serão disparados automaticamente no painel:</p>
+
+  <div class="row">
+    <button class="btn green" onclick="playSound('win')">✅ Testar Green (WIN)</button>
+    <button class="btn red" onclick="playSound('loss')">❌ Testar Red (LOSS)</button>
+    <button class="btn yellow" onclick="playSound('signal')">⚡ Testar Novo Sinal</button>
+  </div>
+
+  <p style="opacity:.7;font-size:14px">Os sons são leves e rápidos, para não atrapalhar a experiência. Eles também podem ser integrados no painel dos Puxadores, Estratégias e Matrix Premium.</p>
+</div>
+
+<script>
+// Sons básicos (pode trocar os .mp3 por arquivos mais elaborados depois)
+const sounds = {
+  win:   new Audio("https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"),
+  loss:  new Audio("https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"),
+  signal:new Audio("https://actions.google.com/sounds/v1/cartoon/pop.ogg")
+};
+
+function playSound(type){
+  const snd = sounds[type];
+  if(snd){ snd.currentTime = 0; snd.play(); }
+}
+
+// Exemplo: integrar no painel puxadores
+// chamar playSound("win"), playSound("loss") ou playSound("signal")
+// quando os eventos acontecerem
+</script>
+</body>
+</html>
