@@ -5,16 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SC Tips VIP • Home</title>
   <link rel="icon" type="image/png" href="favicon.png" />
-
   <style>
-    :root{
-      --bg:#050b12; --panel:#0f172a; --text:#e6f6ff; --muted:#93c5fd;
-      --brand:#22d3ee; --btn:#2563eb; --btn2:#0ea5e9;
-    }
+    :root{--bg:#050b12;--panel:#0f172a;--text:#e6f6ff;--muted:#93c5fd;--brand:#22d3ee;--btn:#2563eb;}
     *{box-sizing:border-box}
     html,body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 "Inter",system-ui,Segoe UI,Roboto,Arial}
     .wrap{max-width:1200px;margin:0 auto;padding:18px}
-
     /* NAV */
     .nav{position:sticky;top:0;z-index:10;background:#0e1525;border-bottom:1px solid #1e2a44}
     .nav .row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 20px}
@@ -25,31 +20,25 @@
     .menu a{padding:8px 14px;border:1px solid transparent;border-radius:10px;color:#cfe0ff;transition:.2s;text-decoration:none}
     .menu a:hover{background:rgba(255,255,255,.08)}
     .menu a.active{background:linear-gradient(135deg,#22d3ee,#60a5fa);color:#001428;font-weight:600}
-
-    /* HERO / PAINEL */
-    .hero{padding:50px 18px}
-    h1{font-size:36px;margin:0 0 8px 0}
+    /* PAGE */
+    .panel{background:linear-gradient(180deg,#0b1324,#0b1220);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px;margin-top:24px}
+    .badge{font-size:12px;color:var(--muted);margin-bottom:10px}
+    h1{font-size:34px;margin:0 0 8px 0}
     h1 span{color:var(--brand)}
     .lead{max-width:760px;color:var(--muted)}
     .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
     .btn{display:inline-block;text-decoration:none;padding:12px 18px;border-radius:10px;border:1px solid rgba(255,255,255,.12);color:#fff}
-    .btn.primary{background:var(--btn)}
+    .btn.primary{background:#2563eb}
     .btn.white{background:transparent}
     .btn.outline{border-color:#60a5fa}
-    .panel{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px;margin-top:24px}
-    .badge{font-size:12px;color:var(--muted);margin-bottom:10px}
+    .panel2{background:#0f172a;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px;margin-top:16px}
   </style>
 </head>
-
 <body>
   <!-- NAV -->
   <div class="nav">
     <div class="row wrap">
-      <div class="brand">
-        <img src="logo.png" alt="SC Tips Logo" />
-        <span>SC TIPS</span>
-        <small>VIP</small>
-      </div>
+      <div class="brand"><img src="logo.png" alt="SC Tips Logo"/><span>SC TIPS</span><small>VIP</small></div>
       <nav class="menu">
         <a href="index.html" class="active">Home</a>
         <a href="estrategias.html">Estratégias</a>
@@ -60,15 +49,11 @@
     </div>
   </div>
 
-  <!-- HERO -->
-  <div class="wrap hero">
-    <div class="panel" style="background:linear-gradient(180deg,#0b1324,#0b1220);">
+  <div class="wrap">
+    <div class="panel">
       <div class="badge">LIVE • números puxadores & vizinhos</div>
       <h1>Painel SC TIPS — <span>Vizinhos VIP</span></h1>
-      <p class="lead">
-        Estatísticas ao vivo, gatilhos e alertas automáticos. Visual simples de operar e
-        otimizado para Evolution / Pragmatic (roda europeia).
-      </p>
+      <p class="lead">Estatísticas ao vivo, gatilhos e alertas automáticos. Visual simples de operar e otimizado para Evolution / Pragmatic (roda europeia).</p>
       <div class="cta">
         <a class="btn primary" href="estrategias.html">Ver as 23 Estratégias</a>
         <a class="btn white"   href="matrix-premium.html">Abrir Matrix Premium</a>
@@ -76,6 +61,14 @@
       </div>
     </div>
 
-    <div class="panel">
+    <div class="panel2">
       <h3 style="margin:0 0 10px 0">Prévia do Painel</h3>
-      <div style="color:#9ac2ff">Últ
+      <div style="color:#9ac2ff">Último nº: — • Vizinhos: 2 • Base: 17</div>
+      <div class="cta" style="margin-top:12px">
+        <a class="btn primary" href="puxadores.html">Simular nº</a>
+        <a class="btn white" href="puxadores.html">Ver gatilhos</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
