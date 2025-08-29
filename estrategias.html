@@ -33,6 +33,52 @@
   </style>
 </head>
 <body>
+  <!-- ===== Console Sistema (SC TIPS) ===== -->
+<div id="sc-console" class="sc-card">
+  <div class="sc-console-header">
+    <div class="sc-title">🖥️ Console Sistema</div>
+    <div class="sc-tools">
+      <button class="sc-btn" id="sc-btn-clear">🧹 Limpar</button>
+      <button class="sc-btn" id="sc-btn-export">⬇️ Exportar TXT</button>
+      <label class="sc-toggle"><input type="checkbox" id="sc-auto" /> Auto.scroll</label>
+      <label class="sc-toggle"><input type="checkbox" id="sc-sound" /> Som</label>
+      <input id="sc-search" class="sc-input" type="text" placeholder="Pesquisar logs…" />
+    </div>
+  </div>
+  <div id="sc-stream" class="sc-stream"></div>
+</div>
+<!-- ===== fim Console ===== -->
+
+<style>
+  /* estilos do console */
+  .sc-card{background:#0b1220;border:1px solid #3b2f0a;border-radius:16px;
+           padding:14px;margin:22px 0;box-shadow:inset 0 0 0 1px #171103}
+  .sc-console-header{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+  .sc-title{font:700 22px/1.2 Inter,system-ui;color:#ffd873;text-shadow:0 0 8px rgba(255,215,115,.25)}
+  .sc-tools{display:flex;gap:8px;align-items:center;margin-left:auto}
+  .sc-btn{background:#1a1530;border:1px solid #4b3b12;color:#e9f3ff;border-radius:10px;
+         padding:8px 12px;cursor:pointer}
+  .sc-btn:hover{background:#231a42}
+  .sc-toggle{display:inline-flex;gap:6px;align-items:center;color:#d9e3ff;font-size:14px;background:#11182a;
+             border:1px solid #2b223f;padding:7px 10px;border-radius:999px}
+  .sc-input{background:#0c1324;border:1px solid #24314d;border-radius:10px;padding:8px 10px;color:#e6f6ff;min-width:220px}
+  .sc-stream{max-height:360px;overflow:auto;background:linear-gradient(180deg,#0c1018,#0a0f14);
+             border:1px solid #0a350a;border-radius:12px;padding:8px 6px}
+  .sc-row{display:flex;gap:8px;align-items:center;background:#082b08;border:1px solid #0da10d;
+         border-radius:10px;margin:6px;padding:8px 10px;color:#c8ffd0}
+  .sc-time{font-family:ui-monospace,Consolas,monospace;color:#90ff97;background:#051d05;border-radius:6px;
+           padding:2px 6px;border:1px solid #0a350a}
+  .sc-tag{font-weight:700;color:#171103;background:#ffd873;border:1px solid #ffb300;border-radius:10px;
+          padding:3px 8px}
+  .sc-msg{flex:1}
+  .sc-cat{font-family:ui-monospace,monospace;color:#79ff85}
+  .sc-STRATEGY{background:#2d260b;border-color:#a98000;color:#ffeab3}
+  .sc-PREDICT{background:#2d0b0b;border-color:#a40000;color:#ffc6c6}
+  .sc-SYSTEM{background:#0b1f2d;border-color:#1f78a1;color:#c7ecff}
+  .sc-ENGINE{background:#0b2d24;border-color:#15a17f;color:#bcfff0}
+  .sc-USER{background:#26112f;border-color:#8c2bb8;color:#f0caff}
+  .sc-DEMO{background:#272707;border-color:#a3a314;color:#fffec2}
+</style>
   <!-- NAV -->
   <div class="nav">
     <div class="row wrap">
