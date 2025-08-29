@@ -1,87 +1,90 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SC Tips • Contatos</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SC TIPS • Contato</title>
   <style>
-    body {
-      background: #0a0f1a;
-      color: #eef3ff;
-      font-family: Inter, system-ui, Arial, sans-serif;
+    :root{
+      --bg:#0a0f1a;
+      --card:#121a29;
+      --stroke:#2b3a55;
+      --muted:#9aa4b2;
+      --ok:#2ecc71;
+      --warn:#f1c40f;
+      --err:#e74c3c;
+      --brand:#1f8bff;
+      --brand2:#2ba84a;
     }
-    .navbar { background: #0b1220; }
-    .navbar-brand b { color: #00eaff; }
-    .hero {
-      padding: 60px 20px;
-      text-align: center;
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      background:var(--bg);
+      color:#eef3ff;
+      font-family:Inter,system-ui,Arial,sans-serif;
     }
-    .hero h1 { color: #22d3ee; font-weight: 700; }
-    .card {
-      background: #121a29;
-      border: 1px solid #2b3a55;
-      border-radius: 14px;
-      padding: 20px;
-      margin: 20px auto;
-      max-width: 600px;
-      box-shadow: 0 8px 28px rgba(0,0,0,.6);
+    .wrap{max-width:900px;margin:0 auto;padding:20px}
+    /* NAV */
+    .nav{background:#0e1525;border-bottom:1px solid var(--stroke);padding:12px 20px;position:sticky;top:0;z-index:10}
+    .nav .wrap{display:flex;align-items:center;justify-content:space-between}
+    .brand{font-weight:800;font-size:18px;color:#fff}
+    .brand b{color:var(--brand)}
+    .menu{display:flex;gap:10px}
+    .menu a{
+      color:#eef3ff;text-decoration:none;
+      padding:8px 12px;border-radius:8px;
+      border:1px solid transparent;
+      transition:.2s;
     }
-    .contact-item {
-      margin: 12px 0;
-      font-size: 18px;
-    }
-    .contact-item b { color: #22d3ee; }
-    .footer {
-      margin-top: 40px;
-      text-align: center;
-      font-size: 13px;
-      color: #9aa4b2;
-    }
+    .menu a:hover{background:rgba(255,255,255,.08)}
+    .menu a.active{background:var(--brand);color:#fff}
+    /* CONTEÚDO */
+    h1{font-size:28px;margin:20px 0;color:var(--brand)}
+    p{margin:8px 0 20px;color:var(--muted)}
+    .card{background:var(--card);border:1px solid var(--stroke);border-radius:12px;padding:20px;margin-bottom:20px}
+    .card h2{margin-bottom:10px;color:#fff}
+    .info{font-size:16px;margin:6px 0}
+    .info b{color:var(--brand)}
+    .footer{margin-top:20px;text-align:center;font-size:13px;color:var(--muted)}
   </style>
 </head>
 <body>
 
-  <nav class="navbar">
+  <!-- NAV -->
+  <div class="nav">
+    <div class="wrap">
+      <div class="brand">SC TIPS <b>VIP</b></div>
+      <div class="menu">
+        <a href="index.html">Home</a>
+        <a href="estrategias.html">Estratégias</a>
+        <a href="matrix-premium.html">Matrix Premium</a>
+        <a href="puxadores.html">Puxadores Live</a>
+        <a href="contato.html" class="active">Contato</a>
+      </div>
+    </div>
+  </div>
+
   <div class="wrap">
-    <div class="brand">SC TIPS <b>VIP</b></div>
-    <div class="menu">
-      <a href="index.html">Home</a>
-      <a href="estrategias.html">Estratégias</a>
-      <a href="matrix-premium.html">Matrix Premium</a>
-      <a href="puxadores.html">Puxadores Live</a>
-      <a href="contato.html">Contato</a>
+    <h1>📩 Contato</h1>
+    <p>Entre em contato comigo para suporte, dúvidas ou para adquirir o acesso VIP completo do painel SC TIPS.</p>
+
+    <div class="card">
+      <h2>📧 E-mail</h2>
+      <div class="info"><b>Email:</b> <a href="mailto:vemevesc@gmail.com">vemevesc@gmail.com</a></div>
     </div>
-  </div>
-</nav>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navMenu">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="estrategias.html">Estratégias</a></li>
-        <li class="nav-item"><a class="nav-link" href="matrix-premium.html">Matrix Premium</a></li>
-        <li class="nav-item"><a class="nav-link" href="puxadores.html">Puxadores Live</a></li>
-        <li class="nav-item"><a class="nav-link" href="contatos.html">Contatos</a></li>
-      </ul>
+
+    <div class="card">
+      <h2>💬 Telegram</h2>
+      <div class="info"><b>Usuário:</b> <a href="https://t.me/JonasMacielSC" target="_blank">@JonasMacielSC</a></div>
     </div>
-  </div>
-</nav>
 
-  <!-- Hero -->
-  <div class="hero">
-    <h1>📞 Contatos SC TIPS</h1>
-    <p>Entre em contato para suporte, dúvidas ou para adquirir a versão VIP do painel.</p>
-  </div>
+    <div class="card">
+      <h2>🔑 Acesso ao Painel</h2>
+      <p><b>Plano Free:</b> limitado a 1 estratégia (demonstração ~30%).</p>
+      <p><b>Plano VIP:</b> acesso completo às 23 estratégias, atualizações e suporte exclusivo.</p>
+    </div>
 
-  <!-- Card Contatos -->
-  <div class="card">
-    <div class="contact-item"><b>E-mail:</b> <a href="mailto:vemevesc@gmail.com">vemevesc@gmail.com</a></div>
-    <div class="contact-item"><b>Telegram:</b> <a href="https://t.me/JonasMacielSC" target="_blank">@JonasMacielSC</a></div>
+    <div class="footer">© 2025 SC TIPS — Todos os direitos reservados.</div>
   </div>
-
-  <div class="footer">© 2025 SC TIPS — Todos os direitos reservados</div>
 
 </body>
 </html>
