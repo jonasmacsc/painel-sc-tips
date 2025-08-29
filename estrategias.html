@@ -117,8 +117,7 @@ render();
   <style> ... </style>
   <button id="sndToggle" class="snd-btn">🔊 Som ON</button>
   <script> ... </script>
-  <!-- /sons -->
-  <!-- Sons Globais -->
+<!-- Sons Globais SC TIPS -->
 <audio id="snd-green" src="./sounds/green.mp3" preload="auto"></audio>
 <audio id="snd-red" src="./sounds/red.mp3" preload="auto"></audio>
 <audio id="snd-alerta" src="./sounds/alerta.mp3" preload="auto"></audio>
@@ -126,10 +125,22 @@ render();
 
 <script>
   // Funções rápidas para tocar sons
-  function playGreen(){ document.getElementById("snd-green").play(); }
-  function playRed(){ document.getElementById("snd-red").play(); }
-  function playAlerta(){ document.getElementById("snd-alerta").play(); }
-  function playClick(){ document.getElementById("snd-click").play(); }
+  function playGreen(){ 
+    document.getElementById("snd-green").currentTime = 0;
+    document.getElementById("snd-green").play(); 
+  }
+  function playRed(){ 
+    document.getElementById("snd-red").currentTime = 0;
+    document.getElementById("snd-red").play(); 
+  }
+  function playAlerta(){ 
+    document.getElementById("snd-alerta").currentTime = 0;
+    document.getElementById("snd-alerta").play(); 
+  }
+  function playClick(){ 
+    document.getElementById("snd-click").currentTime = 0;
+    document.getElementById("snd-click").play(); 
+  }
 </script>
 </body>
 </html>
