@@ -1,29 +1,32 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SC Tips VIP • Puxadores Live</title>
-  <link rel="icon" type="image/png" href="favicon.png" />
-  <style>
-    :root{--bg:#050b12;--panel:#0f172a;--text:#e6f6ff;--muted:#93c5fd;--brand:#22d3ee;}
-    *{box-sizing:border-box}
-    html,body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 "Inter",system-ui,Segoe UI,Roboto,Arial}
-    .wrap{max-width:1200px;margin:0 auto;padding:18px}
-    /* NAV */
-    .nav{position:sticky;top:0;z-index:10;background:#0e1525;border-bottom:1px solid #1e2a44}
-    .nav .row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 20px}
-    .brand{display:flex;align-items:center;gap:10px;font-weight:800;color:#fff}
-    .brand img{height:28px;width:auto}
-    .brand small{background:#0b1220;border:1px solid #1e2a44;padding:2px 8px;border-radius:999px;color:#22d3ee}
-    .menu{display:flex;gap:8px;flex-wrap:wrap}
-    .menu a{padding:8px 14px;border:1px solid transparent;border-radius:10px;color:#cfe0ff;transition:.2s;text-decoration:none}
-    .menu a:hover{background:rgba(255,255,255,.08)}
-    .menu a.active{background:linear-gradient(135deg,#22d3ee,#60a5fa);color:#001428;font-weight:600}
-    /* PAGE */
-    h1{margin:8px 0 14px 0}
-    .panel{background:#0f172a;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px;margin-top:24px}
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SC Tips VIP • Puxadores Live</title>
+<link rel="icon" type="image/png" href="favicon.png" />
+<style>
+  :root{--bg:#050b12;--panel:#0f172a;--text:#e6f6ff;--muted:#93c5fd;--brand:#22d3ee;}
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 "Inter",system-ui,Segoe UI,Roboto,Arial}
+  .wrap{max-width:1200px;margin:0 auto;padding:18px}
+  /* NAV */
+  .nav{position:sticky;top:0;z-index:10;background:#0e1525;border-bottom:1px solid #1e2a44}
+  .nav .row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 20px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;color:#fff}
+  .brand img{height:28px}
+  .brand small{background:#0b1220;border:1px solid #1e2a44;padding:2px 8px;border-radius:999px;color:#22d3ee}
+  .menu{display:flex;gap:8px;flex-wrap:wrap}
+  .menu a{padding:8px 14px;border:1px solid transparent;border-radius:10px;color:#cfe0ff;transition:.2s;text-decoration:none}
+  .menu a:hover{background:rgba(255,255,255,.08)}
+  .menu a.active{background:linear-gradient(135deg,#22d3ee,#60a5fa);color:#001428;font-weight:600}
+  /* PAGE */
+  .panel{background:#0f172a;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px;margin-top:24px}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  select,button{background:#0a0f19;border:1px solid #274162;border-radius:10px;color:#e6f6ff;padding:10px 12px}
+  button{cursor:pointer}
+  .box{border:1px solid #18412a;background:#0b1320;border-radius:12px;padding:12px;margin-top:12px}
+</style>
 </head>
 <body>
   <!-- NAV -->
@@ -42,12 +45,54 @@
 
   <div class="wrap">
     <div class="panel">
-      <h1>📡 Números Puxadores — Live</h1>
-      <div class="muted">Recebe números reais via <code>BroadcastChannel("sc-tips-live")</code> e <code>postMessage</code>. Simulação local opcional.</div>
-    </div>
+      <h2>📡 Números Puxadores — Live</h2>
+      <div class="row">
+        <div>Último:</div>
+        <select id="ult"></select>
+        <div>Base:</div>
+        <select id="base"></select>
+        <div>Vizinhos:</div>
+        <select id="k">
+          <option>0</option><option selected>2</option><option>3</option>
+        </select>
+        <button id="sim">🎲 Simular nº</button>
+        <button id="limpar">🧹 Limpar</button>
+      </div>
 
-    <!-- ===== COLE AQUI o componente/HTML do seu Puxadores Live já validado ===== -->
-    <!-- ... seu código de puxadores (versão HTML ou React compilada) ... -->
+      <div class="box"><b>Puxadores da Base:</b> <span id="pux"></span> <span style="float:right">Ativos: <b id="act">0</b></span></div>
+      <div class="box">
+        <b>Histórico (últimos 36)</b>
+        <div id="hist" class="row" style="margin-top:8px;flex-wrap:wrap"></div>
+      </div>
+    </div>
   </div>
+
+<script>
+const wheel=[0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
+const PUXA={0:[32,26,3],1:[20,33,14],2:[25,21,4],3:[26,35,12],4:[19,21,34],5:[24,10,16],6:[34,27,13],7:[28,29,12],8:[30,23,10],9:[31,22,18],10:[23,8,24],11:[30,36,13],12:[3,7,35],13:[6,36,27],14:[31,20,33],15:[32,19,34],16:[33,24,5],17:[25,34,2],18:[22,29,9],19:[4,15,32],20:[14,1,33],21:[2,4,16],22:[9,31,18],23:[10,8,30],24:[5,10,16],25:[2,17,32],26:[3,0,32],27:[6,13,36],28:[7,12,29],29:[7,18,22],30:[8,11,23],31:[14,22,9],32:[0,15,19],33:[1,14,16],34:[6,4,17],35:[3,12,26],36:[11,13,27]};
+const hist=[]; const byNum=new Map();
+const $=s=>document.querySelector(s);
+
+function neighbors(n,k){const i=wheel.indexOf(n);if(i<0)return[];const out=[];for(let d=-k;d<=k;d++)out.push(wheel[(i+d+wheel.length)%wheel.length]);return[...new Set(out)];}
+function fillSelects(){
+  const U=$('#ult'), B=$('#base'); U.innerHTML=''; B.innerHTML='';
+  for(let i=0;i<=36;i++){const o=document.createElement('option');o.text=i;o.value=i;U.appendChild(o);}
+  [17,20,7,5,10,16,13,36,27].forEach(n=>{const o=document.createElement('option');o.text='Nº '+n;o.value=n;B.appendChild(o);});
+}
+function pushNum(n,src='SIM'){ hist.unshift({n,src}); if(hist.length>36) hist.pop(); byNum.set(n,(byNum.get(n)||0)+1); render(); }
+function render(){
+  const H=$("#hist"); H.innerHTML='';
+  hist.forEach(h=>{const b=document.createElement('button');b.textContent=h.n;b.style.cssText='width:36px;height:36px;border-radius:10px;border:1px solid #274162;background:#0a0f19;color:#e6f6ff';b.title=h.src;b.onclick=()=>pushNum(h.n,'REPEAT');H.appendChild(b);});
+  const k=parseInt($('#k').value||'2',10); const base=parseInt($('#base').value||'17',10);
+  const pux=(PUXA[base]||[]).slice(0,3); $('#pux').textContent=pux.join(', ');
+  const viz = pux.flatMap(n=>neighbors(n,k)); $('#act').textContent=[...new Set(viz)].length;
+}
+$('#sim').onclick=()=>{const n=Math.floor(Math.random()*37); $('#ult').value=String(n); pushNum(n,'SIM');};
+$('#limpar').onclick=()=>{hist.length=0; byNum.clear(); render();};
+['ult','base','k'].forEach(id=>$('#'+id).onchange=render);
+
+try{ const bc=new BroadcastChannel('sc-tips-live'); bc.onmessage=(ev)=>{const msg=ev.data||{}; if(typeof msg.number==='number'){ $('#ult').value=String(msg.number); pushNum(msg.number,(msg.platform||'LIVE').toUpperCase()); }};}catch(e){}
+fillSelects(); render();
+</script>
 </body>
 </html>
