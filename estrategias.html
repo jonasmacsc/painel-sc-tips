@@ -227,6 +227,198 @@ render();
     document.getElementById("snd-click").play(); 
   }
 </script>
+  <script>
+/* ===== Estratégias • Live controls (18s) ===== */
+const STR_CAD_MS = 18000;
+let str_running   = true;           // começa ligado
+let str_lastLive  = 0;
+let str_cadStart  = Date.now();
+let str_spins = 0, str_hits = 0, str_miss = 0;
+
+const PULLERS = window.PULLERS || {
+  0:[10,20,30],1:[17,7],2:[2,22],3:[3,33],4:[21,9],5:[25,15,35],6:[20,17,7],7:[7,17,20],
+  8:[30,0,20],9:[9,19],10:[0,20,30],11:[30,0,20],12:[33,15],13:[20,7],14:[17,7],15:[9,5,35],
+  16:[3,33],17:[17,20,7],18:[2,22],19:[19,9],20:[17,7],21:[2,22],22:[2,22],23:[0,10],
+  24:[35,15,25],25:[20,22],26:[0,10,30],27:[17,7,20],28:[7,17,20],29:[7,17,20],30:[0,20,30],
+  31:[9,19],32:[0,10,20,30],33:[3,33],34:[7,20],35:[3,33,15],36:[20,30]
+};
+const WHEEL = [0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
+const isRed = new Set([1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);
+const inRange = (n)=>Number.isInteger(n)&&n>=0&&n<=36;
+
+let str_base = 17;
+let str_viz = 2;
+let str_activeSignal = null;
+
+// refs
+const $ = (id)=>document.getElementById(id);
+const elLast  = $('str-lastAgo'), elLeft=$('str-cadLeft'), elBar=$('str-cadBar'), elBadge=$('str-liveBadge');
+const elBase  = $('str-base'), elPux=$('str-pux'), elViz=$('str-viz'), elSpins=$('str-spins'), elHits=$('str-hits'), elMiss=$('str-miss'), elRate=$('str-rate');
+const cbSync  = $('str-sync'), cbAuto=$('str-auto');
+const bStart  = $('str-btnStart'), bPause=$('str-btnPause'), bReset=$('str-btnReset'), bSim=$('str-btnSim');
+
+// console helpers (seu console já deve ter essas globals; se não, tratamos)
+const logBus = window.SC_LOG || ((msg,tag='system',ok=true)=>{
+  // fallback simples
+  console.log(`[${tag}] ${msg}`);
+});
+
+// ===== live/standby badge
+function setBadge(live){
+  elBadge.textContent = live ? 'LIVE' : 'standby';
+  elBadge.classList.toggle('live', live);
+  elBadge.classList.toggle('standby', !live);
+}
+
+// ===== heurística de vizinhos (dispersão)
+function autoNeighbors(history){
+  const recent = history.slice(-18);
+  if (recent.length < 6) return 2;
+  let colorSwitch=0, step=0;
+  for (let i=1;i<recent.length;i++){
+    const a=recent[i-1], b=recent[i];
+    if (!inRange(a)||!inRange(b)) continue;
+    const ca= a===0?'G':(isRed.has(a)?'R':'B');
+    const cb= b===0?'G':(isRed.has(b)?'R':'B');
+    if (ca!==cb) colorSwitch++;
+    const ia=WHEEL.indexOf(a), ib=WHEEL.indexOf(b);
+    const raw=Math.abs(ia-ib); step += Math.min(raw, WHEEL.length-raw);
+  }
+  const avg = step/Math.max(1,recent.length-1);
+  if (avg>=8 || colorSwitch>=10) return 3;
+  if (avg>=5 || colorSwitch>=7)  return 2;
+  return 1;
+}
+
+// ===== quando chega número (do feed ou simulado)
+function STR_onNumber(n){
+  str_lastLive = Date.now();
+  str_cadStart = str_lastLive;
+  setBadge(true);
+
+  str_spins++; elSpins.textContent = str_spins;
+
+  // sinal ativo bateu?
+  if (str_activeSignal){
+    const neigh = new Set(getNeighbors(str_activeSignal.base, str_activeSignal.viz));
+    const hit = (n===str_activeSignal.base) || neigh.has(n);
+    if (hit){ str_hits++; str_activeSignal=null; logBus('✔ Hit nas vizinhanças/base','PREDICT',true); playGlobal('green'); }
+    else if (++str_activeTicks >= 18){ str_miss++; str_activeSignal=null; logBus('✖ Miss após vigência','PREDICT',false); playGlobal('red'); }
+  }
+  elHits.textContent = str_hits; elMiss.textContent = str_miss;
+  elRate.textContent = ((str_hits/Math.max(1,(str_hits+str_miss)))*100).toFixed(0)+'%';
+}
+
+// vizinhos util
+function getNeighbors(number, count){
+  if (!inRange(number) || count<=0) return [];
+  const idx = WHEEL.indexOf(number);
+  if (idx===-1) return [];
+  const res=[]; for (let i=1;i<=count;i++){ res.push(WHEEL[(idx-i+WHEEL.length)%WHEEL.length]); res.push(WHEEL[(idx+i)%WHEEL.length]); }
+  return res;
+}
+
+// ===== motor auto (a cada ciclo decide base/vizinhos e arma um sinal)
+let str_activeTicks = 0;
+function STR_cycle(history){
+  if (!str_running) return;
+  const last = history[history.length-1];
+  // base candidata: se há last, escolha um dos puxadores dele; senão mantenha
+  let cand = inRange(last) ? (PULLERS[last]||[])[0] : str_base;
+  if (!inRange(cand)) cand = str_base;
+
+  // vizinhos dinâmicos
+  if (cbAuto.checked) str_viz = autoNeighbors(history);
+  elViz.textContent = str_viz;
+
+  // aplica
+  str_base = cand; elBase.textContent = str_base;
+  const pux = PULLERS[str_base]||[]; elPux.textContent = pux.join(', ')||'—';
+
+  // arma sinal (vigência até 18 spins)
+  str_activeSignal = { base:str_base, viz:str_viz }; str_activeTicks = 0;
+  logBus(`Sinal armado • Base ${str_base} • ${str_viz} viz. • pux ${pux.join(', ')}`,'ENGINE',true);
+  playGlobal('alerta');
+}
+
+// ===== loop visual cadência + standby
+setInterval(()=>{
+  const now = Date.now();
+
+  // “última”
+  const ago = str_lastLive ? Math.round((now - str_lastLive)/1000) : null;
+  elLast.textContent = (ago==null) ? '—' : (ago+'s');
+  setBadge(ago!=null && ago<30);
+
+  // cadência
+  const elapsed = (now - str_cadStart) % STR_CAD_MS;
+  const remain  = STR_CAD_MS - elapsed;
+  elLeft.textContent = Math.ceil(remain/1000) + 's';
+  elBar.style.width = (elapsed/STR_CAD_MS*100) + '%';
+
+  // quando vira o ciclo e Auto Mode ligado → dispara análise
+  if (cbAuto.checked && elapsed < 900){   // janela de troca
+    // use o histórico global, se existir; senão, mantenha um local simples
+    const hist = (window.SC_HISTORY && SC_HISTORY.length) ? SC_HISTORY.slice() : (window._strHist||[]);
+    STR_cycle(hist);
+  }
+}, 200);
+
+// ===== hooks nos botões
+bStart.onclick = ()=>{ str_running = true; logBus('Iniciado','system',true); };
+bPause.onclick = ()=>{ str_running = false; logBus('Pausado','system',true); };
+bReset.onclick = ()=>{
+  str_running=true; str_spins=str_hits=str_miss=0;
+  elSpins.textContent=0; elHits.textContent=0; elMiss.textContent=0; elRate.textContent='0%';
+  str_cadStart = Date.now(); str_activeSignal=null; logBus('Reset','system',true);
+};
+bSim.onclick = ()=>{
+  const n = Math.floor(Math.random()*37);
+  // registra em um histórico local para o auto mode (se não existe global)
+  window._strHist = (window._strHist||[]); window._strHist.push(n); if (window._strHist.length>300) window._strHist.shift();
+  STR_onNumber(n);
+  if (typeof window.handleInbound === 'function'){
+    window.handleInbound({ number:n, platform:'Sim' }, 'SIM'); // mantém tudo em sincronia
+  }
+};
+
+// ===== integra ao seu handler real (para Sync ao receber número)
+(function wrapInbound(){
+  const orig = window.handleInbound;
+  window.handleInbound = function(payload, via){
+    if (typeof orig === 'function') orig(payload, via);
+    if (!cbSync.checked) return;
+    let n=null;
+    if (typeof payload==='number') n=payload;
+    else if (payload&&typeof payload==='object'&&Number.isInteger(payload.number)) n=payload.number;
+    if (inRange(n)){
+      // empilha no histórico global, se existir, senão local
+      if (window.SC_HISTORY) SC_HISTORY.push(n);
+      else{ window._strHist = (window._strHist||[]); window._strHist.push(n); if (window._strHist.length>300) window._strHist.shift(); }
+      STR_onNumber(n);
+    }
+  }
+})();
+
+// ===== sons/console default: deixa Auto-scroll + Som ligados
+document.addEventListener('DOMContentLoaded', ()=>{
+  try{
+    const chkAuto = document.querySelector('#console-autoscroll input, [data-console="autoscroll"] input');
+    const chkSom  = document.querySelector('#console-sound input, [data-console="sound"] input');
+    if (chkAuto){ chkAuto.checked = true; if (typeof window.SC_setAutoscroll==='function') SC_setAutoscroll(true); }
+    if (chkSom ){ chkSom.checked  = true; if (typeof window.SC_setSound==='function') SC_setSound(true); }
+  }catch{}
+});
+
+// ===== tocar sons globais (usa os ids do seu /sounds/*.mp3)
+function playGlobal(kind){
+  try{
+    const map = { green:'snd-green', red:'snd-red', alerta:'snd-alerta', click:'snd-click' };
+    const el = document.getElementById(map[kind]);
+    if (el){ el.currentTime = 0; el.play().catch(()=>{}); }
+  }catch{}
+}
+  </script>
 </body>
   <audio id="snd-green"  src="./sounds/green.mp3"  preload="auto"></audio>
 <audio id="snd-red"    src="./sounds/red.mp3"    preload="auto"></audio>
