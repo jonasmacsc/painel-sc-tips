@@ -1,108 +1,373 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>SC Tips VIP • Puxadores Live</title>
-<link rel="icon" type="image/png" href="favicon.png" />
+<title>SC Tips • Puxadores — Live</title>
+<link rel="icon" type="image/png" href="./favicon.png" />
 <style>
-  :root{--bg:#050b12;--panel:#0f172a;--text:#e6f6ff;--muted:#93c5fd;--brand:#22d3ee;}
+  :root{--bg:#050b12;--panel:#0f172a;--text:#e6f6ff;--muted:#93c5fd;--brand:#22d3ee;--ok:#10b981;--warn:#f59e0b;--err:#ef4444;}
   *{box-sizing:border-box}
-  html,body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 "Inter",system-ui,Segoe UI,Roboto,Arial}
-  .wrap{max-width:1200px;margin:0 auto;padding:18px}
+  html,body{margin:0;background:var(--bg);color:var(--text);font-family:"Inter",system-ui,Segoe UI,Roboto,Arial}
+  .wrap{max-width:1100px;margin:0 auto;padding:18px}
   /* NAV */
   .nav{position:sticky;top:0;z-index:10;background:#0e1525;border-bottom:1px solid #1e2a44}
   .nav .row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 20px}
-  .brand{display:flex;align-items:center;gap:10px;font-weight:800;color:#fff}
-  .brand img{height:28px}
-  .brand small{background:#0b1220;border:1px solid #1e2a44;padding:2px 8px;border-radius:999px;color:#22d3ee}
+  .brand{font-weight:800;color:#fff;display:flex;gap:8px;align-items:center}
+  .brand b{color:var(--brand)}
   .menu{display:flex;gap:8px;flex-wrap:wrap}
-  .menu a{padding:8px 14px;border:1px solid transparent;border-radius:10px;color:#cfe0ff;transition:.2s;text-decoration:none}
+  .menu a{padding:8px 14px;border:1px solid transparent;border-radius:10px;color:#cfe0ff;text-decoration:none}
   .menu a:hover{background:rgba(255,255,255,.08)}
   .menu a.active{background:linear-gradient(135deg,#22d3ee,#60a5fa);color:#001428;font-weight:600}
-  /* PAGE */
-  .panel{background:#0f172a;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px;margin-top:24px}
-  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-  select,button{background:#0a0f19;border:1px solid #274162;border-radius:10px;color:#e6f6ff;padding:10px 12px}
-  button{cursor:pointer}
-  .box{border:1px solid #18412a;background:#0b1320;border-radius:12px;padding:12px;margin-top:12px}
+  /* CARDS */
+  .card{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .badge{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.12);font-size:12px}
+  .b-ok{border-color:#155e46;background:#0b2b22;color:#bfffe9}
+  .b-stand{border-color:#334155;background:#0b1430;color:#dbeafe}
+  .b-warn{border-color:#7c5200;background:#2a1f04;color:#fde68a}
+  h1{margin:0 0 8px 0}
+  button{cursor:pointer;border:1px solid rgba(255,255,255,.12);background:#10233b;color:#fff;border-radius:10px;padding:10px 14px}
+  button.primary{background:#2563eb;border-color:#2563eb}
+  button.ghost{background:transparent}
+  button:hover{filter:brightness(1.08)}
+  select,input{background:#0c1425;border:1px solid #22324e;color:#fff;border-radius:8px;padding:8px 10px}
+  .muted{color:var(--muted)}
+  .kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  .kpi .box{background:#0c1425;border:1px solid #22324e;border-radius:10px;padding:12px;text-align:center}
+  .kpi .box b{font-size:22px}
+  .pill{padding:6px 10px;border:1px solid rgba(255,255,255,.12);border-radius:999px;background:rgba(255,255,255,.05)}
+  .entry{border:1px solid #1d364e;background:linear-gradient(135deg,rgba(96,165,250,.06),rgba(34,211,238,.06));border-radius:12px;padding:10px}
+  .list{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
 </style>
 </head>
 <body>
-  <!-- NAV -->
-  <div class="nav">
-    <div class="row wrap">
-      <div class="brand"><img src="logo.png" alt="SC Tips Logo"/><span>SC TIPS</span><small>VIP</small></div>
-      <nav class="menu">
-        <a href="index.html">Home</a>
-        <a href="estrategias.html">Estratégias</a>
-        <a href="matrix-premium.html">Matrix Premium</a>
-        <a href="puxadores.html" class="active">Puxadores Live</a>
-        <a href="contato.html">Contatos</a>
-      </nav>
+
+<!-- NAV -->
+<div class="nav">
+  <div class="row">
+    <div class="brand">SC TIPS <b>VIP</b></div>
+    <div class="menu">
+      <a href="index.html">Home</a>
+      <a href="estrategias.html">Estratégias</a>
+      <a href="matrix.html">Matrix Premium</a>
+      <a href="puxadores.html" class="active">Puxadores Live</a>
+      <a href="contato.html">Contato</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <!-- Header -->
+  <div class="row" style="margin-bottom:12px">
+    <h1 class="row" style="gap:8px;margin:0">🎯 Puxadores — Live</h1>
+    <span id="liveBadge" class="badge b-stand">standby</span>
+    <span id="originBadge" class="badge b-stand">Origem: —</span>
+    <span id="tableBadge" class="badge b-stand">Mesa: —</span>
+    <span id="agoBadge" class="badge b-stand">última: —</span>
+    <div style="margin-left:auto" class="row">
+      <button id="btnCopy" class="ghost">Copiar</button>
+      <button id="btnReset" class="ghost">Reset</button>
     </div>
   </div>
 
-  <div class="wrap">
-    <div class="panel">
-      <h2>📡 Números Puxadores — Live</h2>
-      <div class="row">
-        <div>Último:</div>
-        <select id="ult"></select>
-        <div>Base:</div>
-        <select id="base"></select>
-        <div>Vizinhos:</div>
-        <select id="k">
-          <option>0</option><option selected>2</option><option>3</option>
-        </select>
-        <button id="sim">🎲 Simular nº</button>
-        <button id="limpar">🧹 Limpar</button>
-      </div>
+  <!-- Top grid -->
+  <div class="grid" style="margin-bottom:14px">
+    <div class="card">
+      <div class="row" style="gap:16px">
+        <div>
+          <div style="opacity:.8">Último</div>
+          <div id="lastBadge" style="width:92px;height:92px;border-radius:999px;border:4px solid #334155;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:900;background:#0a1322">--</div>
+        </div>
 
-      <div class="box"><b>Puxadores da Base:</b> <span id="pux"></span> <span style="float:right">Ativos: <b id="act">0</b></span></div>
-      <div class="box">
-        <b>Histórico (últimos 36)</b>
-        <div id="hist" class="row" style="margin-top:8px;flex-wrap:wrap"></div>
+        <div class="row" style="gap:10px;align-items:flex-start">
+          <div class="card" style="background:#0b1426;border-color:#1d2c4a;padding:12px">
+            <div class="muted" style="font-size:12px;margin-bottom:6px">Estratégia atual</div>
+            <div class="row">
+              <label>Base:</label>
+              <select id="selBase"></select>
+              <span class="pill">Puxadores: <b id="pullersText">—</b></span>
+            </div>
+            <div class="row" style="margin-top:8px">
+              <label class="row" style="gap:8px">
+                <input type="checkbox" id="cbAuto" checked />
+                Auto vizinhos
+              </label>
+              <div id="manualViz" class="row" style="display:none;gap:6px">
+                <button data-viz="1">1 viz</button>
+                <button data-viz="2">2 viz</button>
+                <button data-viz="3">3 viz</button>
+              </div>
+              <span class="pill" id="vizNow">2 viz.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" style="margin-left:auto;gap:8px">
+          <button id="btnSim" class="primary">🎲 Simular nº</button>
+          <button id="btnInsert">➕ Inserir nº</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin:0 0 8px 0">📊 Painel</h3>
+      <div class="kpi">
+        <div class="box"><div class="muted">Total Spins</div><b id="kTot">0</b></div>
+        <div class="box"><div class="muted">Sinais</div><b id="kSig">0</b></div>
+        <div class="box"><div class="muted">Wins</div><b id="kWin">0</b></div>
+        <div class="box"><div class="muted">Losses</div><b id="kLos">0</b></div>
       </div>
     </div>
   </div>
+
+  <!-- Histórico -->
+  <div class="card" style="margin-bottom:14px">
+    <h3 style="margin:0 0 8px 0">🧾 Histórico (últimos 36)</h3>
+    <div id="hist" class="row"></div>
+  </div>
+
+  <!-- Sinais -->
+  <div id="activeBox" class="card" style="display:none;margin-bottom:14px">
+    <h3 style="margin:0 0 8px 0">👁️ Sinais ativos</h3>
+    <div id="activeList" class="list"></div>
+  </div>
+
+  <div id="recentBox" class="card" style="display:none">
+    <h3 style="margin:0 0 8px 0">🗂️ Sinais recentes</h3>
+    <div id="recentList" class="list"></div>
+  </div>
+</div>
+
+<!-- Sons -->
+<audio id="sndAlert" src="./sounds/alert.mp3" preload="auto"></audio>
+<audio id="sndHit"   src="./sounds/hit.mp3" preload="auto"></audio>
+<audio id="sndMiss"  src="./sounds/miss.mp3" preload="auto"></audio>
 
 <script>
-const wheel=[0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
-const PUXA={0:[32,26,3],1:[20,33,14],2:[25,21,4],3:[26,35,12],4:[19,21,34],5:[24,10,16],6:[34,27,13],7:[28,29,12],8:[30,23,10],9:[31,22,18],10:[23,8,24],11:[30,36,13],12:[3,7,35],13:[6,36,27],14:[31,20,33],15:[32,19,34],16:[33,24,5],17:[25,34,2],18:[22,29,9],19:[4,15,32],20:[14,1,33],21:[2,4,16],22:[9,31,18],23:[10,8,30],24:[5,10,16],25:[2,17,32],26:[3,0,32],27:[6,13,36],28:[7,12,29],29:[7,18,22],30:[8,11,23],31:[14,22,9],32:[0,15,19],33:[1,14,16],34:[6,4,17],35:[3,12,26],36:[11,13,27]};
-const hist=[]; const byNum=new Map();
-const $=s=>document.querySelector(s);
+(()=>{
+  // ===== RODA / CORES =====
+  const WHEEL = [0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
+  const isRed = new Set([1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);
+  const inRange = n => Number.isInteger(n)&&n>=0&&n<=36;
 
-function neighbors(n,k){const i=wheel.indexOf(n);if(i<0)return[];const out=[];for(let d=-k;d<=k;d++)out.push(wheel[(i+d+wheel.length)%wheel.length]);return[...new Set(out)];}
-function fillSelects(){
-  const U=$('#ult'), B=$('#base'); U.innerHTML=''; B.innerHTML='';
-  for(let i=0;i<=36;i++){const o=document.createElement('option');o.text=i;o.value=i;U.appendChild(o);}
-  [17,20,7,5,10,16,13,36,27].forEach(n=>{const o=document.createElement('option');o.text='Nº '+n;o.value=n;B.appendChild(o);});
-}
-function pushNum(n,src='SIM'){ hist.unshift({n,src}); if(hist.length>36) hist.pop(); byNum.set(n,(byNum.get(n)||0)+1); render(); }
-function render(){
-  const H=$("#hist"); H.innerHTML='';
-  hist.forEach(h=>{const b=document.createElement('button');b.textContent=h.n;b.style.cssText='width:36px;height:36px;border-radius:10px;border:1px solid #274162;background:#0a0f19;color:#e6f6ff';b.title=h.src;b.onclick=()=>pushNum(h.n,'REPEAT');H.appendChild(b);});
-  const k=parseInt($('#k').value||'2',10); const base=parseInt($('#base').value||'17',10);
-  const pux=(PUXA[base]||[]).slice(0,3); $('#pux').textContent=pux.join(', ');
-  const viz = pux.flatMap(n=>neighbors(n,k)); $('#act').textContent=[...new Set(viz)].length;
-}
-$('#sim').onclick=()=>{const n=Math.floor(Math.random()*37); $('#ult').value=String(n); pushNum(n,'SIM');};
-$('#limpar').onclick=()=>{hist.length=0; byNum.clear(); render();};
-['ult','base','k'].forEach(id=>$('#'+id).onchange=render);
+  // ===== PUXADORES (base -> gatilhos) =====
+  const PULLERS = {
+    0:[10,20,30],1:[17,7],2:[2,22],3:[3,33],4:[21,9],5:[25,15,35],
+    6:[20,17,7],7:[7,17,20],8:[30,0,20],9:[9,19],10:[0,20,30],
+    11:[30,0,20],12:[33,15],13:[20,7],14:[17,7],15:[9,5,35],
+    16:[3,33],17:[17,20,7],18:[2,22],19:[19,9],20:[17,7],
+    21:[2,22],22:[2,22],23:[0,10],24:[35,15,25],25:[20,22],
+    26:[0,10,30],27:[17,7,20],28:[7,17,20],29:[7,17,20],30:[0,20,30],
+    31:[9,19],32:[0,10,20,30],33:[3,33],34:[7,20],35:[3,33,15],36:[20,30]
+  };
 
-try{ const bc=new BroadcastChannel('sc-tips-live'); bc.onmessage=(ev)=>{const msg=ev.data||{}; if(typeof msg.number==='number'){ $('#ult').value=String(msg.number); pushNum(msg.number,(msg.platform||'LIVE').toUpperCase()); }};}catch(e){}
-fillSelects(); render();
+  // ===== ESTADO =====
+  const st = {
+    live:false,lastAt:0, origin:'—', table:'—',
+    last:null, hist:[], signals:[], neighbors:2, auto:true,
+    win:0, loss:0
+  };
+  const MAX_ACTIVE_TICKS = 18;
+
+  // ===== UTILS =====
+  const $ = s=>document.querySelector(s);
+  const el = id=>document.getElementById(id);
+  const nowSec = ()=> Math.round((Date.now()-st.lastAt)/1000)+'s';
+  const colorBadge = (n)=> {
+    if(!inRange(n)) return {bg:'#0a1322', br:'#334155'};
+    if(n===0) return {bg:'#0c3d1e', br:'#16a34a'};
+    return isRed.has(n) ? {bg:'#7a1d1d', br:'#ef4444'} : {bg:'#0d1523', br:'#94a3b8'};
+  };
+  const neighbors = (n,k)=>{
+    const i = WHEEL.indexOf(n); if(i<0) return [];
+    const out=[]; for(let d=-k; d<=k; d++) out.push(WHEEL[(i+d+WHEEL.length)%WHEEL.length]);
+    return [...new Set(out)];
+  };
+
+  // ===== RENDER =====
+  function renderTop(){
+    el('liveBadge').textContent = st.live ? 'LIVE' : 'standby';
+    el('liveBadge').className = 'badge ' + (st.live ? 'b-ok' : 'b-stand');
+    el('originBadge').textContent = 'Origem: ' + st.origin;
+    el('tableBadge').textContent  = 'Mesa: ' + st.table;
+    el('agoBadge').textContent    = 'última: ' + (st.lastAt? nowSec() : '—');
+
+    const {bg,br} = colorBadge(st.last);
+    const badge = el('lastBadge');
+    badge.style.background = bg;
+    badge.style.borderColor = br;
+    badge.textContent = inRange(st.last) ? st.last : '--';
+
+    el('pullersText').textContent = (PULLERS[el('selBase').value]||[]).join(', ') || '—';
+    el('vizNow').textContent = st.neighbors + ' viz.';
+  }
+
+  function renderHist(){
+    const box = el('hist'); box.innerHTML='';
+    st.hist.slice(-36).forEach(n=>{
+      const b = document.createElement('button');
+      const {bg} = colorBadge(n);
+      b.textContent = n;
+      b.style.cssText = `width:36px;height:36px;border-radius:10px;border:1px solid #1f2a44;background:${bg}`;
+      b.onclick = ()=> handleInbound({number:n,platform:'REPEAT'});
+      box.appendChild(b);
+    });
+    el('kTot').textContent = st.hist.length;
+  }
+
+  function renderSignals(){
+    const active = st.signals.filter(s=>s.active);
+    const recent = st.signals.filter(s=>!s.active && s.closedAt).slice(-8);
+    el('kSig').textContent = st.signals.length;
+    el('kWin').textContent = st.win;
+    el('kLos').textContent = st.loss;
+
+    const aBox = el('activeBox'), aList = el('activeList');
+    aBox.style.display = active.length ? 'block':'none';
+    aList.innerHTML = '';
+    active.forEach(s=>{
+      const d = document.createElement('div');
+      d.className='entry';
+      d.innerHTML = `<b>Base ${s.base}</b> • puxadores ${s.pullers.join(', ')} • <b>${s.neighbors}</b> viz.<br>
+                     <span class="muted">vigência: ${s.ticks} spins</span>`;
+      aList.appendChild(d);
+    });
+
+    const rBox = el('recentBox'), rList = el('recentList');
+    rBox.style.display = recent.length ? 'block':'none';
+    rList.innerHTML = '';
+    recent.forEach(s=>{
+      const d = document.createElement('div');
+      d.className='entry';
+      d.style.borderColor = s.win ? '#155e46' : '#7c2d2d';
+      d.innerHTML = `<b>Base ${s.base}</b> • ${s.win? 'WIN':'LOSS'} • ${s.ticks} spins`;
+      rList.appendChild(d);
+    });
+  }
+
+  // ===== LÓGICA DE SINAIS =====
+  function onNumber(n){
+    // Atualiza histórico
+    st.hist.push(n);
+    // Atualiza sinais existentes
+    st.signals = st.signals
+      .map(s => s.active ? {...s, ticks:(s.ticks||0)+1} : s)
+      .filter(s => !s.active || (s.ticks||0) <= MAX_ACTIVE_TICKS);
+
+    // Verifica HIT
+    let anyHit=false;
+    st.signals.forEach(s=>{
+      if(!s.active) return;
+      const neigh = new Set(neighbors(s.base, s.neighbors));
+      const hit = n===s.base || neigh.has(n);
+      if(hit){ s.active=false; s.win=true; s.closedAt=Date.now(); anyHit=true; }
+    });
+    if(anyHit){ st.win++; try{ el('sndHit').play(); }catch{} }
+    else {
+      // se não teve hit e foi giro que fechou algum, marca miss
+      const justClosed = st.signals.some(s => !s.active && s.closedAt && (Date.now()-s.closedAt)<50);
+      if(justClosed){ st.loss++; try{ el('sndMiss').play(); }catch{} }
+    }
+
+    // Gatilho para abrir novo sinal quando base/“puxador” aparece e não houve respeito recente
+    const base = parseInt(el('selBase').value,10);
+    const pull = PULLERS[base]||[];
+    const isTrigger = (n===base) || pull.includes(n);
+    if(isTrigger){
+      const recent = st.hist.slice(-12);
+      const respect = recent.some(x=> x===base || neighbors(base, st.neighbors).includes(x));
+      if(!respect){
+        st.signals.push({
+          id: Date.now()+Math.random(),
+          base, pullers: pull.slice(), neighbors: st.neighbors,
+          startedAt: Date.now(), ticks:0, active:true
+        });
+        try{ el('sndAlert').play(); }catch{}
+      }
+    }
+
+    renderHist();
+    renderSignals();
+  }
+
+  // ===== ENTRADAS =====
+  function handleInbound(payload, via='?'){
+    if(!payload) return;
+    let n=null;
+    if(typeof payload==='number') n=payload;
+    else if(typeof payload==='string'){
+      const m = payload.match(/\b([0-9]|[12][0-9]|3[0-6])\b/); if(m) n=parseInt(m[1],10);
+    } else if(typeof payload==='object'){
+      if(inRange(payload.number)) n=payload.number;
+      if(payload.platform) st.origin = String(payload.platform);
+      if(payload.table)    st.table  = String(payload.table);
+    }
+    if(!inRange(n)) return;
+
+    st.live = true;
+    st.lastAt = Date.now();
+    st.last = n;
+    renderTop();
+    onNumber(n);
+  }
+
+  // ===== EVENTOS EXTERNOS =====
+  try {
+    const bc = new BroadcastChannel('sc-tips-live');
+    bc.onmessage = (e)=> handleInbound(e?.data,'BC');
+  } catch {}
+  window.addEventListener('message', (e)=> handleInbound(e?.data,'PM'));
+
+  // ===== CONTROLES UI =====
+  // base select
+  const sel = el('selBase');
+  for(let i=0;i<=36;i++){
+    const op=document.createElement('option'); op.value=i; op.textContent='Nº '+i;
+    if(i===17) op.selected = true;
+    sel.appendChild(op);
+  }
+  sel.onchange = ()=> renderTop();
+
+  // auto viz
+  el('cbAuto').onchange = (e)=>{
+    st.auto = e.target.checked;
+    el('manualViz').style.display = st.auto ? 'none' : 'flex';
+  };
+  el('manualViz').querySelectorAll('button').forEach(b=>{
+    b.onclick = ()=>{ st.neighbors = parseInt(b.dataset.viz,10); renderTop(); };
+  });
+
+  // simulate
+  el('btnSim').onclick = ()=>{
+    if(Date.now()-st.lastAt < 8000) return; // pausa sim se feed real recente
+    handleInbound({number: Math.floor(Math.random()*37), platform:'SIM'});
+  };
+  // manual insert
+  el('btnInsert').onclick = ()=>{
+    const v = prompt('Digite um número (0-36):');
+    const n = Number(v); if(inRange(n)) handleInbound({number:n, platform:'MANUAL'});
+  };
+  // copy
+  el('btnCopy').onclick = async ()=>{
+    const base = parseInt(el('selBase').value,10);
+    const txt = (inRange(st.last) ? `Último: ${st.last}` : '—')+
+      ` | Base ${base} → puxadores ${(PULLERS[base]||[]).join(', ')||'-'} + ${st.neighbors} viz.`;
+    try{ await navigator.clipboard.writeText(txt);}catch{}
+  };
+  // reset
+  el('btnReset').onclick = ()=>{
+    st.hist=[]; st.signals=[]; st.win=0; st.loss=0; st.last=null; st.origin='—'; st.table='—'; st.live=false; st.lastAt=0;
+    renderTop(); renderHist(); renderSignals();
+  };
+
+  // timer de “há Xs”
+  setInterval(()=>{ if(st.lastAt) el('agoBadge').textContent = 'última: '+nowSec(); }, 1000);
+
+  // init
+  renderTop(); renderHist(); renderSignals();
+})();
 </script>
-  ...
-  
-  <!-- sons SC TIPS -->
-  <style> ... </style>
-  <button id="sndToggle" class="snd-btn">🔊 Som ON</button>
-  <script> ... </script>
-  <!-- /sons -->
-
-</body>
-</html>
 </body>
 </html>
