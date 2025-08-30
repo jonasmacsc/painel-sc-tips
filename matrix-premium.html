@@ -886,5 +886,75 @@ if(q('#chkAuto').checked) startAuto();
   <footer style="margin:24px 0 12px;text-align:center;color:#8aa;font-size:12px;">
   © 2025 <b>SC TIPS</b> — Todos os direitos reservados.
   </footer>
+  <!-- ================= Plataformas Matrix (reutilizável) ================= -->
+<section id="plataformas-matrix" class="panel" style="margin-top:28px">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+    <span style="font-weight:800;font-size:18px">🎲 Plataformas Matrix</span>
+    <small id="plat-uptime" style="opacity:.6">—</small>
+  </div>
+
+  <div class="grid" style="display:grid;grid-template-columns:repeat(2, minmax(0,1fr));gap:12px">
+    <!-- Card plataforma -->
+    <div class="plat card selected" data-id="donald">
+      <div class="row-head">
+        <span>🎲 Donald</span>
+        <span class="lat" id="lat-donald">—</span>
+      </div>
+      <canvas class="spark" height="40"></canvas>
+    </div>
+
+    <div class="plat card" data-id="bbtips">
+      <div class="row-head">
+        <span>📈 BBTips</span>
+        <span class="lat" id="lat-bbtips">—</span>
+      </div>
+      <canvas class="spark" height="40"></canvas>
+    </div>
+
+    <div class="plat card" data-id="lucky">
+      <div class="row-head">
+        <span>🍀 Lucky</span>
+        <span class="lat" id="lat-lucky">—</span>
+      </div>
+      <canvas class="spark" height="40"></canvas>
+    </div>
+
+    <div class="plat card" data-id="engine">
+      <div class="row-head">
+        <span>🧠 Engine</span>
+        <span class="lat" id="lat-engine">—</span>
+      </div>
+      <canvas class="spark" height="40"></canvas>
+    </div>
+  </div>
+
+  <div class="row-acts" style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">
+    <button id="plat-simular" class="btn primary">🎲 Simular número</button>
+    <button id="plat-limpar" class="btn">🪄 Limpar números</button>
+    <button id="plat-exportar" class="btn">📄 Exportar CSV</button>
+  </div>
+</section>
+
+<style>
+  #plataformas-matrix .card{
+    background:#0b1320;border:1px solid #1c2a44;border-radius:12px;padding:10px
+  }
+  #plataformas-matrix .card.selected{ outline:2px solid #3b82f6 }
+  #plataformas-matrix .row-head{
+    display:flex;justify-content:space-between;align-items:center;
+    font-weight:700;margin-bottom:8px
+  }
+  #plataformas-matrix .lat{
+    font-size:12px;opacity:.75;padding:2px 6px;border-radius:999px;
+    border:1px solid #2a3a58;background:#0e1a2d
+  }
+  #plataformas-matrix .btn{
+    padding:10px 14px;border-radius:10px;border:1px solid #1e2a44;background:#0e1a2d
+  }
+  #plataformas-matrix .btn.primary{
+    background:linear-gradient(180deg,#f6c34a,#d99a22);color:#111;font-weight:800
+  }
+  #plataformas-matrix canvas.spark{ width:100% }
+</style>
 </body>
 </html>
