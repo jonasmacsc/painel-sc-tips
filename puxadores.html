@@ -56,10 +56,17 @@
   </div>
 </div>
 <script>
-/* ===== Cadência & “última” para Puxadores Live ===== */
-const CADENCE_MS = 18000;              // alvo 18s
-let lastLiveAt = 0;                    // timestamp do último número real/simulado
-let cadenceStart = Date.now();         // quando começou o ciclo atual
+<!-- ===== Status Puxadores ===== -->
+<div id="live-status" class="panel" style="margin-bottom:16px">
+  <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+    <span class="pill" id="lv-state">standby</span>
+    <span class="pill">última: <b id="lv-last">—</b></span>
+    <span class="pill">cadência: <b id="lv-cad">18s</b></span>
+  </div>
+  <div style="height:6px;background:#0e1a2d;border:1px solid #1e2a44;border-radius:999px;margin-top:10px">
+    <div id="lv-bar" style="height:100%;width:0%;background:#3b82f6;border-radius:999px"></div>
+  </div>
+</div>
 
 const elLastAgo  = document.getElementById('lastAgo');
 const elCadLeft  = document.getElementById('cadLeft');
