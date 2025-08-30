@@ -3,77 +3,137 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SC TIPS • Home</title>
-  <meta name="theme-color" content="#0b1220">
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16.png">
-  <link rel="manifest" href="assets/favicon/site.webmanifest">
-
+  <title>SC TIPS VIP — Home</title>
+  <link rel="icon" type="image/png" href="./assets/favicon/favicon-32.png">
   <style>
     :root {
-      --bg:#0a0b0f; --panel:#0e1525; --text:#e7f3ff;
-      --gold:#f4d063; --muted:#93c5fd; --blue:#22d3ee;
+      --bg: #0a0b0f;
+      --panel: #101319;
+      --line: #1e2430;
+      --ink: #e7f3ff;
+      --muted: #93c5fd;
+      --gold: #f4d063;
+      --blue: #60a5fa;
+      --cyan: #22d3ee;
     }
     *{box-sizing:border-box;margin:0;padding:0}
-    body{background:var(--bg);color:var(--text);font:16px/1.5 system-ui,Segoe UI,Inter,sans-serif}
-    a{color:var(--blue);text-decoration:none}
-    a:hover{text-decoration:underline}
-    .wrap{max-width:1100px;margin:0 auto;padding:20px}
-
-    /* NAVBAR */
-    nav{background:#0e1525;border-bottom:1px solid #1e2a44;position:sticky;top:0;z-index:10}
-    nav .row{display:flex;align-items:center;justify-content:space-between;padding:12px 18px}
-    .brand{display:flex;align-items:center;gap:10px}
-    .brand video,.brand img{width:42px;height:42px;border-radius:8px;object-fit:cover}
-    .brand span{display:flex;flex-direction:column;line-height:1}
-    .brand b{color:#fff;font-weight:800}
-    .brand small{background:#0b1220;border:1px solid #1e2a44;padding:2px 8px;border-radius:999px;color:#22d3ee;width:max-content}
-    .menu{display:flex;gap:8px}
-    .menu a{padding:8px 14px;border-radius:10px;color:#cfe0ff}
-    .menu a:hover{background:rgba(255,255,255,.07)}
-    .menu a.active{background:linear-gradient(135deg,#22d3ee,#60a5fa);color:#001428;font-weight:700}
-
-    h1{font-size:28px;margin:16px 0;font-weight:900}
-    h2{margin:20px 0 10px;font-weight:700;color:var(--gold)}
-    p{margin:10px 0;color:#cbd5e1}
-
-    footer{margin:32px 0 12px;text-align:center;color:#8aa;font-size:13px}
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+    a { color: var(--cyan); text-decoration: none; }
+    header {
+      background: #0e1525;
+      border-bottom: 1px solid var(--line);
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header .brand {
+      font-weight: 900;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    header .brand small {
+      background: #0b1220;
+      border: 1px solid #1e2a44;
+      padding: 2px 8px;
+      border-radius: 999px;
+      color: var(--cyan);
+    }
+    nav { display:flex; gap:12px; }
+    nav a {
+      padding: 8px 14px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      color: #cfe0ff;
+    }
+    nav a.active {
+      background: linear-gradient(135deg,var(--cyan),var(--blue));
+      color: #001428;
+      font-weight: 700;
+    }
+    nav a:hover {
+      background: rgba(255,255,255,0.07);
+    }
+    .hero {
+      text-align: center;
+      padding: 50px 20px;
+    }
+    .hero h1 {
+      font-size: 32px;
+      font-weight: 900;
+      margin-bottom: 12px;
+    }
+    .hero p {
+      color: var(--muted);
+      max-width: 640px;
+      margin: 0 auto 18px;
+    }
+    .hero .badge {
+      display: inline-block;
+      background: #1b2436;
+      color: #ffcc66;
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 18px;
+      font-weight: 700;
+    }
+    .links {
+      display:flex;
+      justify-content:center;
+      gap:16px;
+      margin-top: 20px;
+    }
+    .links a {
+      background: #1b2539;
+      padding: 12px 20px;
+      border-radius: 10px;
+      border:1px solid #2b3b55;
+      font-weight:600;
+      color:#e7f3ff;
+    }
+    .links a:hover{background:#22314d}
+    footer {
+      text-align: center;
+      font-size: 12px;
+      color: #8aa;
+      margin: 40px 0 12px;
+    }
   </style>
 </head>
 <body>
 
-<!-- NAVBAR -->
-<nav>
-  <div class="row">
-    <a class="brand" href="index.html">
-      <video src="assets/media/logo-animated.mp4" autoplay muted loop playsinline poster="assets/img/branding/logo-static.png"></video>
-      <span>
-        <b>SC TIPS</b>
-        <small>VIP</small>
-      </span>
-    </a>
-    <div class="menu">
-      <a class="active" href="index.html">Home</a>
-      <a href="estrategias.html">Estratégias</a>
-      <a href="matrix-premium.html">Matrix Premium</a>
-      <a href="puxadores.html">Puxadores Live</a>
-      <a href="contato.html">Contato</a>
-    </div>
+<header>
+  <div class="brand">
+    <img src="./assets/img/branding/logo-static.png" alt="SC Tips Logo" style="height:28px;">
+    SC TIPS <small>VIP</small>
   </div>
-</nav>
+  <nav>
+    <a class="active" href="index.html">Home</a>
+    <a href="estrategias.html">Estratégias</a>
+    <a href="matrix-premium.html">Matrix Premium</a>
+    <a href="puxadores.html">Puxadores Live</a>
+    <a href="contato.html">Contato</a>
+  </nav>
+</header>
 
-<div class="wrap">
-  <h1>🔥 SC TIPS — Roleta em Chamas</h1>
-  <p>Bem-vindo ao <b>SC TIPS VIP</b>! Aqui você encontra painéis de vizinhos, puxadores e 23 estratégias 
-     otimizadas para Evolution e Pragmatic.</p>
-
-  <h2>Acessos rápidos</h2>
-  <p><a href="estrategias.html">📊 Ver as 23 Estratégias</a></p>
-  <p><a href="matrix-premium.html">⚡ Abrir Matrix Premium</a></p>
-  <p><a href="puxadores.html">🎯 Abrir Puxadores Live</a></p>
-</div>
+<section class="hero">
+  <div class="badge">🔥 SC TIPS — Roleta em chamas</div>
+  <h1>Bem-vindo ao SC TIPS</h1>
+  <p>Operação em tempo real, gatilhos inteligentes e UI integrada.<br>
+     Otimizado para Evolution / Pragmatic.</p>
+  <div class="links">
+    <a href="estrategias.html">Ver as 23 Estratégias</a>
+    <a href="matrix-premium.html">Abrir Matrix Premium</a>
+    <a href="puxadores.html">Abrir Puxadores Live</a>
+  </div>
+</section>
 
 <footer>
   © 2025 <b>SC TIPS</b> — Todos os direitos reservados.
