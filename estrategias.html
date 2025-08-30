@@ -92,6 +92,54 @@
     .hr{height:1px;background:linear-gradient(90deg,transparent,#1b2a44,transparent);margin:12px 0}
   </style>
 </head>
+  <script>
+// --- Fix de navegação / ativo ---
+(function(){
+  const menu = document.getElementById('mainMenu');
+  if (!menu) return;
+
+  // 1) Garante HREFs corretos (proteção contra cópia errada)
+  const map = {
+    home: "index.html",
+    estrategias: "estrategias.html",
+    matrix: "matrix-premium.html",
+    puxadores: "puxadores.html",
+    contato: "contato.html"
+  };
+  menu.querySelectorAll('a[data-page]').forEach(a=>{
+    const key = a.getAttribute('data-page');
+    if (map[key] && a.getAttribute('href') !== map[key]) {
+      a.setAttribute('href', map[key]);
+    }
+    // Remove qualquer handler legado que possa bloquear clique
+    a.onclick = null;
+    a.removeAttribute('data-turbolinks'); // caso tenha lib de turbolinks
+  });
+
+  // 2) Define ACTIVE baseado no pathname
+  const path = (location.pathname.split('/').pop() || "index.html").toLowerCase();
+  menu.querySelectorAll('a').forEach(a=>a.classList.remove('active'));
+  if (path.includes('estrategias')) {
+    menu.querySelector('a[data-page="estrategias"]')?.classList.add('active');
+  } else if (path.includes('matrix-premium')) {
+    menu.querySelector('a[data-page="matrix"]')?.classList.add('active');
+  } else if (path.includes('puxadores')) {
+    menu.querySelector('a[data-page="puxadores"]')?.classList.add('active');
+  } else if (path.includes('contato')) {
+    menu.querySelector('a[data-page="contato"]')?.classList.add('active');
+  } else {
+    menu.querySelector('a[data-page="home"]')?.classList.add('active');
+  }
+
+  // 3) Z-index / pointer-events: assegura que nada cubra o menu
+  const nav = document.querySelector('nav');
+  if (nav) {
+    nav.style.zIndex = '9999';
+    menu.style.position = 'relative';
+    menu.style.zIndex = '2';
+  }
+})();
+  </script>
 <body>
 <nav>
   <div class="row">
