@@ -1,137 +1,116 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-  <!-- FAVICONS -->
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16.png">
-<link rel="manifest" href="/assets/favicon/site.webmanifest">
-<link rel="mask-icon" href="/assets/favicon/safari-pinned-tab.svg" color="#0ea5e9">
-<meta name="theme-color" content="#0b1220">
-
-<!-- Preload opcional para navbar rápida -->
-<link rel="preload" as="image" href="/assets/img/branding/logo-navbar.png" imagesrcset="/assets/img/branding/logo-navbar.png 1x">
-<link rel="preload" as="image" href="/assets/img/branding/logo-static.png">
-<link rel="preload" as="video" href="/assets/media/logo-animated.mp4" type="video/mp4">
-<!-- FAVICONS -->
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16.png">
-<link rel="manifest" href="/assets/favicon/site.webmanifest">
-<link rel="mask-icon" href="/assets/favicon/safari-pinned-tab.svg" color="#0ea5e9">
-<meta name="theme-color" content="#0b1220">
-
-<!-- Preload opcional para navbar rápida -->
-<link rel="preload" as="image" href="/assets/img/branding/logo-navbar.png" imagesrcset="/assets/img/branding/logo-navbar.png 1x">
-<link rel="preload" as="image" href="/assets/img/branding/logo-static.png">
-<link rel="preload" as="video" href="/assets/media/logo-animated.mp4" type="video/mp4">
-
-  <section class="hero" style="text-align:center;padding:36px 18px;">
-  <!-- versão GIF (simples) -->
-  <img
-    src="/assets/img/branding/logo-animated.gif"
-    alt="SC TIPS — Roleta em chamas"
-    style="width:220px;height:220px;object-fit:contain;display:inline-block;border-radius:18px;box-shadow:0 12px 32px rgba(0,0,0,.45);">
-
-  <h1 style="margin:14px 0 6px">Bem-vindo ao <span style="color:#22d3ee">SC TIPS</span></h1>
-  <p class="muted" style="max-width:680px;margin:0 auto;">Operação em tempo real, gatilhos inteligentes e UI integrada.</p>
-  </section>
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SC Tips VIP • Home</title>
-  <link rel="icon" type="image/png" href="favicon.png" />
-  <style>
-    :root{--bg:#050b12;--panel:#0f172a;--text:#e6f6ff;--muted:#93c5fd;--brand:#22d3ee;--btn:#2563eb;}
-    *{box-sizing:border-box}
-    html,body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 "Inter",system-ui,Segoe UI,Roboto,Arial}
-    .wrap{max-width:1200px;margin:0 auto;padding:18px}
-    /* NAV */
-    .nav{position:sticky;top:0;z-index:10;background:#0e1525;border-bottom:1px solid #1e2a44}
-    .nav .row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 20px}
-    .brand{display:flex;align-items:center;gap:10px;font-weight:800;color:#fff}
-    .brand img{height:28px;width:auto}
-    .brand small{background:#0b1220;border:1px solid #1e2a44;padding:2px 8px;border-radius:999px;color:#22d3ee}
-    .menu{display:flex;gap:8px;flex-wrap:wrap}
-    .menu a{padding:8px 14px;border:1px solid transparent;border-radius:10px;color:#cfe0ff;transition:.2s;text-decoration:none}
-    .menu a:hover{background:rgba(255,255,255,.08)}
-    .menu a.active{background:linear-gradient(135deg,#22d3ee,#60a5fa);color:#001428;font-weight:600}
-    /* PAGE */
-    .panel{background:linear-gradient(180deg,#0b1324,#0b1220);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px;margin-top:24px}
-    .badge{font-size:12px;color:var(--muted);margin-bottom:10px}
-    h1{font-size:34px;margin:0 0 8px 0}
-    h1 span{color:var(--brand)}
-    .lead{max-width:760px;color:var(--muted)}
-    .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
-    .btn{display:inline-block;text-decoration:none;padding:12px 18px;border-radius:10px;border:1px solid rgba(255,255,255,.12);color:#fff}
-    .btn.primary{background:#2563eb}
-    .btn.white{background:transparent}
-    .btn.outline{border-color:#60a5fa}
-    .panel2{background:#0f172a;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px;margin-top:16px}
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SC TIPS — Roleta em chamas</title>
+<link rel="icon" href="app/assets/favicon.png">
+<link rel="apple-touch-icon" href="app/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="app/assets/style.css">
+<style>
+  /* toques de landing (usa as vars do style.css) */
+  .hero {max-width:1100px;margin:40px auto 24px;padding:0 16px;text-align:center}
+  .hero h1 {font-size:clamp(28px,4vw,48px);margin:10px 0}
+  .hero p {color:var(--muted);font-size:clamp(15px,2.4vw,18px)}
+  .chip{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;
+        background:linear-gradient(180deg,rgba(255,215,0,.08),rgba(255,215,0,.02));
+        border:1px solid var(--stroke);box-shadow:0 6px 22px rgba(0,0,0,.28)}
+  .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+  .btn-lg{padding:12px 18px;font-weight:700}
+  .navtabs{position:sticky;top:0;z-index:10;background:var(--topbar);
+           border-bottom:1px solid var(--stroke)}
+  .tabs{display:flex;gap:8px;max-width:1100px;margin:0 auto;padding:10px 16px}
+  .tab{padding:8px 14px;border-radius:12px;border:1px solid var(--stroke);color:#cfe8ff;text-decoration:none}
+  .tab.active{background:linear-gradient(180deg,#0e1a2c,#0c1524);box-shadow:inset 0 0 0 2px rgba(59,130,246,.25)}
+  .cards{max-width:1100px;margin:20px auto;padding:0 16px;display:grid;gap:14px}
+</style>
 </head>
-  
-<body>
-  <!-- NAV -->
-  <div class="nav">
-    <div class="row wrap">
-      <div class="brand"><img src="logo.png" alt="SC Tips Logo"/><span>SC TIPS</span><small>VIP</small></div>
-      <nav class="menu">
-        <a href="index.html" class="active">Home</a>
-        <a href="estrategias.html">Estratégias</a>
-        <a href="matrix-premium.html">Matrix Premium</a>
-        <a href="puxadores.html">Puxadores Live</a>
-        <a href="contato.html">Contatos</a>
-      </nav>
+<body class="gold">
+  <header class="sitebar">
+    <div class="inside">
+      <div class="brand">
+        <div class="logo-dot"></div>
+        <strong>SC TIPS</strong>
+        <span class="vip">VIP</span>
+      </div>
+      <div class="actions">
+        <a class="ghost" href="app/dashboard.html">Abrir Painel</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="chip">🔥 <b>SC TIPS — Roleta em chamas</b></div>
+    <h1>Bem-vindo ao <span class="brand-cyan">SC TIPS</span></h1>
+    <p>Operação em tempo real, gatilhos inteligentes e UI integrada. Otimizado para Evolution / Pragmatic.</p>
+    <div class="cta">
+      <a class="btn btn-primary btn-lg" href="#estrategias">Ver as 23 Estratégias</a>
+      <a class="btn btn-dark btn-lg" href="app/dashboard.html">Abrir Painel</a>
     </div>
   </div>
 
-  <div class="wrap">
-    <div class="panel">
-      <div class="badge">LIVE • números puxadores & vizinhos</div>
-      <h1>Painel SC TIPS — <span>Vizinhos VIP</span></h1>
-      <p class="lead">Estatísticas ao vivo, gatilhos e alertas automáticos. Visual simples de operar e otimizado para Evolution / Pragmatic (roda europeia).</p>
-      <div class="cta">
-        <a class="btn primary" href="estrategias.html">Ver as 23 Estratégias</a>
-        <a class="btn white"   href="matrix-premium.html">Abrir Matrix Premium</a>
-        <a class="btn outline" href="puxadores.html">Abrir Puxadores Live</a>
-      </div>
-    </div>
-
-    <div class="panel2">
-      <h3 style="margin:0 0 10px 0">Prévia do Painel</h3>
-      <div style="color:#9ac2ff">Último nº: — • Vizinhos: 2 • Base: 17</div>
-      <div class="cta" style="margin-top:12px">
-        <a class="btn primary" href="puxadores.html">Simular nº</a>
-        <a class="btn white" href="puxadores.html">Ver gatilhos</a>
-      </div>
+  <div class="navtabs">
+    <div class="tabs">
+      <a class="tab active" href="#home">Home</a>
+      <a class="tab" href="#estrategias">Estratégias</a>
+      <a class="tab" href="#matrix">Matrix Premium</a>
+      <a class="tab" href="#live">Puxadores Live</a>
+      <a class="tab" href="#contatos">Contatos</a>
     </div>
   </div>
-  <!-- ===== RODAPÉ SC TIPS ===== -->
-<footer style="
-  margin-top:40px;
-  padding:20px;
-  text-align:center;
-  font-size:14px;
-  color:#94a3b8;
-  background:#0f172a;
-  border-top:1px solid #1e293b;
-">
-  <p>© 2025 <b>SC TIPS</b>. Todos os direitos reservados.</p>
-  <p style="font-size:12px;opacity:.7">
-    Desenvolvido com dedicação 🔥 — Painel SC TIPS VIP
-  </p>
-</footer>
-<!-- ===== /RODAPÉ SC TIPS ===== -->
+
+  <main class="cards">
+    <!-- Home card -->
+    <section class="card glow">
+      <div class="card-head">
+        <div>
+          <div class="kicker">LIVE • números puxadores & vizinhos</div>
+          <h2>Painel SC TIPS — <span class="brand-cyan">Vizinhos VIP</span></h2>
+          <p class="muted">Estatísticas ao vivo, gatilhos e alertas automáticos. Visual simples de operar e otimizado para Evolution / Pragmatic (roda europeia).</p>
+        </div>
+      </div>
+      <div class="row">
+        <a class="btn btn-primary" href="app/dashboard.html">Abrir Painel</a>
+        <a class="btn btn-dark" href="#matrix">Abrir Matrix Premium</a>
+      </div>
+    </section>
+
+    <!-- Estratégias (teaser) -->
+    <section id="estrategias" class="card">
+      <h3>Estratégias (teaser)</h3>
+      <p class="muted">No painel você edita, duplica, exclui e exporta/importa JSON. Exibição apenas de <b>números base</b> sem vizinhos.</p>
+      <div class="pills">
+        <span class="pill">Elite 2X</span>
+        <span class="pill">Quarta Dimensão</span>
+        <span class="pill">Fórmula 5X</span>
+        <span class="pill">Alpha 6</span>
+        <span class="pill">Padrão Black</span>
+        <span class="pill">Zero Shield</span>
+        <span class="pill">Vizinhos do Zero</span>
+        <span class="pill">Dúzia 2</span>
+        <span class="pill">Coluna 1</span>
+        <span class="pill">Paridade Forte</span>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <a class="btn btn-primary" href="app/dashboard.html">Abrir Painel</a>
+      </div>
+    </section>
+
+    <!-- Seções placeholder (pode preencher depois) -->
+    <section id="matrix" class="card"><h3>Matrix Premium</h3><p class="muted">Módulo premium (gráficos, ranking e horários). Posso plugar assim que você quiser.</p></section>
+    <section id="live" class="card"><h3>Puxadores Live</h3><p class="muted">Entrada ao vivo e monitor WS multi-mesa.</p></section>
+    <section id="contatos" class="card"><h3>Contatos</h3><p class="muted">Suporte e parcerias: seu-email@dominio.com</p></section>
+  </main>
+
+  <footer class="sitefoot">© SC TIPS — interface dourada premium</footer>
+  <script>
+    // tabs highlight simples
+    const tabs = document.querySelectorAll('.tab');
+    const sync = () => {
+      const h = location.hash || '#home';
+      tabs.forEach(t=>t.classList.toggle('active', t.getAttribute('href')===h));
+    };
+    window.addEventListener('hashchange', sync); sync();
+  </script>
 </body>
-  <!-- Sons Globais -->
-<audio id="snd-green" src="./sounds/green.mp3" preload="auto"></audio>
-<audio id="snd-red" src="./sounds/red.mp3" preload="auto"></audio>
-<audio id="snd-alerta" src="./sounds/alerta.mp3" preload="auto"></audio>
-<audio id="snd-click" src="./sounds/click.mp3" preload="auto"></audio>
-
-<script>
-  // Funções rápidas para tocar sons
-  function playGreen(){ document.getElementById("snd-green").play(); }
-  function playRed(){ document.getElementById("snd-red").play(); }
-  function playAlerta(){ document.getElementById("snd-alerta").play(); }
-  function playClick(){ document.getElementById("snd-click").play(); }
-</script>
 </html>
