@@ -8,12 +8,13 @@
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16.png">
   <link rel="manifest" href="assets/favicon/site.webmanifest">
-
   <style>
-    :root {
+    :root{
       --bg:#0a0b0f; --panel:#0e1525; --panel2:#101319;
       --ink:#e7f3ff; --muted:#93c5fd;
       --gold:#f4d063; --blue:#22d3ee;
+      --ok:#2bbf6a; --err:#e15a5a; --warn:#f1c40f;
+      --stroke:#1e2a44;
     }
     *{box-sizing:border-box;margin:0;padding:0}
     body{background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,Segoe UI,Inter,sans-serif}
@@ -21,45 +22,59 @@
     .wrap{max-width:1200px;margin:0 auto;padding:20px}
 
     /* NAVBAR */
-    nav{background:#0e1525;border-bottom:1px solid #1e2a44;position:sticky;top:0;z-index:10}
+    nav{background:#0e1525;border-bottom:1px solid var(--stroke);position:sticky;top:0;z-index:10}
     nav .row{display:flex;align-items:center;justify-content:space-between;padding:12px 18px}
     .brand{display:flex;align-items:center;gap:10px}
-    .brand video,.brand img{width:42px;height:42px;border-radius:8px;object-fit:cover}
+    .brand video,.brand img{width:42px;height:42px;border-radius:8px;object-fit:cover;display:block;background:#000}
     .brand span{display:flex;flex-direction:column;line-height:1}
-    .brand b{color:#fff;font-weight:800}
-    .brand small{background:#0b1220;border:1px solid #1e2a44;padding:2px 8px;border-radius:999px;color:#22d3ee;width:max-content}
-    .menu{display:flex;gap:8px}
+    .brand b{color:#fff;font-weight:800;letter-spacing:.3px}
+    .brand small{background:#0b1220;border:1px solid var(--stroke);padding:2px 8px;border-radius:999px;color:#22d3ee;width:max-content}
+    .menu{display:flex;gap:8px;flex-wrap:wrap}
     .menu a{padding:8px 14px;border-radius:10px;color:#cfe0ff}
     .menu a:hover{background:rgba(255,255,255,.07)}
     .menu a.active{background:linear-gradient(135deg,#22d3ee,#60a5fa);color:#001428;font-weight:700}
 
     h1{font-size:28px;margin:16px 0;font-weight:900}
+    h2{font-size:18px;margin:8px 0 12px;color:var(--muted);font-weight:700}
     h3{margin:14px 0;font-weight:700;color:var(--gold)}
 
     .grid{display:grid;gap:16px}
     @media(min-width:960px){.grid{grid-template-columns:1.2fr 1fr 1fr}}
 
-    .card{background:var(--panel2);border:1px solid #1e2a44;padding:14px;border-radius:14px}
+    .card{background:var(--panel2);border:1px solid var(--stroke);padding:14px;border-radius:14px}
     .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-    .btn{padding:10px 14px;border-radius:10px;border:1px solid #1e2a44;background:#0f172a;color:#fff;cursor:pointer}
+    .btn{padding:10px 14px;border-radius:10px;border:1px solid var(--stroke);background:#0f172a;color:#fff;cursor:pointer}
     .btn:hover{filter:brightness(1.05)}
-    .btn.gold{background:linear-gradient(180deg,#f4d063,#d99a22);color:#111;font-weight:700}
+    .btn.gold{background:linear-gradient(180deg,#f4d063,#d99a22);color:#111;font-weight:700;border:0}
+    .btn.ghost{background:transparent}
+    .btn.small{padding:6px 10px;font-size:14px}
+    .btn[disabled]{opacity:.6;cursor:not-allowed}
 
-    .console{background:#0b1220;border:1px solid #1e2a44;padding:12px;border-radius:14px;margin:16px 0}
-    .loglist{background:#071018;border:1px solid #0f2034;border-radius:12px;height:200px;overflow:auto;padding:6px}
-    .log{margin:6px 0;padding:8px 10px;border-radius:10px;font-size:14px}
+    .console{background:#0b1220;border:1px solid var(--stroke);padding:12px;border-radius:14px;margin:16px 0}
+    .loglist{background:#071018;border:1px solid #0f2034;border-radius:12px;height:220px;overflow:auto;padding:6px}
+    .log{margin:6px 0;padding:8px 10px;border-radius:10px;font-size:14px;white-space:pre-wrap}
     .hit{background:#0f2a1a;border:1px solid #1e6e3e}
     .miss{background:#2a0e0e;border:1px solid #6e2323}
     .sys{background:#0c1b2b;border:1px solid #1e3b5e}
+    .warn{background:#241d0a;border:1px solid #6b5d1a}
 
     .list{display:grid;gap:8px}
-    .item{display:flex;align-items:center;justify-content:space-between;background:#101319;border:1px solid #1e2a44;padding:10px;border-radius:12px}
+    .item{display:flex;align-items:center;justify-content:space-between;background:#101319;border:1px solid var(--stroke);padding:10px;border-radius:12px}
     .toggle{appearance:none;width:42px;height:24px;border-radius:999px;background:#253046;position:relative;cursor:pointer;outline:none;border:1px solid #3b455a}
     .toggle:checked{background:#1b7e3a;border-color:#2bbd66}
     .toggle:before{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;background:#e8f4ff;border-radius:50%;transition:.18s}
     .toggle:checked:before{left:20px}
 
+    input[type="text"], input[type="number"], input[type="url"]{
+      background:#0b1220;border:1px solid var(--stroke);color:#e6f0ff;border-radius:10px;padding:10px 12px;outline:none;min-width:180px
+    }
+    .pill{display:inline-flex;align-items:center;gap:8px;background:#0b1220;border:1px solid var(--stroke);padding:6px 10px;border-radius:999px}
+    .muted{color:#8aa}
+    .stat{display:inline-flex;gap:6px;align-items:center;padding:6px 10px;border:1px solid var(--stroke);border-radius:999px;background:#0b1220}
+    .stat b{color:#fff}
+
     footer{margin:32px 0 12px;text-align:center;color:#8aa;font-size:13px}
+    .hr{height:1px;background:linear-gradient(90deg,transparent,#1b2a44,transparent);margin:12px 0}
   </style>
 </head>
 <body>
@@ -67,7 +82,7 @@
 <!-- NAVBAR -->
 <nav>
   <div class="row">
-    <a class="brand" href="index.html">
+    <a class="brand" href="index.html" title="SC TIPS • Home">
       <video src="assets/media/logo-animated.mp4" autoplay muted loop playsinline poster="assets/img/branding/logo-static.png"></video>
       <span>
         <b>SC TIPS</b>
@@ -77,7 +92,7 @@
     <div class="menu">
       <a href="index.html">Home</a>
       <a href="estrategias.html">Estratégias</a>
-      <a class="active" href="matrix-premium.html">Matrix Premium</a>
+      <a class="active" href="matrix-premium.html" aria-current="page">Matrix Premium</a>
       <a href="puxadores.html">Puxadores Live</a>
       <a href="contato.html">Contato</a>
     </div>
@@ -88,33 +103,62 @@
   <h1>⚡ Matrix Premium</h1>
 
   <!-- CONSOLE -->
-  <div class="console">
-    <div class="row">
-      <button class="btn" id="btnClear">🧹 Limpar</button>
-      <button class="btn" id="btnExport">📄 Exportar TXT</button>
+  <div class="console" role="region" aria-label="Console e Logs">
+    <div class="row" style="justify-content:space-between">
+      <div class="row">
+        <button class="btn" id="btnClear">🧹 Limpar</button>
+        <button class="btn" id="btnExport">📄 Exportar TXT</button>
+        <button class="btn ghost" id="btnSounds">🔊 Sons: <span id="sndState">off</span></button>
+      </div>
+      <div class="row">
+        <span class="pill"><input type="checkbox" id="flt-sys" checked> SYS</span>
+        <span class="pill"><input type="checkbox" id="flt-hit" checked> HIT</span>
+        <span class="pill"><input type="checkbox" id="flt-miss" checked> MISS</span>
+        <input id="logFilter" type="text" placeholder="Filtrar logs (ex.: pragmatic, 29, dealer)">
+      </div>
     </div>
-    <div class="loglist" id="loglist"></div>
+    <div class="loglist" id="loglist" aria-live="polite"></div>
   </div>
 
   <div class="grid">
     <!-- STATUS -->
     <section class="card">
       <h3>Status</h3>
-      <div class="row">
-        <div><b>Cadência:</b> <span id="cadence">18s</span></div>
-        <div><b>Última:</b> <span id="last">--</span></div>
+      <div class="row" style="margin-bottom:8px">
+        <span class="stat">Cadência: <b id="cadence">18s</b></span>
+        <span class="stat">Contagem: <b id="countdown">—</b></span>
+        <span class="stat">Última: <b id="last">--</b></span>
+        <span class="stat">Rodadas: <b id="rounds">0</b></span>
       </div>
-      <div class="row" style="margin-top:12px">
+      <div class="row" style="margin-top:6px">
         <button class="btn gold" id="btnStart">▶️ Iniciar</button>
         <button class="btn" id="btnPause">⏸️ Pausar</button>
         <button class="btn" id="btnReset">🔁 Reset</button>
+        <input id="cadInput" type="number" min="5" max="60" step="1" value="18" title="Cadência (s)">
+        <button class="btn small" id="btnCad">⏱️ Aplicar</button>
+      </div>
+
+      <div class="hr"></div>
+
+      <h2>Conexão (WS/API)</h2>
+      <div class="row">
+        <input id="apiUrl" type="url" placeholder="Cole aqui a URL do WebSocket/API">
+        <button class="btn small" id="btnMask">🙈 Mascarar</button>
+        <button class="btn small" id="btnCopy">📋 Copiar</button>
+        <button class="btn small" id="btnConnect">🔌 Conectar</button>
+        <button class="btn small" id="btnDisconnect" disabled>❌ Desconectar</button>
+      </div>
+
+      <div class="row" style="margin-top:10px">
+        <input id="simNumber" type="number" min="0" max="36" placeholder="Simular nº (0-36)">
+        <button class="btn small" id="btnSim">🎯 Simular</button>
       </div>
     </section>
 
     <!-- PLATAFORMAS -->
     <section class="card">
       <h3>🎲 Plataformas</h3>
-      <div class="row" id="platforms"></div>
+      <div class="row" id="platforms" role="group" aria-label="Plataformas"></div>
     </section>
 
     <!-- ESTRATÉGIAS -->
@@ -129,45 +173,326 @@
   © 2025 <b>SC TIPS</b> — Todos os direitos reservados.
 </footer>
 
+<!-- Sons opcionais (mesmo arquivo/nomes que você já usa) -->
+<audio id="snd-green" src="assets/audio/green.mp3" preload="auto"></audio>
+<audio id="snd-red"   src="assets/audio/red.mp3"   preload="auto"></audio>
+<audio id="snd-alert" src="assets/audio/alerta.mp3" preload="auto"></audio>
+<audio id="snd-click" src="assets/audio/click.mp3"  preload="auto"></audio>
+
 <script>
-const loglist=document.getElementById("loglist");
-function log(msg,cls="sys"){
-  const d=document.createElement("div");
-  d.className="log "+cls;
-  d.textContent=`[${new Date().toLocaleTimeString()}] ${msg}`;
-  loglist.appendChild(d); loglist.scrollTop=loglist.scrollHeight;
+/* ==========================
+   Utilidades de Log
+========================== */
+const $ = sel => document.querySelector(sel);
+const loglist = $("#loglist");
+const filters = { sys: true, hit: true, miss: true, text: "" };
+
+function log(msg, cls="sys"){
+  if(!filters[cls] && cls!=="warn") return; // warn sempre mostra
+  if(filters.text && !String(msg).toLowerCase().includes(filters.text)) return;
+  const d = document.createElement("div");
+  d.className = "log " + cls;
+  d.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+  loglist.appendChild(d);
+  loglist.scrollTop = loglist.scrollHeight;
 }
-document.getElementById("btnClear").onclick=()=>loglist.innerHTML="";
-document.getElementById("btnExport").onclick=()=>{
-  const txt=[...loglist.children].map(x=>x.textContent).join("\n");
-  const a=document.createElement("a");
-  a.href=URL.createObjectURL(new Blob([txt],{type:"text/plain"}));
-  a.download="matrix_logs.txt"; a.click();
+
+$("#btnClear").onclick = ()=> loglist.innerHTML="";
+$("#btnExport").onclick = ()=>{
+  const txt = [...loglist.children].map(x=>x.textContent).join("\n");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([txt],{type:"text/plain"}));
+  a.download = "matrix_logs.txt"; a.click(); URL.revokeObjectURL(a.href);
 };
-document.getElementById("btnStart").onclick=()=>log("Motor iniciado","sys");
-document.getElementById("btnPause").onclick=()=>log("Motor pausado","sys");
-document.getElementById("btnReset").onclick=()=>log("Reset aplicado","sys");
 
-// Plataformas (simulação)
-const plats=["Donald","BBTips","Lucky","Engine"];
-const platBox=document.getElementById("platforms");
-plats.forEach(p=>{
-  const b=document.createElement("button");
-  b.className="btn"; b.textContent=p;
-  b.onclick=()=>log("Plataforma ativa: "+p,"sys");
-  platBox.appendChild(b);
-});
+$("#flt-sys").onchange  = e => { filters.sys = e.target.checked; };
+$("#flt-hit").onchange  = e => { filters.hit = e.target.checked; };
+$("#flt-miss").onchange = e => { filters.miss = e.target.checked; };
+$("#logFilter").oninput = e => { filters.text = (e.target.value||"").toLowerCase(); };
 
-// Estratégias
-const STRATS=["Fire Precision SC","Análise de Vizinhos","Pattern Breaker","Predição de Cores","Hot/Cold","Caçador de Repetições","Tiro Seco SC","Sector Target SC","Cavalo SC Premium","Cavalos 258","Terminais 0/5","Múltiplos de 3","Diagonais da Roda","Sequência 10+4","Linha dos Finais 6","Duplas Simétricas","Trinca Ímpares","Trinca Pares","Proteção Zero","Reverso Recentes","Gap Longo","Espiral da Roda","Alpha 6"];
-const strList=document.getElementById("strList");
-STRATS.forEach((name,i)=>{
-  const div=document.createElement("div");
-  div.className="item";
-  div.innerHTML=`<div>${name}</div><input type="checkbox" class="toggle" ${i<8?"checked":""}>`;
-  strList.appendChild(div);
+/* ==========================
+   Sons
+========================== */
+let soundsOn = false;
+const sndState = $("#sndState");
+$("#btnSounds").onclick = ()=>{
+  soundsOn = !soundsOn;
+  sndState.textContent = soundsOn ? "on" : "off";
+  try { $("#snd-click").play().catch(()=>{}); } catch(e){}
+};
+function play(id){
+  if(!soundsOn) return;
+  const el = document.getElementById(id);
+  if(el) { el.currentTime = 0; el.play().catch(()=>{}); }
+}
+
+/* ==========================
+   Estado & Contador 18s
+========================== */
+let cadence = 18; // segundos
+let timerId = null;
+let running = false;
+let remaining = cadence;
+let rounds = 0;
+
+const elCad = $("#cadence");
+const elCount = $("#countdown");
+const elRounds = $("#rounds");
+const elLast = $("#last");
+
+function tick(){
+  remaining -= 0.1; // 100ms resolução
+  if(remaining <= 0){
+    rounds++;
+    elRounds.textContent = String(rounds);
+    remaining = cadence;
+    log("⏱️ Tick (nova rodada)", "sys");
+    play("snd-alert");
+  }
+  elCount.textContent = `${remaining.toFixed(1)}s`;
+}
+
+function start(){
+  if(running) return;
+  running = true;
+  timerId = setInterval(tick, 100);
+  log("Motor iniciado", "sys");
+}
+function pause(){
+  if(!running) return;
+  running = false;
+  clearInterval(timerId);
+  timerId = null;
+  log("Motor pausado", "sys");
+}
+function reset(){
+  pause();
+  remaining = cadence;
+  rounds = 0;
+  elRounds.textContent = "0";
+  elCount.textContent = "—";
+  log("Reset aplicado", "sys");
+}
+
+$("#btnStart").onclick = ()=>{ start(); };
+$("#btnPause").onclick = ()=>{ pause(); };
+$("#btnReset").onclick = ()=>{ reset(); };
+
+$("#btnCad").onclick = ()=>{
+  const v = parseInt($("#cadInput").value,10);
+  if(Number.isFinite(v) && v>=5 && v<=60){
+    cadence = v;
+    elCad.textContent = `${v}s`;
+    remaining = v;
+    log(`Cadência ajustada para ${v}s`, "sys");
+  } else {
+    log("Valor inválido para cadência (5–60)", "warn");
+  }
+};
+
+/* ==========================
+   Plataformas
+========================== */
+const plats = ["Donald","BBTips","Lucky","Engine"];
+const platBox = $("#platforms");
+let activePlatform = localStorage.getItem("mp_active_platform") || "Engine";
+
+function renderPlatforms(){
+  platBox.innerHTML = "";
+  plats.forEach(p=>{
+    const b = document.createElement("button");
+    b.className = "btn" + (p===activePlatform ? " gold":"");
+    b.textContent = p;
+    b.onclick = ()=>{
+      activePlatform = p;
+      localStorage.setItem("mp_active_platform", p);
+      renderPlatforms();
+      log("Plataforma ativa: "+p, "sys");
+      play("snd-click");
+    };
+    platBox.appendChild(b);
+  });
+}
+renderPlatforms();
+
+/* ==========================
+   Estratégias (23) + persistência
+========================== */
+const STRATS = [
+  "Fire Precision SC","Análise de Vizinhos","Pattern Breaker","Predição de Cores",
+  "Hot/Cold","Caçador de Repetições","Tiro Seco SC","Sector Target SC",
+  "Cavalo SC Premium","Cavalos 258","Terminais 0/5","Múltiplos de 3",
+  "Diagonais da Roda","Sequência 10+4","Linha dos Finais 6","Duplas Simétricas",
+  "Trinca Ímpares","Trinca Pares","Proteção Zero","Reverso Recentes",
+  "Gap Longo","Espiral da Roda","Alpha 6"
+];
+const strList = $("#strList");
+const LS_KEY = "mp_strats_enabled";
+
+function loadStratsState(){
+  try{ return JSON.parse(localStorage.getItem(LS_KEY)||"{}"); }catch(e){ return {}; }
+}
+function saveStratsState(state){
+  localStorage.setItem(LS_KEY, JSON.stringify(state||{}));
+}
+const st = loadStratsState();
+
+function renderStrats(){
+  strList.innerHTML = "";
+  STRATS.forEach((name,i)=>{
+    const id = `s_${i}`;
+    const wrap = document.createElement("div");
+    wrap.className = "item";
+    wrap.innerHTML = `
+      <div>${name}</div>
+      <input id="${id}" type="checkbox" class="toggle">
+    `;
+    strList.appendChild(wrap);
+    const cb = wrap.querySelector("input");
+    cb.checked = (st[name] ?? (i<8)); // primeiras 8 ligadas por padrão
+    cb.onchange = ()=>{
+      st[name] = cb.checked;
+      saveStratsState(st);
+      log(`${name}: ${cb.checked ? "ON":"OFF"}`, "sys");
+      play("snd-click");
+    };
+  });
+}
+renderStrats();
+
+/* ==========================
+   Conexão WS/API (placeholder seguro)
+========================== */
+let ws = null;
+let masked = false;
+
+function setConnButtons(connected){
+  $("#btnConnect").disabled = connected;
+  $("#btnDisconnect").disabled = !connected;
+}
+
+$("#btnMask").onclick = ()=>{
+  masked = !masked;
+  const el = $("#apiUrl");
+  if(masked){
+    el.dataset.real = el.value;
+    if(el.value){
+      try{
+        const u = new URL(el.value);
+        const host = u.host;
+        const proto = u.protocol.replace(":","");
+        el.value = `${proto}://${host}/•••`;
+      }catch(e){
+        el.value = "•••";
+      }
+    }
+  }else{
+    if(el.dataset.real) el.value = el.dataset.real;
+  }
+};
+
+$("#btnCopy").onclick = ()=>{
+  const el = $("#apiUrl");
+  const v = masked && el.dataset.real ? el.dataset.real : el.value;
+  navigator.clipboard.writeText(v||"").then(()=>log("URL copiada", "sys"));
+};
+
+$("#btnConnect").onclick = ()=>{
+  const raw = ($("#apiUrl").dataset.real || $("#apiUrl").value || "").trim();
+  if(!raw){ log("Informe a URL do WS/API antes de conectar.", "warn"); return; }
+  // Evitar travar se a origem bloquear - mantemos como “mock seguro”
+  log("🔌 (Mock) Conectado a: " + raw, "sys");
+  setConnButtons(true);
+
+  // Se quiser ligar de fato: descomente com cautela (pode falhar por CORS/origem)
+  /*
+  try{
+    ws = new WebSocket(raw);
+    ws.onopen = ()=>{ log("🔌 Conectado: "+raw, "sys"); setConnButtons(true); };
+    ws.onclose = ()=>{ log("❌ Desconectado", "warn"); setConnButtons(false); ws=null; };
+    ws.onerror = e => { log("⚠️ Erro WS: "+(e?.message||"desconhecido"), "warn"); };
+    ws.onmessage = ev => handleIncoming(ev.data);
+  }catch(e){
+    log("⚠️ Falha ao abrir WS: "+e.message, "warn");
+  }
+  */
+};
+
+$("#btnDisconnect").onclick = ()=>{
+  if(ws){ try{ ws.close(); }catch(e){} ws=null; }
+  setConnButtons(false);
+  log("❌ (Mock) Desconectado", "warn");
+};
+
+/* ==========================
+   Parser de mensagens (genérico)
+   Espera formatos comuns:
+   - Evolution: { type: "roulette.winSpots", args:{ result:[{number:29}] }, ... }
+   - Pragmatic: { type:"spin_result", result:29 } / { winningNumber:29, ... }
+========================== */
+function handleIncoming(payload){
+  let data = payload;
+  try{ if(typeof payload === "string") data = JSON.parse(payload); }catch(e){}
+  let n = null;
+
+  // Evolution
+  if(data?.type === "roulette.winSpots"){
+    n = data?.args?.result?.[0]?.number ?? null;
+  }
+  // Pragmatic variantes
+  if(n==null && (data?.type === "spin_result" || data?.type === "result" || data?.winningNumber!=null)){
+    n = data?.result ?? data?.winningNumber ?? null;
+  }
+  // Fallback: algum campo “number”
+  if(n==null && typeof data?.number === "number"){ n = data.number; }
+
+  if(n==null){
+    log("Mensagem recebida (sem número): " + (typeof payload==="string"?payload:JSON.stringify(payload)), "sys");
+    return;
+  }
+  onNumber(n, data);
+}
+
+/* ==========================
+   Regras mínimas: atualizar “Última”, logar e sons
+========================== */
+const redSet = new Set([1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);
+function colorOf(n){ return n===0 ? "green" : (redSet.has(n) ? "red" : "black"); }
+
+function onNumber(n, raw){
+  elLast.textContent = String(n);
+  const col = colorOf(n);
+  const info = `🎯 Número: ${n} (${col}) • Plataforma: ${activePlatform}`;
+  log(info, "hit");
+  play("snd-green");
+}
+
+/* ==========================
+   Simulador de número
+========================== */
+$("#btnSim").onclick = ()=>{
+  const v = parseInt($("#simNumber").value,10);
+  if(Number.isFinite(v) && v>=0 && v<=36){
+    handleIncoming({ number: v, source: "simulator", at: Date.now() });
+  }else{
+    log("Informe um número entre 0 e 36", "warn");
+    play("snd-red");
+  }
+};
+
+/* ==========================
+   Bind dos botões principais (mantidos para compat.)
+========================== */
+document.getElementById("btnStart").addEventListener("click", ()=>start());
+document.getElementById("btnPause").addEventListener("click", ()=>pause());
+document.getElementById("btnReset").addEventListener("click", ()=>reset());
+
+/* ==========================
+   Acessibilidade/robustez
+========================== */
+document.addEventListener("keydown", (e)=>{
+  if(e.key===" "){ e.preventDefault(); running ? pause() : start(); }
 });
 </script>
-
 </body>
 </html>
