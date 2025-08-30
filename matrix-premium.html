@@ -42,8 +42,10 @@
     h1{font-size:30px;margin:14px 0 10px;font-weight:900;color:var(--gold-neon);text-shadow:var(--glow)}
     h2{font-size:18px;margin:8px 0 12px;color:var(--muted);font-weight:700}
     h3{margin:14px 0 10px;font-weight:800;color:var(--gold);text-shadow:var(--glow)}
+
     .grid{display:grid;gap:16px}
     @media(min-width:960px){.grid{grid-template-columns:1.2fr 1fr 1fr}}
+
     .card{background:linear-gradient(180deg,#0f1209,#0b0f08);border:1px solid #3a361c;padding:14px;border-radius:16px;box-shadow:inset 0 0 0 1px rgba(255,240,106,.08),var(--glow)}
     .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 
@@ -62,6 +64,7 @@
     .miss{background:rgba(255,100,100,.08);border:1px solid #ff6464}
     .sys{background:rgba(255,240,106,.06);border:1px solid #7a6b1b}
     .warn{background:rgba(255,210,77,.08);border:1px solid #b4931f}
+
     input[type="text"],input[type="number"],input[type="url"]{background:#0b0d07;border:1px solid #3a361c;color:#efeacd;border-radius:12px;padding:10px 12px;outline:none;min-width:180px;box-shadow:var(--glow)}
     .pill{display:inline-flex;align-items:center;gap:8px;background:#0b0d07;border:1px solid #3a361c;padding:6px 10px;border-radius:999px;color:#efeacd}
     .stat{display:inline-flex;gap:6px;align-items:center;padding:6px 10px;border:1px solid #3a361c;border-radius:999px;background:#0b0d07;box-shadow:var(--glow)}
@@ -72,4 +75,527 @@
     .chip{min-width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:12px;font-weight:900;border:2px solid #1a1a10;box-shadow:var(--glow)}
     .chip.green{background:rgba(0,211,126,.18);border-color:var(--chip-green);color:#ccffe9}
     .chip.red{background:rgba(255,90,90,.18);border-color:var(--chip-red);color:#ffecec}
-    .chip.black{background:rgba(111,224,255,.12);border-color:var(--chip-black);color:#eaffff
+    .chip.black{background:rgba(111,224,255,.12);border-color:var(--chip-black);color:#eaffff}
+
+    /* Toggle */
+    .toggle{appearance:none;width:46px;height:26px;border-radius:999px;background:#23240f;position:relative;cursor:pointer;outline:none;border:1px solid #3a361c;box-shadow:var(--glow)}
+    .toggle:checked{background:linear-gradient(180deg,var(--gold-neon),var(--gold))}
+    .toggle:before{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;background:#111;border-radius:50%;transition:.18s;box-shadow:0 0 6px rgba(0,0,0,.6)}
+    .toggle:checked:before{left:23px;background:#1a1506}
+
+    /* Plataformas */
+    .plat{background:#121407;border:1px solid #3a361c;border-radius:14px;padding:10px;box-shadow:var(--glow)}
+    .plat h4{display:flex;align-items:center;gap:8px;color:var(--gold-neon);text-shadow:var(--glow);font-weight:900}
+    .lat{background:#0b0d07;border:1px solid #3a361c;border-radius:999px;padding:2px 8px;font-size:12px;color:#efeacd}
+    canvas.spark{display:block;width:150px;height:40px}
+
+    footer{margin:28px 0 12px;text-align:center;color:#c9c29b;font-size:13px}
+    .hr{height:1px;background:linear-gradient(90deg,transparent,#423b1b,transparent);margin:12px 0}
+    .tip{font-size:12px;color:#d6ce98}
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAV ===== -->
+  <nav>
+    <div class="row">
+      <a class="brand" href="index.html" title="SC TIPS • Home">
+        <video src="assets/media/logo-animated.mp4" autoplay muted loop playsinline poster="assets/img/branding/logo-static.png"></video>
+        <span><b>SC TIPS</b><small>FASCOR • VIP</small></span>
+      </a>
+      <div class="menu" id="mainMenu">
+        <a href="index.html" data-page="home">Home</a>
+        <a href="estrategias.html" data-page="estrategias">Estratégias</a>
+        <a class="active" href="matrix-premium.html" data-page="matrix">Matrix Premium</a>
+        <a href="puxadores.html" data-page="puxadores">Puxadores Live</a>
+        <a href="contato.html" data-page="contato">Contato</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <h1>⚡ Matrix Premium — Tema FASCOR (Gold Neon)</h1>
+
+    <!-- ===== CONSOLE ===== -->
+    <section class="console" role="region" aria-label="Console e Logs">
+      <h3>🖥️ Console Matrix</h3>
+      <div class="row">
+        <button class="btn dark" id="btnClear">🧹 Limpar</button>
+        <button class="btn dark" id="btnExport">📄 Exportar TXT</button>
+        <button class="btn dark" id="btnCSV">📊 Exportar CSV</button>
+        <button class="btn ghost" id="btnSounds">🔊 Sons: <span id="sndState">off</span></button>
+      </div>
+      <div class="row" style="margin-top:8px">
+        <input id="logFilter" type="text" placeholder="🔍 Pesquisar logs (dealer, nº, Pragmatic/Evolution)">
+        <span class="pill"><input type="checkbox" id="flt-sys" checked> SYS</span>
+        <span class="pill"><input type="checkbox" id="flt-hit" checked> HIT</span>
+        <span class="pill"><input type="checkbox" id="flt-miss" checked> MISS</span>
+      </div>
+      <div class="loglist" id="loglist"></div>
+    </section>
+
+    <!-- ===== STATUS / NÚMEROS / CONEXÃO ===== -->
+    <section class="card">
+      <h3>📡 Status do Motor & Conexão</h3>
+      <div class="row" style="margin-bottom:8px">
+        <span class="stat">Cadência: <b id="cadence">18s</b></span>
+        <span class="stat">Contagem: <b id="countdown">—</b></span>
+        <span class="stat">Última: <b id="last">--</b></span>
+        <span class="stat">Rodadas: <b id="rounds">0</b></span>
+        <span class="stat">WS: <b id="wsstat">offline</b></span>
+        <span class="stat">Tips Matrix • <b id="platChip">Engine</b></span>
+      </div>
+
+      <h2>🔢 Últimos números</h2>
+      <div class="lastbar" id="lastbar"></div>
+
+      <div class="row" style="margin-top:10px">
+        <button class="btn" id="btnStart">▶️ Iniciar</button>
+        <button class="btn dark" id="btnPause">⏸️ Pausar</button>
+        <button class="btn dark" id="btnReset">🔁 Reset</button>
+        <input id="cadInput" type="number" min="5" max="60" step="1" value="18" title="Cadência (s)">
+        <button class="btn small" id="btnCad">⏱️ Aplicar</button>
+      </div>
+
+      <div class="hr"></div>
+
+      <h2>Conexão (WS/API)</h2>
+      <div class="row">
+        <input id="apiUrl" type="url" placeholder="Cole aqui a URL do WebSocket/API (Evolution/Pragmatic)">
+        <button class="btn small dark" id="btnMask">🙈 Mascarar</button>
+        <button class="btn small dark" id="btnCopy">📋 Copiar</button>
+        <button class="btn small" id="btnConnect">🔌 Conectar</button>
+        <button class="btn small dark" id="btnDisconnect" disabled>❌ Desconectar</button>
+        <input id="simNumber" type="number" min="0" max="36" placeholder="Simular nº (0-36)">
+        <button class="btn small" id="btnSim">🎯 Simular</button>
+      </div>
+      <div class="tip" style="margin-top:6px">Tokens da URL são ocultos nos logs. BroadcastChannel e postMessage ativos.</div>
+    </section>
+
+    <!-- ===== ENTRADAS ===== -->
+    <section class="card">
+      <h3>⚡ Entradas Automáticas</h3>
+      <div class="row" style="margin-top:6px">
+        <button class="btn" id="btnGenerate">⚡ Gerar Entradas</button>
+        <button class="btn" id="btnAuto">🤖 Auto-On: <span id="autoState">OFF</span></button>
+      </div>
+      <div class="tip" style="margin-top:6px">“Gerar Entradas” ativa as <b>Ótimas</b> e a <b>🎬 Exclusiva do Vídeo</b> se estiver tudo desligado. Com Auto-On ligado, dispara a cada batida do motor.</div>
+    </section>
+
+    <div class="grid">
+      <!-- ===== PLATAFORMAS ===== -->
+      <section class="card">
+        <h3>🎲 Plataformas Matrix</h3>
+        <div class="row" id="platforms"></div>
+        <div class="row" style="margin-top:10px">
+          <button class="btn" id="btnExportCsv">📊 Exportar CSV</button>
+          <button class="btn dark" id="btnClearNums">🧹 Limpar números</button>
+          <button class="btn small" id="btnPing">📡 Broadcast Ping</button>
+        </div>
+        <div class="tip">Evolution/Pragmatic linkados via WebSocket; BC e postMessage integrados.</div>
+      </section>
+
+      <!-- ===== ESTRATÉGIAS ===== -->
+      <section class="card" id="strategiesSection">
+        <h3>🎯 Estratégias Live — <span id="strCount">Ativas: 0/24</span></h3>
+        <div class="row" style="margin-bottom:8px">
+          <button class="btn small" id="btnAll">✅ Todas</button>
+          <button class="btn small dark" id="btnBest">🎯 Ótimas</button>
+          <button class="btn small dark" id="btnNone">❌ Limpar</button>
+        </div>
+        <div class="list" id="strList"></div>
+        <div class="tip">Gatilho + Números-base visíveis; vizinhos ficam no operador. 🐴 incluído nos Cavalos.</div>
+      </section>
+
+      <!-- ===== SYSTEM ===== -->
+      <section class="card">
+        <h3>🧰 Tips Matrix / System</h3>
+        <p class="tip">Canal: <b>matrix-channel</b> • postMessage <b>on</b> • handlers ativos.</p>
+      </section>
+    </div>
+  </div>
+
+  <footer>© 2025 <b>SC TIPS</b> — Tema FASCOR Gold Neon.</footer>
+
+  <!-- ===== ÁUDIO ===== -->
+  <audio id="snd-green" src="assets/audio/green.mp3" preload="auto"></audio>
+  <audio id="snd-red"   src="assets/audio/red.mp3"   preload="auto"></audio>
+  <audio id="snd-alert" src="assets/audio/alerta.mp3" preload="auto"></audio>
+  <audio id="snd-click" src="assets/audio/click.mp3"  preload="auto"></audio>
+
+  <!-- ===== JS / APP ===== -->
+  <script>
+    /* ========= Diagnóstico de erros ========= */
+    window.addEventListener('error', (e)=>{
+      const msg = (e?.error && e.error.stack) ? e.error.stack : (e?.message || 'Erro desconhecido');
+      try { log("🛑 ERRO: " + msg, "miss"); } catch(_) {}
+    });
+
+    /* ========= Helpers & Logs ========= */
+    const $ = s => document.querySelector(s);
+    const loglist = $("#loglist");
+    const filters = { sys:true, hit:true, miss:true, text:"" };
+    function capLogs(max=800){ while(loglist.children.length>max){ loglist.removeChild(loglist.firstChild); } }
+    function log(msg, cls="sys"){
+      if(cls!=="warn" && !filters[cls]) return;
+      if(filters.text && !String(msg).toLowerCase().includes(filters.text)) return;
+      const d=document.createElement("div");
+      d.className="log "+cls;
+      d.textContent=`[${new Date().toLocaleTimeString()}] ${msg}`;
+      loglist.appendChild(d);
+      loglist.scrollTop=loglist.scrollHeight;
+      capLogs();
+    }
+    $("#btnClear")?.addEventListener("click", ()=>loglist.innerHTML="");
+    $("#btnExport")?.addEventListener("click", ()=>{
+      const txt=[...loglist.children].map(x=>x.textContent).join("\n");
+      const a=document.createElement("a");
+      a.href=URL.createObjectURL(new Blob([txt],{type:"text/plain"}));
+      a.download="matrix_logs.txt"; a.click(); URL.revokeObjectURL(a.href);
+    });
+    $("#btnCSV")?.addEventListener("click", exportCSV);
+    $("#flt-sys")?.addEventListener("change", e=>filters.sys=e.target.checked);
+    $("#flt-hit")?.addEventListener("change", e=>filters.hit=e.target.checked);
+    $("#flt-miss")?.addEventListener("change", e=>filters.miss=e.target.checked);
+    $("#logFilter")?.addEventListener("input", e=>filters.text=(e.target.value||"").toLowerCase());
+
+    /* ========= Sons ========= */
+    let soundsOn=false; const sndState=$("#sndState");
+    $("#btnSounds")?.addEventListener("click", ()=>{
+      soundsOn=!soundsOn; sndState.textContent=soundsOn?"on":"off";
+      try{$("#snd-click").play().catch(()=>{});}catch(e){}
+    });
+    function play(id){ if(!soundsOn) return; const el=document.getElementById(id); if(el){ el.currentTime=0; el.play().catch(()=>{});} }
+
+    /* ========= Últimos números ========= */
+    const lastbar = $("#lastbar");
+    const redSet = new Set([1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);
+    function colorOf(n){ return n===0?"green":(redSet.has(n)?"red":"black"); }
+    let recent = []; // máx 16
+    function pushNumber(n){ recent.unshift(n); if(recent.length>16) recent.pop(); renderChips(); }
+    function renderChips(){
+      lastbar.innerHTML="";
+      recent.forEach(n=>{
+        const c=document.createElement("div");
+        c.className="chip "+colorOf(n);
+        c.textContent=n;
+        c.title="Repetir "+n;
+        c.addEventListener("click",()=>handleIncoming({number:n, source:"chip"}));
+        lastbar.appendChild(c);
+      });
+    }
+    $("#btnClearNums")?.addEventListener("click", ()=>{ recent=[]; renderChips(); log("🧹 Últimos números limpos","sys"); });
+    function exportCSV(){
+      const header="timestamp,numero\n";
+      const now=new Date().toISOString();
+      const rows=recent.map(n=>`${now},${n}`).join("\n");
+      const a=document.createElement("a");
+      a.href=URL.createObjectURL(new Blob([header+rows+"\n"],{type:"text/csv"}));
+      a.download="matrix_last_numbers.csv"; a.click(); URL.revokeObjectURL(a.href);
+    }
+    $("#btnExportCsv")?.addEventListener("click", exportCSV);
+
+    /* ========= Motor 18s ========= */
+    let cadence=18, running=false, rounds=0, nextBeat=0, tickHandle=null;
+    const elCad=$("#cadence"), elCount=$("#countdown"), elRounds=$("#rounds"), elLast=$("#last"), elWS=$("#wsstat");
+    function scheduleNext(){ const now=performance.now(); const wait=Math.max(0,nextBeat-now); tickHandle=setTimeout(onBeat, wait); }
+    function onBeat(){
+      rounds++; elRounds.textContent=String(rounds); nextBeat+=cadence*1000;
+      log("⏱️ Tick (nova rodada)","sys"); play("snd-alert");
+      updateCountdown(); scheduleNext();
+      if(autoOn){ ensureBestIfEmpty(); sendEntries("auto-on"); }
+    }
+    function updateCountdown(){ if(!running){ elCount.textContent="—"; return; } const now=performance.now(); const rem=Math.max(0,(nextBeat-now)/1000); elCount.textContent=`${rem.toFixed(1)}s`; requestAnimationFrame(updateCountdown); }
+    function startMotor(){ if(running){ log("Motor já está rodando","warn"); return; } running=true; const now=performance.now(); nextBeat=now+cadence*1000; log(`▶️ Motor iniciado (cadência ${cadence}s)`,"sys"); play("snd-click"); scheduleNext(); updateCountdown(); }
+    function pauseMotor(){ if(!running){ log("Motor já está pausado","warn"); return; } running=false; clearTimeout(tickHandle); tickHandle=null; log("⏸️ Motor pausado","sys"); }
+    function resetMotor(){ clearTimeout(tickHandle); tickHandle=null; running=false; rounds=0; elRounds.textContent="0"; elCount.textContent="—"; log("🔁 Reset aplicado","sys"); }
+    function applyCadence(){
+      const v=parseInt($("#cadInput").value,10);
+      if(Number.isFinite(v)&&v>=5&&v<=60){
+        cadence=v; elCad.textContent=`${v}s`;
+        if(running){ pauseMotor(); startMotor(); }
+        log(`⏱️ Cadência ajustada para ${v}s`,"sys");
+      } else { log("Valor inválido para cadência (5–60)","warn"); }
+    }
+    $("#btnStart")?.addEventListener("click", startMotor);
+    $("#btnPause")?.addEventListener("click", pauseMotor);
+    $("#btnReset")?.addEventListener("click", resetMotor);
+    $("#btnCad")?.addEventListener("click", applyCadence);
+    document.addEventListener("visibilitychange",()=>{ if(document.hidden && running){ pauseMotor(); log("Aba oculta: motor pausado (higiene)","warn"); }});
+
+    /* ========= Plataformas ========= */
+    const plats=[{name:"Evolution",icon:"🎡"},{name:"Pragmatic",icon:"🎰"},{name:"Donald",icon:"🎲"},{name:"BBTips",icon:"📈"},{name:"Lucky",icon:"🍀"},{name:"Engine",icon:"🧠"}];
+    const platBox=$("#platforms"); let activePlatform=localStorage.getItem("mp_active_platform")||"Engine"; $("#platChip").textContent=activePlatform;
+    function renderPlatforms(){
+      platBox.innerHTML="";
+      plats.forEach(p=>{
+        const wrap=document.createElement("div");
+        wrap.className="plat";
+        wrap.innerHTML=`<h4>${p.icon} ${p.name} <span class="lat" id="lat_${p.name}">—ms</span></h4><canvas class="spark" id="sp_${p.name}" width="150" height="40"></canvas>`;
+        wrap.addEventListener("click",()=>{ activePlatform=p.name; localStorage.setItem("mp_active_platform",activePlatform); $("#platChip").textContent=activePlatform; log("Plataforma ativa: "+activePlatform,"sys"); });
+        platBox.appendChild(wrap);
+      });
+    }
+    renderPlatforms();
+    const sparkData={}; plats.forEach(p=>sparkData[p.name]=[]);
+    function pushSpark(name,v){
+      const arr=sparkData[name]; arr.push(v); if(arr.length>30) arr.shift();
+      const cv=$("#sp_"+name), ctx=cv.getContext("2d");
+      ctx.clearRect(0,0,cv.width,cv.height);
+      ctx.beginPath(); ctx.moveTo(0,cv.height-(arr[0]||0));
+      arr.forEach((val,i)=>{ ctx.lineTo(i*5, cv.height - Math.min(cv.height-2,val)); });
+      ctx.strokeStyle="#38ff8b"; ctx.lineWidth=2; ctx.stroke();
+    }
+    setInterval(()=>{ plats.forEach(p=>{ const v=6+Math.floor(Math.random()*20); $("#lat_"+p.name).textContent=v+"ms"; pushSpark(p.name, Math.min(38,v)); }); }, 1200);
+
+    /* ========= Estratégias (23 + Exclusiva) ========= */
+    const STRATS = [
+      { name:"🎬 Exclusiva do Vídeo", gatilho:"Ativa pelo vídeo", base:[], forceDefault:true },
+      { name:"Elite 2X",            gatilho:"Terminal 4 ou 5", base:[2,12,22,32] },
+      { name:"Quarta Dimensão",     gatilho:"Terminal 1 ou 3", base:[4,14,24,34] },
+      { name:"Fórmula 5X",          gatilho:"Terminal 6 ou 8", base:[5,15,25,35] },
+      { name:"Alpha 6",             gatilho:"Terminal 2 ou 9", base:[6,16,26,36] },
+      { name:"Coluna de Ouro",      gatilho:"— definir", base:[] },
+      { name:"Triângulo Vermelho",  gatilho:"— definir", base:[] },
+      { name:"Padrão Black",        gatilho:"13/31/33 recentes", base:[13,31,33] },
+      { name:"Coluna de Prata",     gatilho:"— definir", base:[] },
+      { name:"Linha dos Finais 6",  gatilho:"— definir", base:[6,16,26,36] },
+      { name:"Tiro Seco SC",        gatilho:"Gatilho Tiro Seco", base:[] },
+      { name:"🐴 Cavalo SC Premium", gatilho:"Grupo quente 3+ ocorrências", base:[] },
+      { name:"🐴 Cavalos 258",      gatilho:"Grupo 258 aquecendo", base:[2,5,8,12,15,18,22,25,28] },
+      { name:"Múltiplos de 3",      gatilho:"— definir", base:[3,6,9,12,15,18,21,24,27,30,33,36] },
+      { name:"Diagonais da Roda",   gatilho:"— definir", base:[] },
+      { name:"Sequência 10+4",      gatilho:"— definir", base:[] },
+      { name:"Duplas Simétricas",   gatilho:"— definir", base:[] },
+      { name:"Trinca Ímpares",      gatilho:"— definir", base:[1,3,5,7,9,11,13,15,17,19,21,23,25,27,29,31,33,35] },
+      { name:"Trinca Pares",        gatilho:"— definir", base:[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36] },
+      { name:"Proteção Zero",       gatilho:"Ausência longa de 0", base:[0] },
+      { name:"Reverso Recentes",    gatilho:"Quebra de repetição", base:[] },
+      { name:"Gap Longo",           gatilho:"Ausência 15+ rodadas", base:[] },
+      { name:"Espiral da Roda",     gatilho:"— definir", base:[] },
+      { name:"Terminais 0/5",       gatilho:"Terminais 0 ou 5", base:[0,5,10,15,20,25,30,35] }
+    ];
+    const BEST_LIST = ["🎬 Exclusiva do Vídeo","Elite 2X","Quarta Dimensão","Fórmula 5X","🐴 Cavalo SC Premium","Terminais 0/5"];
+    const BEST_SET = new Set(BEST_LIST);
+
+    const strList = $("#strList");
+    const strCount = $("#strCount");
+    const LS_KEY_STR = "mp_strats_enabled_fascor_v2";
+    function loadStr(){ try{return JSON.parse(localStorage.getItem(LS_KEY_STR)||"{}");}catch(_){return{}} }
+    function saveStr(s){ localStorage.setItem(LS_KEY_STR, JSON.stringify(s||{})); }
+    const st = loadStr();
+
+    function updateStrCount(){
+      const total = STRATS.length;
+      const on = STRATS.reduce((acc,s)=>acc + (st[s.name]?1:0), 0);
+      if (strCount) strCount.textContent = `Ativas: ${on}/${total}`;
+    }
+
+    function renderStr(){
+      if (!strList) return;
+      strList.innerHTML = "";
+      STRATS.forEach((s,i)=>{
+        const baseTxt = s.base.length ? s.base.join(", ") : "—";
+        const div = document.createElement("div");
+        div.className = "row";
+        div.style = "justify-content:space-between;align-items:center;border:1px solid #3a361c;background:#0b0d07;border-radius:14px;padding:10px;box-shadow:var(--glow)";
+        div.innerHTML = `
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <b style="color:var(--gold-neon);text-shadow:var(--glow)">${s.name}</b>
+            <span class="tip">Gatilho: ${s.gatilho} • Base: ${baseTxt}</span>
+          </div>
+          <div class="row">
+            <button class="btn small dark" ${s.base.length? "":"disabled"} data-copy="${baseTxt}">📋 Copiar</button>
+            <input type="checkbox" class="toggle" data-name="${s.name}">
+          </div>`;
+        strList.appendChild(div);
+
+        if (st[s.name] === undefined) st[s.name] = (s.forceDefault ? true : (i<8));
+      });
+
+      // listeners
+      strList.querySelectorAll("button[data-copy]").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          const txt = btn.getAttribute("data-copy");
+          if (!txt || txt==="—") return;
+          navigator.clipboard.writeText(txt);
+          log("Copiado: "+txt,"sys");
+        });
+      });
+      strList.querySelectorAll('input[type="checkbox"][data-name]').forEach(cb=>{
+        const name = cb.getAttribute("data-name");
+        cb.checked = !!st[name];
+        cb.addEventListener("change", ()=>{
+          st[name] = cb.checked;
+          saveStr(st);
+          updateStrCount();
+          log(`${name}: ${cb.checked?"ON":"OFF"}`,"sys");
+        });
+      });
+
+      saveStr(st);
+      updateStrCount();
+    }
+    renderStr();
+
+    // Ações em massa
+    document.getElementById("btnAll")?.addEventListener("click",()=>{
+      STRATS.forEach(s=>st[s.name]=true);
+      saveStr(st); renderStr();
+      log("✅ Todas ON","sys");
+    });
+    document.getElementById("btnBest")?.addEventListener("click",()=>{
+      STRATS.forEach(s=>st[s.name]=BEST_SET.has(s.name));
+      saveStr(st); renderStr();
+      log("🎯 Ótimas ON","sys");
+    });
+    document.getElementById("btnNone")?.addEventListener("click",()=>{
+      STRATS.forEach(s=>st[s.name]=false);
+      saveStr(st); renderStr();
+      log("❌ Todas OFF","sys");
+    });
+
+    /* ========= Entradas ========= */
+    let autoOn=false; // única declaração
+    const autoState=$("#autoState");
+
+    function activeStrategies(){ return STRATS.filter(s => !!st[s.name]); }
+    function ensureBestIfEmpty(){
+      const act = activeStrategies();
+      if (act.length === 0){
+        STRATS.forEach(s=> st[s.name] = BEST_SET.has(s.name));
+        saveStr(st);
+        renderStr();
+        log("ℹ️ Nenhuma ativa; ativando as ÓTIMAS (fallback).","warn");
+      }
+    }
+    function sendEntries(origin="manual"){
+      const act = activeStrategies();
+      const payload = {
+        type:"entries",
+        origin,
+        at:Date.now(),
+        platform:activePlatform,
+        strategies: act.map(s=>s.name),
+        base: Object.fromEntries(act.map(s=>[s.name, s.base])),
+        last: recent.slice(0,10)
+      };
+      try { bc?.postMessage(payload); } catch(_){}
+      log(`⚡ ENTRADAS (${origin}) • ${act.length} estratégias • ${activePlatform}`, "sys");
+      play("snd-alert");
+    }
+
+    document.getElementById("btnGenerate")?.addEventListener("click", ()=>{
+      ensureBestIfEmpty();
+      sendEntries("gerar-entradas");
+    });
+    document.getElementById("btnAuto")?.addEventListener("click", ()=>{
+      autoOn=!autoOn;
+      if (autoState) autoState.textContent = autoOn ? "ON" : "OFF";
+      log(autoOn ? "🤖 Auto-On ativado" : "❌ Auto-On desativado","sys");
+      play(autoOn?"snd-green":"snd-red");
+    });
+
+    /* ========= BroadcastChannel / postMessage ========= */
+    const bc = new BroadcastChannel("matrix-channel");
+    bc.onmessage = ev => { log("📡 Broadcast: "+JSON.stringify(ev.data),"sys"); handleIncoming(ev.data); };
+    document.getElementById("btnPing")?.addEventListener("click", ()=>{ bc.postMessage({type:"ping", at:Date.now()}); log("📡 Enviado broadcast ping","sys"); });
+    window.addEventListener("message", ev=>{ if(ev.data?.type==="matrix"){ log("💬 postMessage: "+JSON.stringify(ev.data.payload),"sys"); handleIncoming(ev.data.payload);} });
+
+    /* ========= WS Manager ========= */
+    let ws=null, masked=false;
+    function sanitizeWsUrl(u){ try{ const url=new URL(u); ["EVOSESSIONID","JSESSIONID","videoToken","token","auth","session","videoSessionId","client_version"].forEach(k=>url.searchParams.delete(k)); return url.origin+url.pathname+(url.search?`?${url.searchParams.toString()}`:""); } catch(_){ return (u||"").replace(/(EVOSESSIONID|JSESSIONID|videoToken|token)=([^&]+)/gi,"$1=•••"); } }
+    function setConnUI(connected){ document.getElementById("btnConnect").disabled=connected; document.getElementById("btnDisconnect").disabled=!connected; elWS.textContent=connected?"online":"offline"; }
+    document.getElementById("btnMask")?.addEventListener("click", ()=>{
+      const el=document.getElementById("apiUrl"); masked=!masked;
+      if(masked){ el.dataset.real=el.value; if(el.value){ try{const u=new URL(el.value); el.value=`${u.protocol}//${u.host}/•••`;}catch(_){el.value="•••"} } }
+      else { if(el.dataset.real) el.value=el.dataset.real; }
+    });
+    document.getElementById("btnCopy")?.addEventListener("click", ()=>{
+      const el=document.getElementById("apiUrl");
+      const v=(masked && el.dataset.real)?el.dataset.real:el.value;
+      navigator.clipboard.writeText(v||"").then(()=>log("URL copiada","sys"));
+    });
+
+    document.getElementById("btnConnect")?.addEventListener("click", ()=>{
+      const raw=(document.getElementById("apiUrl").dataset.real||document.getElementById("apiUrl").value||"").trim();
+      if(!raw){ log("Cole a URL do WebSocket/API.","warn"); return; }
+      const safe=sanitizeWsUrl(raw);
+      try{
+        ws=new WebSocket(raw);
+        ws.onopen =()=>{ setConnUI(true); log("✅ Conectado: "+safe,"sys"); };
+        ws.onclose=()=>{ setConnUI(false); log("❌ Desconectado","warn"); };
+        ws.onerror=e=>log("⚠️ Erro WS: "+(e?.message||"desconhecido"),"warn");
+        ws.onmessage=ev=>{ let data=ev.data; try{ data=JSON.parse(ev.data);}catch(_){ } handleIncoming(data); };
+      }catch(e){ log("⚠️ Falha ao abrir WS: "+e.message,"warn"); }
+    });
+    document.getElementById("btnDisconnect")?.addEventListener("click", ()=>{
+      if(ws){ try{ws.close()}catch(_){}} ws=null; setConnUI(false); log("🔌 Conexão encerrada","warn");
+    });
+
+    /* ========= Normalização de mensagens ========= */
+    let lastNum=null, lastAt=0;
+    function handleIncoming(payload){
+      if(payload?.type==="entries"){ return; } // não é número
+
+      let n=null, platform=activePlatform;
+      if(payload?.type==="roulette.winSpots"){ n=payload?.args?.result?.[0]?.number ?? null; platform="Evolution"; }
+      if(n==null && (payload?.type==="spin_result" || payload?.type==="result" || payload?.winningNumber!=null)){ n=payload?.result ?? payload?.winningNumber ?? null; platform="Pragmatic"; }
+      if(n==null && typeof payload?.number==="number"){ n=payload.number; }
+
+      if(typeof n!=="number" || n<0 || n>36){
+        log("Msg recebida (sem nº válido): "+(typeof payload==="string"?payload:JSON.stringify(payload)),"sys");
+        return;
+      }
+
+      const now=performance.now();
+      if(lastNum===n && (now-lastAt)<1200){ log(`(dedupe) nº ${n} ignorado`, "sys"); return; }
+      lastNum=n; lastAt=now;
+
+      elLast.textContent=String(n);
+      pushNumber(n);
+      const col=colorOf(n);
+      log(`🎯 Nº: ${n} (${col}) • ${platform}`,"hit");
+      play("snd-green");
+
+      if(running){
+        const align=0.25; const rem=(nextBeat-now)/1000;
+        if(rem<align || rem>cadence-align){ nextBeat=now+cadence*1000; log("⛭ Resincronizado (evento)","sys"); }
+      }
+    }
+
+    /* ========= Menu ativo / blindagem ========= */
+    (function(){
+      const menu = document.getElementById('mainMenu');
+      if (!menu) return;
+      const map = {
+        home: "index.html",
+        estrategias: "estrategias.html",
+        matrix: "matrix-premium.html",
+        puxadores: "puxadores.html",
+        contato: "contato.html"
+      };
+      menu.querySelectorAll('a[data-page]').forEach(a=>{
+        const key = a.getAttribute('data-page');
+        if (map[key] && a.getAttribute('href') !== map[key]) a.setAttribute('href', map[key]);
+        a.onclick = null;
+      });
+      const path=(location.pathname.split('/').pop()||"index.html").toLowerCase();
+      menu.querySelectorAll('a').forEach(a=>a.classList.remove('active'));
+      if (path.includes('estrategias'))      menu.querySelector('[data-page="estrategias"]')?.classList.add('active');
+      else if (path.includes('matrix-premium')) menu.querySelector('[data-page="matrix"]')?.classList.add('active');
+      else if (path.includes('puxadores'))   menu.querySelector('[data-page="puxadores"]')?.classList.add('active');
+      else if (path.includes('contato'))     menu.querySelector('[data-page="contato"]')?.classList.add('active');
+      else                                   menu.querySelector('[data-page="home"]')?.classList.add('active');
+      const nav = document.querySelector('nav');
+      if (nav) { nav.style.zIndex = '9999'; menu.style.position = 'relative'; menu.style.zIndex = '2'; }
+    })();
+
+    /* ========= INIT ========= */
+    (function init(){
+      elCad.textContent=`${cadence}s`;
+      document.getElementById("platChip").textContent=activePlatform;
+    })();
+  </script>
+</body>
+</html>
