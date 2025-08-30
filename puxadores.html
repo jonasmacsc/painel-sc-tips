@@ -253,6 +253,137 @@ setInterval(()=>{
   .list{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
 </style>
 </head>
+  <script>
+/* ================== CORE REUTILIZÁVEL (todas as páginas) ================== */
+(function(){
+  // ---- Cadência (18s) para Puxadores — Live e Estratégias:
+  const CAD = 18;                 // alvo em segundos
+  let t = CAD;                    // contador atual
+  let intervalId = null;
+
+  const elCad   = document.getElementById('lv-cad');
+  const elBar   = document.getElementById('lv-bar');
+  const elState = document.getElementById('lv-state');
+  const elLast  = document.getElementById('lv-last');
+
+  function setState(s){ if(elState){ elState.textContent = s; elState.className = 'pill ' + (s==='rodando'?'live':'standby'); } }
+  function renderCad(){ 
+    if(elCad) elCad.textContent = t+'s';
+    if(elBar){ const pct = (1 - (t/CAD))*100; elBar.style.width = pct+'%'; }
+  }
+  function tick(){
+    t = (t<=0? CAD : t-1);
+    renderCad();
+    if(t===CAD){ // “zero → reseta”
+      // log opcional
+      window.SCLog && window.SCLog('tick de cadência • aguardando número…','ENGINE','ok');
+    }
+  }
+  function startCadence(){
+    if(intervalId) clearInterval(intervalId);
+    t = CAD; renderCad(); setState('rodando');
+    intervalId = setInterval(tick,1000);
+  }
+  function stopCadence(){
+    if(intervalId) clearInterval(intervalId);
+    setState('standby');
+  }
+
+  // Auto-iniciar cadência quando existir o bloco de status
+  if(elBar && elCad){ startCadence(); }
+
+  // ---- “Plataformas Matrix” mini-motor (sparklines + latência fake/real)
+  const platRoot = document.getElementById('plataformas-matrix');
+  if(platRoot){
+    const ctxs = [...platRoot.querySelectorAll('canvas.spark')].map(c => ({c, g:c.getContext('2d'), data:[]}));
+    const ids  = ['donald','bbtips','lucky','engine'];
+    const lats = Object.fromEntries(ids.map(id => [id, 20+Math.floor(Math.random()*10)]));
+    function drawSpark(g, data, w, h){
+      g.clearRect(0,0,w,h);
+      g.beginPath();
+      const n=data.length||1;
+      for(let i=0;i<n;i++){
+        const x = (w/(n-1||1))*i, y = h - (h*(data[i]||0));
+        if(i===0) g.moveTo(x,y); else g.lineTo(x,y);
+      }
+      g.strokeStyle = '#22c55e'; g.lineWidth = 2; g.stroke();
+    }
+    function step(){
+      ctxs.forEach(obj=>{
+        const {c,g} = obj;
+        c.width = c.clientWidth; // retina safe
+        obj.data.push(Math.random()*0.9+0.05);
+        if(obj.data.length>32) obj.data.shift();
+        drawSpark(g,obj.data,c.width,c.height);
+      });
+      // varia as latências
+      ids.forEach(id=>{
+        lats[id] = Math.max(5, Math.min(40, lats[id] + (Math.random()*6-3)));
+        const el = document.getElementById('lat-'+id.replace(/.*?/, id));
+        if(el) el.textContent = Math.round(lats[id])+'ms';
+      });
+      const up = document.getElementById('plat-uptime');
+      if(up) up.textContent = 'atualizado: '+new Date().toLocaleTimeString();
+      requestAnimationFrame(step);
+    }
+    step();
+
+    platRoot.querySelectorAll('.plat.card').forEach(card=>{
+      card.addEventListener('click', ()=>{
+        platRoot.querySelectorAll('.plat.card').forEach(x=>x.classList.remove('selected'));
+        card.classList.add('selected');
+        // opcional: disparar troca de origem/motor
+        const pid = card.dataset.id;
+        window.SCLog && window.SCLog('plataforma selecionada: '+pid,'SYSTEM','ok');
+      });
+    });
+
+    // Ações de rodapé
+    platRoot.querySelector('#plat-simular')?.addEventListener('click', ()=>{
+      // manda um número aleatório pro fluxo
+      const n = Math.floor(Math.random()*37);
+      window.postMessage({type:'ROULETTE_RESULT', number:n, platform:'Sim'}, '*');
+      window.SCLog && window.SCLog('simular nº '+n,'DEMO','ok');
+    });
+    platRoot.querySelector('#plat-limpar')?.addEventListener('click', ()=>{
+      window.dispatchEvent(new CustomEvent('SC_CLEAR_HISTORY'));
+      window.SCLog && window.SCLog('histórico limpo','SYSTEM','warn');
+    });
+    platRoot.querySelector('#plat-exportar')?.addEventListener('click', ()=>{
+      window.dispatchEvent(new CustomEvent('SC_EXPORT_CSV'));
+      window.SCLog && window.SCLog('exportar CSV solicitado','SYSTEM','ok');
+    });
+  }
+
+  // ---- Feed real: BroadcastChannel + postMessage
+  let bc;
+  try{
+    bc = new BroadcastChannel('sc-tips-live');
+    bc.onmessage = (e)=>handleInbound(e?.data,'BC');
+  }catch{}
+  window.addEventListener('message', (e)=>handleInbound(e?.data,'PM'));
+
+  function handleInbound(payload, via){
+    let n=null, origin=null, table=null;
+    if(typeof payload==='number'){ n=payload; }
+    else if(typeof payload==='object'){
+      if(Number.isInteger(payload.number)) n=payload.number;
+      if(payload.platform) origin=payload.platform;
+      if(payload.table) table=payload.table;
+    }
+    if(n==null || n<0 || n>36) return;
+    // atualiza “última”
+    if(elLast) elLast.textContent = 'LIVE ' + new Date().toLocaleTimeString();
+    // reseta cadência ao receber
+    if(elBar) { t = CAD; renderCad(); }
+    // propaga pra outros módulos da página (histórico, etc.)
+    window.dispatchEvent(new CustomEvent('SC_NUMBER',{detail:{n,origin,table,via}}));
+  }
+
+  // expõe um helper mínimo global (opcional)
+  window.SCCore = { startCadence, stopCadence };
+})();
+                  </script>
 <body>
   <!-- ===== Console Sistema (SC TIPS) ===== -->
 <div id="sc-console" class="sc-card">
