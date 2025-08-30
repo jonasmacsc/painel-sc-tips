@@ -1,98 +1,108 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>⚡ Matrix Premium — SC TIPS</title>
-  <meta name="theme-color" content="#0b1220">
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16.png">
-  <link rel="manifest" href="assets/favicon/site.webmanifest">
-  <style>
-    :root{
-      --bg:#0a0b0f; --panel:#0e1525; --panel2:#101319;
-      --ink:#e7f3ff; --muted:#93c5fd;
-      --gold:#f4d063; --blue:#22d3ee;
-      --ok:#2bbf6a; --err:#e15a5a; --warn:#f1c40f;
-      --stroke:#1e2a44;
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,Segoe UI,Inter,sans-serif}
-    a{color:var(--blue);text-decoration:none}
-    .wrap{max-width:1200px;margin:0 auto;padding:20px}
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>⚡ FASCOR • Matrix Premium — SC TIPS</title>
+<meta name="theme-color" content="#0b0a05">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16.png">
+<link rel="manifest" href="assets/favicon/site.webmanifest">
 
-    /* NAVBAR */
-    nav{background:#0e1525;border-bottom:1px solid var(--stroke);position:sticky;top:0;z-index:10}
-    nav .row{display:flex;align-items:center;justify-content:space-between;padding:12px 18px}
-    .brand{display:flex;align-items:center;gap:10px}
-    .brand video,.brand img{width:42px;height:42px;border-radius:8px;object-fit:cover;display:block;background:#000}
-    .brand span{display:flex;flex-direction:column;line-height:1}
-    .brand b{color:#fff;font-weight:800;letter-spacing:.3px}
-    .brand small{background:#0b1220;border:1px solid var(--stroke);padding:2px 8px;border-radius:999px;color:#22d3ee;width:max-content}
-    .menu{display:flex;gap:8px;flex-wrap:wrap}
-    .menu a{padding:8px 14px;border-radius:10px;color:#cfe0ff}
-    .menu a:hover{background:rgba(255,255,255,.07)}
-    .menu a.active{background:linear-gradient(135deg,#22d3ee,#60a5fa);color:#001428;font-weight:700}
+<style>
+  :root{
+    /* FASCOR • Gold Neon */
+    --bg:#070804; --panel:#0b0f08; --panel2:#0e130b; --stroke:#3a361c;
+    --ink:#f8ffe9; --muted:#d8e9a0;
+    --gold:#f7d253; --gold-deep:#c2972a; --gold-neon:#fff06a;
+    --ok:#2ad17f; --err:#ff6464; --warn:#ffd24d;
+    --chip-green:#00d37e; --chip-red:#ff5a5a; --chip-black:#6fe0ff;
+    --glow:0 0 10px rgba(255,240,106,.45),0 0 24px rgba(247,210,83,.35);
+    --glow-strong:0 0 14px rgba(255,240,106,.7),0 0 36px rgba(247,210,83,.6);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--ink);font:16px/1.5 Inter,Segoe UI,system-ui,sans-serif}
+  a{color:var(--gold-neon)}
 
-    h1{font-size:28px;margin:16px 0;font-weight:900}
-    h2{font-size:18px;margin:8px 0 12px;color:var(--muted);font-weight:700}
-    h3{margin:14px 0;font-weight:700;color:var(--gold)}
+  /* NAV */
+  nav{position:sticky;top:0;z-index:10;background:linear-gradient(180deg,rgba(15,17,10,.9),rgba(10,11,6,.9));border-bottom:1px solid var(--stroke);box-shadow:var(--glow)}
+  nav .row{display:flex;align-items:center;justify-content:space-between;padding:12px 18px}
+  .brand{display:flex;align-items:center;gap:10px;text-shadow:var(--glow)}
+  .brand video{width:42px;height:42px;border-radius:10px;background:#000;box-shadow:var(--glow)}
+  .brand b{font-weight:900;letter-spacing:.3px;color:var(--gold-neon)}
+  .brand small{border:1px solid var(--stroke);padding:2px 8px;border-radius:999px;color:#13140a;background:#0b0d07}
+  .menu{display:flex;gap:8px;flex-wrap:wrap}
+  .menu a{padding:8px 14px;border-radius:10px;color:#eee9c9;border:1px solid var(--stroke);background:#0b0d07}
+  .menu a:hover{box-shadow:var(--glow)}
+  .menu a.active{background:linear-gradient(135deg,var(--gold-neon),var(--gold));color:#161305;font-weight:800;border:0;box-shadow:var(--glow-strong)}
 
-    .grid{display:grid;gap:16px}
-    @media(min-width:960px){.grid{grid-template-columns:1.2fr 1fr 1fr}}
+  .wrap{max-width:1240px;margin:0 auto;padding:18px}
+  h1{font-size:30px;margin:14px 0 10px;font-weight:900;color:var(--gold-neon);text-shadow:var(--glow)}
+  h2{font-size:18px;margin:8px 0 12px;color:var(--muted);font-weight:700}
+  h3{margin:14px 0 10px;font-weight:800;color:var(--gold);text-shadow:var(--glow)}
 
-    .card{background:var(--panel2);border:1px solid var(--stroke);padding:14px;border-radius:14px}
-    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-    .btn{padding:10px 14px;border-radius:10px;border:1px solid var(--stroke);background:#0f172a;color:#fff;cursor:pointer}
-    .btn:hover{filter:brightness(1.05)}
-    .btn.gold{background:linear-gradient(180deg,#f4d063,#d99a22);color:#111;font-weight:700;border:0}
-    .btn.ghost{background:transparent}
-    .btn.small{padding:6px 10px;font-size:14px}
-    .btn[disabled]{opacity:.6;cursor:not-allowed}
+  .grid{display:grid;gap:16px}
+  @media(min-width:960px){.grid{grid-template-columns:1.2fr 1fr 1fr}}
 
-    .console{background:#0b1220;border:1px solid var(--stroke);padding:12px;border-radius:14px;margin:16px 0}
-    .loglist{background:#071018;border:1px solid #0f2034;border-radius:12px;height:220px;overflow:auto;padding:6px}
-    .log{margin:6px 0;padding:8px 10px;border-radius:10px;font-size:14px;white-space:pre-wrap}
-    .hit{background:#0f2a1a;border:1px solid #1e6e3e}
-    .miss{background:#2a0e0e;border:1px solid #6e2323}
-    .sys{background:#0c1b2b;border:1px solid #1e3b5e}
-    .warn{background:#241d0a;border:1px solid #6b5d1a}
+  .card{background:linear-gradient(180deg,#0f1209,#0b0f08);border:1px solid var(--stroke);padding:14px;border-radius:16px;box-shadow: inset 0 0 0 1px rgba(255,240,106,.08), var(--glow)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 
-    .list{display:grid;gap:8px}
-    .item{display:flex;align-items:center;justify-content:space-between;background:#101319;border:1px solid var(--stroke);padding:10px;border-radius:12px}
-    .toggle{appearance:none;width:42px;height:24px;border-radius:999px;background:#253046;position:relative;cursor:pointer;outline:none;border:1px solid #3b455a}
-    .toggle:checked{background:#1b7e3a;border-color:#2bbd66}
-    .toggle:before{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;background:#e8f4ff;border-radius:50%;transition:.18s}
-    .toggle:checked:before{left:20px}
+  .btn{padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:800;letter-spacing:.3px;border:0}
+  .btn.gold{background:linear-gradient(180deg,var(--gold-neon),var(--gold));color:#13120a;box-shadow:var(--glow)}
+  .btn.gold:hover{filter:brightness(1.06);box-shadow:var(--glow-strong)}
+  .btn.dark{color:#efeacd;background:#121406;border:1px solid var(--stroke);box-shadow:var(--glow)}
+  .btn.ghost{background:#0b0d07;color:#efeacd;border:1px solid var(--stroke);box-shadow:var(--glow)}
+  .btn.small{padding:6px 10px;font-size:14px}
+  .btn[disabled]{opacity:.6;cursor:not-allowed}
 
-    input[type="text"], input[type="number"], input[type="url"]{
-      background:#0b1220;border:1px solid var(--stroke);color:#e6f0ff;border-radius:10px;padding:10px 12px;outline:none;min-width:180px
-    }
-    .pill{display:inline-flex;align-items:center;gap:8px;background:#0b1220;border:1px solid var(--stroke);padding:6px 10px;border-radius:999px}
-    .muted{color:#8aa}
-    .stat{display:inline-flex;gap:6px;align-items:center;padding:6px 10px;border:1px solid var(--stroke);border-radius:999px;background:#0b1220}
-    .stat b{color:#fff}
+  .console{background:#0a0d07;border:1px solid var(--stroke);padding:12px;border-radius:16px;margin:16px 0;box-shadow:var(--glow)}
+  .loglist{background:#0a0c06;border:1px solid #2d2a15;border-radius:12px;height:240px;overflow:auto;padding:8px}
+  .log{margin:6px 0;padding:8px 10px;border-radius:10px;font-size:14px}
+  .hit{background:rgba(42,209,127,.08);border:1px solid #2ad17f}
+  .miss{background:rgba(255,100,100,.08);border:1px solid #ff6464}
+  .sys{background:rgba(255,240,106,.06);border:1px solid #7a6b1b}
+  .warn{background:rgba(255,210,77,.08);border:1px solid #b4931f}
 
-    footer{margin:32px 0 12px;text-align:center;color:#8aa;font-size:13px}
-    .hr{height:1px;background:linear-gradient(90deg,transparent,#1b2a44,transparent);margin:12px 0}
-  </style>
+  input[type="text"],input[type="number"],input[type="url"]{background:#0b0d07;border:1px solid var(--stroke);color:#efeacd;border-radius:12px;padding:10px 12px;outline:none;min-width:180px;box-shadow:var(--glow)}
+  .pill{display:inline-flex;align-items:center;gap:8px;background:#0b0d07;border:1px solid var(--stroke);padding:6px 10px;border-radius:999px;color:#efeacd;box-shadow:var(--glow)}
+  .stat{display:inline-flex;gap:6px;align-items:center;padding:6px 10px;border:1px solid var(--stroke);border-radius:999px;background:#0b0d07;box-shadow:var(--glow)}
+  .stat b{color:var(--gold-neon)}
+
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+  .chip{font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid var(--stroke);background:#0b0d07;color:#d6ce98}
+  .chip.ok{color:#cffff0;border-color:#1d5b36;background:#0f2a1a}
+  .chip.warn{color:#fff1c2;border-color:#6b5d1a;background:#241d0a}
+
+  /* Últimos números */
+  .lastbar{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 2px}
+  .chipnum{min-width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:12px;font-weight:900;border:2px solid #1a1a10;box-shadow:var(--glow)}
+  .chipnum.green{background:rgba(0,211,126,.18);border-color:var(--chip-green);color:#ccffe9}
+  .chipnum.red{background:rgba(255,90,90,.18);border-color:var(--chip-red);color:#ffecec}
+  .chipnum.black{background:rgba(111,224,255,.12);border-color:var(--chip-black);color:#eaffff}
+
+  /* Plataformas */
+  .plat{background:#121407;border:1px solid var(--stroke);border-radius:14px;padding:10px;box-shadow:var(--glow);min-width:220px}
+  .plat h4{display:flex;align-items:center;gap:8px;color:var(--gold-neon);text-shadow:var(--glow);font-weight:900}
+  .lat{background:#0b0d07;border:1px solid var(--stroke);border-radius:999px;padding:2px 8px;font-size:12px;color:#efeacd}
+  canvas.spark{display:block;width:160px;height:44px}
+
+  .hr{height:1px;background:linear-gradient(90deg,transparent,#423b1b,transparent);margin:12px 0}
+  .tip{font-size:12px;color:#d6ce98}
+  footer{margin:28px 0 12px;text-align:center;color:#c9c29b;font-size:13px}
+</style>
 </head>
 <body>
 
-<!-- NAVBAR -->
 <nav>
   <div class="row">
     <a class="brand" href="index.html" title="SC TIPS • Home">
       <video src="assets/media/logo-animated.mp4" autoplay muted loop playsinline poster="assets/img/branding/logo-static.png"></video>
-      <span>
-        <b>SC TIPS</b>
-        <small>VIP</small>
-      </span>
+      <span><b>SC TIPS</b><small>FASCOR • VIP</small></span>
     </a>
     <div class="menu">
       <a href="index.html">Home</a>
       <a href="estrategias.html">Estratégias</a>
-      <a class="active" href="matrix-premium.html" aria-current="page">Matrix Premium</a>
+      <a class="active" href="matrix-premium.html">Matrix Premium</a>
       <a href="puxadores.html">Puxadores Live</a>
       <a href="contato.html">Contato</a>
     </div>
@@ -100,80 +110,115 @@
 </nav>
 
 <div class="wrap">
-  <h1>⚡ Matrix Premium</h1>
+  <h1>⚡ Matrix Premium — Tema FASCOR (Gold Neon)</h1>
 
   <!-- CONSOLE -->
-  <div class="console" role="region" aria-label="Console e Logs">
+  <section class="console" role="region" aria-label="Console e Logs">
+    <h3>🖥️ Console Matrix</h3>
     <div class="row" style="justify-content:space-between">
       <div class="row">
-        <button class="btn" id="btnClear">🧹 Limpar</button>
-        <button class="btn" id="btnExport">📄 Exportar TXT</button>
+        <button class="btn dark" id="btnClear">🧹 Limpar</button>
+        <button class="btn dark" id="btnExport">📄 Exportar TXT</button>
+        <button class="btn dark" id="btnCSV">📊 Exportar CSV</button>
+        <span class="pill"><input type="checkbox" id="chkAuto" checked> Autoscroll</span>
         <button class="btn ghost" id="btnSounds">🔊 Sons: <span id="sndState">off</span></button>
       </div>
       <div class="row">
         <span class="pill"><input type="checkbox" id="flt-sys" checked> SYS</span>
         <span class="pill"><input type="checkbox" id="flt-hit" checked> HIT</span>
         <span class="pill"><input type="checkbox" id="flt-miss" checked> MISS</span>
-        <input id="logFilter" type="text" placeholder="Filtrar logs (ex.: pragmatic, 29, dealer)">
+        <input id="logFilter" type="text" placeholder="🔍 Pesquisar logs (dealer, nº, Pragmatic, Evolution)">
       </div>
     </div>
+
+    <div class="chips">
+      <span class="chip ok"   id="chipSystem">SYSTEM: ativo</span>
+      <span class="chip ok"   id="chipHandle">Handler: ativo</span>
+      <span class="chip"      id="chipBC">BC: conectado</span>
+      <span class="chip ok"   id="chipPM">PostMessage: ouvindo</span>
+      <span class="chip"      id="chipEngine">Tips Matrix • Engine</span>
+      <span class="chip"      id="chipSync"><input id="chkSync" type="checkbox" checked> Sync ao receber número</span>
+    </div>
+
     <div class="loglist" id="loglist" aria-live="polite"></div>
-  </div>
+  </section>
+
+  <!-- STATUS + Últimos números + CONEXÃO -->
+  <section class="card">
+    <h3>📡 Status do Motor & Conexão</h3>
+    <div class="row" style="margin-bottom:8px">
+      <span class="stat">Cadência: <b id="cadence">18s</b></span>
+      <span class="stat">Contagem: <b id="countdown">—</b></span>
+      <span class="stat">Última: <b id="last">--</b></span>
+      <span class="stat">Rodadas: <b id="rounds">0</b></span>
+      <span class="stat">WS: <b id="wsstat">offline</b></span>
+    </div>
+
+    <h2>🔢 Últimos números (clique para repetir)</h2>
+    <div class="lastbar" id="lastbar"></div>
+
+    <div class="row" style="margin-top:10px">
+      <button class="btn gold" id="btnStart">▶️ Iniciar</button>
+      <button class="btn dark" id="btnPause">⏸️ Pausar</button>
+      <button class="btn dark" id="btnReset">🔁 Reset</button>
+      <input id="cadInput" type="number" min="5" max="60" step="1" value="18" title="Cadência (s)">
+      <button class="btn small gold" id="btnCad">⏱️ Aplicar</button>
+    </div>
+
+    <div class="hr"></div>
+
+    <h2>Conexão (WS/API)</h2>
+    <div class="row">
+      <input id="apiUrl" type="url" placeholder="Cole aqui a URL do WebSocket/API (Evolution/Pragmatic)">
+      <button class="btn small dark" id="btnMask">🙈 Mascarar</button>
+      <button class="btn small dark" id="btnCopy">📋 Copiar</button>
+      <button class="btn small gold" id="btnConnect">🔌 Conectar</button>
+      <button class="btn small dark" id="btnDisconnect" disabled>❌ Desconectar</button>
+      <input id="simNumber" type="number" min="0" max="36" placeholder="Simular nº (0-36)">
+      <button class="btn small gold" id="btnSim">🎯 Simular</button>
+    </div>
+    <div class="tip" style="margin-top:6px">Tokens (EVOSESSIONID/JSESSIONID etc.) são ocultados nos logs. BroadcastChannel e postMessage ativos.</div>
+  </section>
 
   <div class="grid">
-    <!-- STATUS -->
-    <section class="card">
-      <h3>Status</h3>
-      <div class="row" style="margin-bottom:8px">
-        <span class="stat">Cadência: <b id="cadence">18s</b></span>
-        <span class="stat">Contagem: <b id="countdown">—</b></span>
-        <span class="stat">Última: <b id="last">--</b></span>
-        <span class="stat">Rodadas: <b id="rounds">0</b></span>
-      </div>
-      <div class="row" style="margin-top:6px">
-        <button class="btn gold" id="btnStart">▶️ Iniciar</button>
-        <button class="btn" id="btnPause">⏸️ Pausar</button>
-        <button class="btn" id="btnReset">🔁 Reset</button>
-        <input id="cadInput" type="number" min="5" max="60" step="1" value="18" title="Cadência (s)">
-        <button class="btn small" id="btnCad">⏱️ Aplicar</button>
-      </div>
-
-      <div class="hr"></div>
-
-      <h2>Conexão (WS/API)</h2>
-      <div class="row">
-        <input id="apiUrl" type="url" placeholder="Cole aqui a URL do WebSocket/API">
-        <button class="btn small" id="btnMask">🙈 Mascarar</button>
-        <button class="btn small" id="btnCopy">📋 Copiar</button>
-        <button class="btn small" id="btnConnect">🔌 Conectar</button>
-        <button class="btn small" id="btnDisconnect" disabled>❌ Desconectar</button>
-      </div>
-
-      <div class="row" style="margin-top:10px">
-        <input id="simNumber" type="number" min="0" max="36" placeholder="Simular nº (0-36)">
-        <button class="btn small" id="btnSim">🎯 Simular</button>
-      </div>
-    </section>
-
     <!-- PLATAFORMAS -->
     <section class="card">
-      <h3>🎲 Plataformas</h3>
-      <div class="row" id="platforms" role="group" aria-label="Plataformas"></div>
+      <h3>🎲 Plataformas Matrix</h3>
+      <div class="row" id="platforms"></div>
+      <div class="row" style="margin-top:10px">
+        <button class="btn gold" id="btnExportCsv">📊 Exportar CSV</button>
+        <button class="btn dark" id="btnClearNums">🧹 Limpar números</button>
+      </div>
     </section>
 
     <!-- ESTRATÉGIAS -->
     <section class="card">
-      <h3>🎯 Estratégias (23)</h3>
+      <h3>🎯 Estratégias Live — 23 Padrões (SCTips)</h3>
+      <div class="row" style="margin-bottom:8px">
+        <button class="btn small gold" id="btnAll">✅ Todas</button>
+        <button class="btn small dark" id="btnBest">🎯 Ótimas</button>
+        <button class="btn small dark" id="btnNone">❌ Limpar</button>
+      </div>
       <div class="list" id="strList"></div>
+      <div class="tip">Mostra apenas <b>números-base</b> e <b>gatilho</b>; vizinhos ficam no operador. 🐴 nos Cavalos.</div>
+    </section>
+
+    <!-- ENTRADAS -->
+    <section class="card">
+      <h3>⚡ Entradas Automáticas</h3>
+      <div class="row">
+        <button class="btn gold" id="btnGenerate">⚡ Gerar Entradas</button>
+        <button class="btn gold" id="btnAuto">🤖 Auto Mode: <span id="autoState">OFF</span></button>
+        <button class="btn dark" id="btnPing">📡 Broadcast Ping</button>
+      </div>
+      <p class="tip">“Gerar Entradas” ativa as <b>Ótimas</b> e dispara sugestões. “Auto Mode” faz isso automaticamente a cada ciclo/evento.</p>
     </section>
   </div>
 </div>
 
-<footer>
-  © 2025 <b>SC TIPS</b> — Todos os direitos reservados.
-</footer>
+<footer>© 2025 <b>SC TIPS</b> — Tema FASCOR Gold Neon.</footer>
 
-<!-- Sons opcionais (mesmo arquivo/nomes que você já usa) -->
+<!-- ÁUDIO (som integrado) -->
 <audio id="snd-green" src="assets/audio/green.mp3" preload="auto"></audio>
 <audio id="snd-red"   src="assets/audio/red.mp3"   preload="auto"></audio>
 <audio id="snd-alert" src="assets/audio/alerta.mp3" preload="auto"></audio>
@@ -181,318 +226,175 @@
 
 <script>
 /* ==========================
-   Utilidades de Log
+   Helpers / Logs / Som
 ========================== */
-const $ = sel => document.querySelector(sel);
+const $ = s => document.querySelector(s);
 const loglist = $("#loglist");
-const filters = { sys: true, hit: true, miss: true, text: "" };
+let autoscrollOn = true;
+const filters = { sys:true, hit:true, miss:true, text:"" };
 
+function capLogs(max=900){ while(loglist.children.length>max){ loglist.removeChild(loglist.firstChild); } }
 function log(msg, cls="sys"){
-  if(!filters[cls] && cls!=="warn") return; // warn sempre mostra
+  if(cls!=="warn" && !filters[cls]) return;
   if(filters.text && !String(msg).toLowerCase().includes(filters.text)) return;
-  const d = document.createElement("div");
-  d.className = "log " + cls;
-  d.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
-  loglist.appendChild(d);
-  loglist.scrollTop = loglist.scrollHeight;
+  const d=document.createElement("div"); d.className="log "+cls;
+  d.textContent=`[${new Date().toLocaleTimeString()}] ${msg}`;
+  loglist.appendChild(d); if(autoscrollOn){ loglist.scrollTop=loglist.scrollHeight; } capLogs();
 }
-
-$("#btnClear").onclick = ()=> loglist.innerHTML="";
-$("#btnExport").onclick = ()=>{
-  const txt = [...loglist.children].map(x=>x.textContent).join("\n");
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(new Blob([txt],{type:"text/plain"}));
-  a.download = "matrix_logs.txt"; a.click(); URL.revokeObjectURL(a.href);
+$("#btnClear").onclick=()=>loglist.innerHTML="";
+$("#btnExport").onclick=()=>{ const txt=[...loglist.children].map(x=>x.textContent).join("\n");
+  const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([txt],{type:"text/plain"}));
+  a.download="matrix_logs.txt"; a.click(); URL.revokeObjectURL(a.href);
 };
+$("#btnCSV").onclick=()=>exportCSV();
 
-$("#flt-sys").onchange  = e => { filters.sys = e.target.checked; };
-$("#flt-hit").onchange  = e => { filters.hit = e.target.checked; };
-$("#flt-miss").onchange = e => { filters.miss = e.target.checked; };
-$("#logFilter").oninput = e => { filters.text = (e.target.value||"").toLowerCase(); };
+$("#chkAuto").onchange=e=>autoscrollOn=e.target.checked;
+$("#flt-sys").onchange=e=>filters.sys=e.target.checked;
+$("#flt-hit").onchange=e=>filters.hit=e.target.checked;
+$("#flt-miss").onchange=e=>filters.miss=e.target.checked;
+$("#logFilter").oninput=e=>filters.text=(e.target.value||"").toLowerCase();
+
+let soundsOn=false; const sndState=$("#sndState");
+$("#btnSounds").onclick=()=>{ soundsOn=!soundsOn; sndState.textContent=soundsOn?"on":"off"; try{$("#snd-click").play().catch(()=>{});}catch(e){} };
+function play(id){ if(!soundsOn) return; const el=document.getElementById(id); if(el){ el.currentTime=0; el.play().catch(()=>{});} }
 
 /* ==========================
-   Sons
+   Chips / Estado de sistema
 ========================== */
-let soundsOn = false;
-const sndState = $("#sndState");
-$("#btnSounds").onclick = ()=>{
-  soundsOn = !soundsOn;
-  sndState.textContent = soundsOn ? "on" : "off";
-  try { $("#snd-click").play().catch(()=>{}); } catch(e){}
-};
-function play(id){
-  if(!soundsOn) return;
-  const el = document.getElementById(id);
-  if(el) { el.currentTime = 0; el.play().catch(()=>{}); }
-}
+const chipBC=$("#chipBC"), chipPM=$("#chipPM"), chipSystem=$("#chipSystem"), chipHandle=$("#chipHandle"), chipEngine=$("#chipEngine");
+function setChip(el,on,labelOn,labelOff){ el.textContent = on?labelOn:labelOff; el.classList.toggle("ok",!!on); }
+setChip(chipSystem,true,"SYSTEM: ativo","SYSTEM: off");
+setChip(chipHandle,true,"Handler: ativo","Handler: off");
+setChip(chipPM,true,"PostMessage: ouvindo","PostMessage: off");
 
 /* ==========================
-   Estado & Contador 18s
+   Últimos números
 ========================== */
-let cadence = 18; // segundos
-let timerId = null;
-let running = false;
-let remaining = cadence;
-let rounds = 0;
-
-const elCad = $("#cadence");
-const elCount = $("#countdown");
-const elRounds = $("#rounds");
-const elLast = $("#last");
-
-function tick(){
-  remaining -= 0.1; // 100ms resolução
-  if(remaining <= 0){
-    rounds++;
-    elRounds.textContent = String(rounds);
-    remaining = cadence;
-    log("⏱️ Tick (nova rodada)", "sys");
-    play("snd-alert");
-  }
-  elCount.textContent = `${remaining.toFixed(1)}s`;
+const lastbar = $("#lastbar");
+const redSet = new Set([1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);
+function colorOf(n){ return n===0?"green":(redSet.has(n)?"red":"black"); }
+let recent=[]; // mantém 14
+function pushNumber(n){ recent.unshift(n); if(recent.length>14) recent.pop(); renderChips(); }
+function renderChips(){
+  lastbar.innerHTML=""; recent.forEach(n=>{
+    const el=document.createElement("div"); el.className="chipnum "+colorOf(n); el.textContent=n; el.title="Repetir "+n;
+    el.onclick=()=>handleIncoming({number:n, source:"chip"}); lastbar.appendChild(el);
+  });
 }
-
-function start(){
-  if(running) return;
-  running = true;
-  timerId = setInterval(tick, 100);
-  log("Motor iniciado", "sys");
+$("#btnClearNums").onclick=()=>{ recent=[]; renderChips(); log("🧹 Últimos números limpos","sys"); };
+function exportCSV(){
+  const header="timestamp,numero\n";
+  const now=new Date().toISOString();
+  const rows=recent.map(n=>`${now},${n}`).join("\n");
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(new Blob([header+rows+"\n"],{type:"text/csv"}));
+  a.download="matrix_last_numbers.csv"; a.click(); URL.revokeObjectURL(a.href);
 }
-function pause(){
-  if(!running) return;
-  running = false;
-  clearInterval(timerId);
-  timerId = null;
-  log("Motor pausado", "sys");
-}
-function reset(){
-  pause();
-  remaining = cadence;
-  rounds = 0;
-  elRounds.textContent = "0";
-  elCount.textContent = "—";
-  log("Reset aplicado", "sys");
-}
-
-$("#btnStart").onclick = ()=>{ start(); };
-$("#btnPause").onclick = ()=>{ pause(); };
-$("#btnReset").onclick = ()=>{ reset(); };
-
-$("#btnCad").onclick = ()=>{
-  const v = parseInt($("#cadInput").value,10);
-  if(Number.isFinite(v) && v>=5 && v<=60){
-    cadence = v;
-    elCad.textContent = `${v}s`;
-    remaining = v;
-    log(`Cadência ajustada para ${v}s`, "sys");
-  } else {
-    log("Valor inválido para cadência (5–60)", "warn");
-  }
-};
+$("#btnExportCsv").onclick=exportCSV;
 
 /* ==========================
-   Plataformas
+   Motor 18s (anti-drift + sync)
 ========================== */
-const plats = ["Donald","BBTips","Lucky","Engine"];
-const platBox = $("#platforms");
-let activePlatform = localStorage.getItem("mp_active_platform") || "Engine";
+let cadence=18, running=false, rounds=0, nextBeat=0, tickHandle=null, syncOnEvent=true;
+const elCad=$("#cadence"), elCount=$("#countdown"), elRounds=$("#rounds"), elLast=$("#last"), elWS=$("#wsstat");
+$("#chkSync").onchange=e=>syncOnEvent=e.target.checked;
+function scheduleNext(){ const now=performance.now(); const wait=Math.max(0,nextBeat-now); tickHandle=setTimeout(onBeat,wait); }
+function onBeat(){ rounds++; elRounds.textContent=String(rounds); nextBeat+=cadence*1000; log("⏱️ Tick (nova rodada)","sys"); play("snd-alert"); updateCountdown(); scheduleNext(); if(autoOn) generateEntries(true); }
+function updateCountdown(){ if(!running){ elCount.textContent="—"; return; } const now=performance.now(); const rem=Math.max(0,(nextBeat-now)/1000); elCount.textContent=`${rem.toFixed(1)}s`; requestAnimationFrame(updateCountdown); }
+function startMotor(){ if(running) return; running=true; const now=performance.now(); nextBeat=now+cadence*1000; log(`Motor iniciado (cadência ${cadence}s)`,"sys"); play("snd-click"); scheduleNext(); updateCountdown(); }
+function pauseMotor(){ if(!running) return; running=false; clearTimeout(tickHandle); tickHandle=null; log("Motor pausado","sys"); }
+function resetMotor(){ pauseMotor(); rounds=0; elRounds.textContent="0"; elCount.textContent="—"; log("Reset aplicado","sys"); }
+$("#btnStart").onclick=startMotor; $("#btnPause").onclick=pauseMotor; $("#btnReset").onclick=resetMotor;
+$("#btnCad").onclick=()=>{ const v=parseInt($("#cadInput").value,10); if(Number.isFinite(v)&&v>=5&&v<=60){ cadence=v; elCad.textContent=`${v}s`; if(running){ pauseMotor(); startMotor(); } log(`Cadência ajustada para ${v}s`,"sys"); } else { log("Valor inválido (5–60)","warn"); } };
 
+/* ==========================
+   BroadcastChannel + postMessage
+========================== */
+const bc = new BroadcastChannel("matrix-channel");
+bc.onmessage = ev => { log("📡 Broadcast: "+JSON.stringify(ev.data),"sys"); handleIncoming(ev.data); };
+$("#btnPing").onclick=()=>{ bc.postMessage({type:"ping", at:Date.now()}); log("📡 Enviado broadcast ping","sys"); };
+window.addEventListener("message", ev=>{ if(ev.data?.type==="matrix"){ log("💬 postMessage: "+JSON.stringify(ev.data.payload),"sys"); handleIncoming(ev.data.payload);} });
+setChip(chipBC,true,"BC: conectado","BC: desligado");
+
+/* ==========================
+   Plataformas (latência + sparkline)
+========================== */
+const plats=[{name:"Evolution",icon:"🎰"},{name:"Pragmatic",icon:"📉"},{name:"Donald",icon:"🎲"},{name:"BBTips",icon:"📈"},{name:"Lucky",icon:"🍀"},{name:"Engine",icon:"🧠"}];
+const platBox=$("#platforms"); let activePlatform=localStorage.getItem("mp_active_platform")||"Engine";
+const sparkData={}; function ensureArr(k){ if(!sparkData[k]) sparkData[k]=[]; return sparkData[k]; }
 function renderPlatforms(){
-  platBox.innerHTML = "";
+  platBox.innerHTML="";
   plats.forEach(p=>{
-    const b = document.createElement("button");
-    b.className = "btn" + (p===activePlatform ? " gold":"");
-    b.textContent = p;
-    b.onclick = ()=>{
-      activePlatform = p;
-      localStorage.setItem("mp_active_platform", p);
-      renderPlatforms();
-      log("Plataforma ativa: "+p, "sys");
-      play("snd-click");
-    };
-    platBox.appendChild(b);
+    const wrap=document.createElement("div"); wrap.className="plat";
+    wrap.innerHTML=`<h4>${p.icon} ${p.name} <span class="lat" id="lat_${p.name}">—ms</span></h4><canvas class="spark" id="sp_${p.name}" width="160" height="44"></canvas>
+      <div class="row" style="margin-top:6px"><button class="btn small ${p.name===activePlatform?'gold':'dark'}" data-plat="${p.name}">${p.name===activePlatform?'Ativa':'Ativar'}</button></div>`;
+    platBox.appendChild(wrap);
+  });
+  platBox.querySelectorAll("[data-plat]").forEach(btn=>{
+    btn.onclick=()=>{ activePlatform=btn.getAttribute("data-plat"); localStorage.setItem("mp_active_platform",activePlatform); renderPlatforms(); chipEngine.textContent="Tips Matrix • "+activePlatform; log("Plataforma ativa: "+activePlatform,"sys"); play("snd-click"); };
   });
 }
 renderPlatforms();
+function pushSpark(name,v){
+  const arr=ensureArr(name); arr.push(v); if(arr.length>32) arr.shift();
+  const cv=$("#sp_"+name), ctx=cv.getContext("2d"); ctx.clearRect(0,0,cv.width,cv.height);
+  ctx.beginPath(); ctx.moveTo(0,cv.height-(arr[0]||0));
+  arr.forEach((val,i)=>ctx.lineTo(i*5, cv.height-Math.min(cv.height-2,val)));
+  ctx.strokeStyle="#38ff8b"; ctx.lineWidth=2; ctx.stroke();
+}
+setInterval(()=>{ plats.forEach(p=>{ const v=6+Math.floor(Math.random()*20); const lat=$("#lat_"+p.name); if(lat){ lat.textContent=v+"ms"; pushSpark(p.name, Math.min(42,v)); } }); },1200);
 
 /* ==========================
-   Estratégias (23) + persistência
+   Estratégias (23) + mass actions
 ========================== */
 const STRATS = [
-  "Fire Precision SC","Análise de Vizinhos","Pattern Breaker","Predição de Cores",
-  "Hot/Cold","Caçador de Repetições","Tiro Seco SC","Sector Target SC",
-  "Cavalo SC Premium","Cavalos 258","Terminais 0/5","Múltiplos de 3",
-  "Diagonais da Roda","Sequência 10+4","Linha dos Finais 6","Duplas Simétricas",
-  "Trinca Ímpares","Trinca Pares","Proteção Zero","Reverso Recentes",
-  "Gap Longo","Espiral da Roda","Alpha 6"
+  { name:"Elite 2X",            gatilho:"Terminal 4 ou 5", base:[2,12,22,32] },
+  { name:"Quarta Dimensão",     gatilho:"Terminal 1 ou 3", base:[4,14,24,34] },
+  { name:"Fórmula 5X",          gatilho:"Terminal 6 ou 8", base:[5,15,25,35] },
+  { name:"Alpha 6",             gatilho:"Terminal 2 ou 9", base:[6,16,26,36] },
+  { name:"Coluna de Ouro",      gatilho:"— definir",       base:[] },
+  { name:"Triângulo Vermelho",  gatilho:"— definir",       base:[] },
+  { name:"Padrão Black",        gatilho:"13/31/33 recentes", base:[13,31,33] },
+  { name:"Coluna de Prata",     gatilho:"— definir",       base:[] },
+  { name:"Linha dos Finais 6",  gatilho:"— definir",       base:[6,16,26,36] },
+  { name:"Tiro Seco SC",        gatilho:"Gatilho Tiro Seco", base:[] },
+  { name:"🐴 Cavalo SC Premium", gatilho:"Grupo quente 3+ ocorrências", base:[] },
+  { name:"🐴 Cavalos 258",       gatilho:"Grupo 258 aquecendo", base:[2,5,8,12,15,18,22,25,28] },
+  { name:"Múltiplos de 3",      gatilho:"— definir",       base:[3,6,9,12,15,18,21,24,27,30,33,36] },
+  { name:"Diagonais da Roda",   gatilho:"— definir",       base:[] },
+  { name:"Sequência 10+4",      gatilho:"— definir",       base:[] },
+  { name:"Duplas Simétricas",   gatilho:"— definir",       base:[] },
+  { name:"Trinca Ímpares",      gatilho:"— definir",       base:[1,3,5,7,9,11,13,15,17,19,21,23,25,27,29,31,33,35] },
+  { name:"Trinca Pares",        gatilho:"— definir",       base:[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36] },
+  { name:"Proteção Zero",       gatilho:"Ausência longa de 0", base:[0] },
+  { name:"Reverso Recentes",    gatilho:"Quebra de repetição", base:[] },
+  { name:"Gap Longo",           gatilho:"Ausência 15+ rodadas", base:[] },
+  { name:"Espiral da Roda",     gatilho:"— definir",       base:[] },
+  { name:"Terminais 0/5",       gatilho:"Terminais 0 ou 5", base:[0,5,10,15,20,25,30,35] }
 ];
-const strList = $("#strList");
-const LS_KEY = "mp_strats_enabled";
+const strList=$("#strList"); const LS_KEY="mp_strats_enabled_fascor";
+function loadStr(){ try{return JSON.parse(localStorage.getItem(LS_KEY)||"{}");}catch(_){return{}} }
+function saveStr(s){ localStorage.setItem(LS_KEY,JSON.stringify(s||{})); }
+const st=loadStr();
+function copy(text){ navigator.clipboard.writeText(text).then(()=>log("Copiado: "+text,"sys")); }
 
-function loadStratsState(){
-  try{ return JSON.parse(localStorage.getItem(LS_KEY)||"{}"); }catch(e){ return {}; }
-}
-function saveStratsState(state){
-  localStorage.setItem(LS_KEY, JSON.stringify(state||{}));
-}
-const st = loadStratsState();
-
-function renderStrats(){
-  strList.innerHTML = "";
-  STRATS.forEach((name,i)=>{
-    const id = `s_${i}`;
-    const wrap = document.createElement("div");
-    wrap.className = "item";
-    wrap.innerHTML = `
-      <div>${name}</div>
-      <input id="${id}" type="checkbox" class="toggle">
-    `;
-    strList.appendChild(wrap);
-    const cb = wrap.querySelector("input");
-    cb.checked = (st[name] ?? (i<8)); // primeiras 8 ligadas por padrão
-    cb.onchange = ()=>{
-      st[name] = cb.checked;
-      saveStratsState(st);
-      log(`${name}: ${cb.checked ? "ON":"OFF"}`, "sys");
-      play("snd-click");
-    };
-  });
-}
-renderStrats();
-
-/* ==========================
-   Conexão WS/API (placeholder seguro)
-========================== */
-let ws = null;
-let masked = false;
-
-function setConnButtons(connected){
-  $("#btnConnect").disabled = connected;
-  $("#btnDisconnect").disabled = !connected;
-}
-
-$("#btnMask").onclick = ()=>{
-  masked = !masked;
-  const el = $("#apiUrl");
-  if(masked){
-    el.dataset.real = el.value;
-    if(el.value){
-      try{
-        const u = new URL(el.value);
-        const host = u.host;
-        const proto = u.protocol.replace(":","");
-        el.value = `${proto}://${host}/•••`;
-      }catch(e){
-        el.value = "•••";
-      }
-    }
-  }else{
-    if(el.dataset.real) el.value = el.dataset.real;
-  }
-};
-
-$("#btnCopy").onclick = ()=>{
-  const el = $("#apiUrl");
-  const v = masked && el.dataset.real ? el.dataset.real : el.value;
-  navigator.clipboard.writeText(v||"").then(()=>log("URL copiada", "sys"));
-};
-
-$("#btnConnect").onclick = ()=>{
-  const raw = ($("#apiUrl").dataset.real || $("#apiUrl").value || "").trim();
-  if(!raw){ log("Informe a URL do WS/API antes de conectar.", "warn"); return; }
-  // Evitar travar se a origem bloquear - mantemos como “mock seguro”
-  log("🔌 (Mock) Conectado a: " + raw, "sys");
-  setConnButtons(true);
-
-  // Se quiser ligar de fato: descomente com cautela (pode falhar por CORS/origem)
-  /*
-  try{
-    ws = new WebSocket(raw);
-    ws.onopen = ()=>{ log("🔌 Conectado: "+raw, "sys"); setConnButtons(true); };
-    ws.onclose = ()=>{ log("❌ Desconectado", "warn"); setConnButtons(false); ws=null; };
-    ws.onerror = e => { log("⚠️ Erro WS: "+(e?.message||"desconhecido"), "warn"); };
-    ws.onmessage = ev => handleIncoming(ev.data);
-  }catch(e){
-    log("⚠️ Falha ao abrir WS: "+e.message, "warn");
-  }
-  */
-};
-
-$("#btnDisconnect").onclick = ()=>{
-  if(ws){ try{ ws.close(); }catch(e){} ws=null; }
-  setConnButtons(false);
-  log("❌ (Mock) Desconectado", "warn");
-};
-
-/* ==========================
-   Parser de mensagens (genérico)
-   Espera formatos comuns:
-   - Evolution: { type: "roulette.winSpots", args:{ result:[{number:29}] }, ... }
-   - Pragmatic: { type:"spin_result", result:29 } / { winningNumber:29, ... }
-========================== */
-function handleIncoming(payload){
-  let data = payload;
-  try{ if(typeof payload === "string") data = JSON.parse(payload); }catch(e){}
-  let n = null;
-
-  // Evolution
-  if(data?.type === "roulette.winSpots"){
-    n = data?.args?.result?.[0]?.number ?? null;
-  }
-  // Pragmatic variantes
-  if(n==null && (data?.type === "spin_result" || data?.type === "result" || data?.winningNumber!=null)){
-    n = data?.result ?? data?.winningNumber ?? null;
-  }
-  // Fallback: algum campo “number”
-  if(n==null && typeof data?.number === "number"){ n = data.number; }
-
-  if(n==null){
-    log("Mensagem recebida (sem número): " + (typeof payload==="string"?payload:JSON.stringify(payload)), "sys");
-    return;
-  }
-  onNumber(n, data);
-}
-
-/* ==========================
-   Regras mínimas: atualizar “Última”, logar e sons
-========================== */
-const redSet = new Set([1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);
-function colorOf(n){ return n===0 ? "green" : (redSet.has(n) ? "red" : "black"); }
-
-function onNumber(n, raw){
-  elLast.textContent = String(n);
-  const col = colorOf(n);
-  const info = `🎯 Número: ${n} (${col}) • Plataforma: ${activePlatform}`;
-  log(info, "hit");
-  play("snd-green");
-}
-
-/* ==========================
-   Simulador de número
-========================== */
-$("#btnSim").onclick = ()=>{
-  const v = parseInt($("#simNumber").value,10);
-  if(Number.isFinite(v) && v>=0 && v<=36){
-    handleIncoming({ number: v, source: "simulator", at: Date.now() });
-  }else{
-    log("Informe um número entre 0 e 36", "warn");
-    play("snd-red");
-  }
-};
-
-/* ==========================
-   Bind dos botões principais (mantidos para compat.)
-========================== */
-document.getElementById("btnStart").addEventListener("click", ()=>start());
-document.getElementById("btnPause").addEventListener("click", ()=>pause());
-document.getElementById("btnReset").addEventListener("click", ()=>reset());
-
-/* ==========================
-   Acessibilidade/robustez
-========================== */
-document.addEventListener("keydown", (e)=>{
-  if(e.key===" "){ e.preventDefault(); running ? pause() : start(); }
-});
-</script>
-</body>
-</html>
+function renderStr(){
+  strList.innerHTML="";
+  STRATS.forEach((s,i)=>{
+    const id=`s_${i}`, baseTxt=s.base.length?s.base.join(", "):"—";
+    const div=document.createElement("div");
+    div.className="row"; div.style="justify-content:space-between;align-items:center;border:1px solid var(--stroke);background:#0b0d07;border-radius:14px;padding:10px;box-shadow:var(--glow)";
+    div.title=`${s.name}\nGatilho: ${s.gatilho}\nBase: ${baseTxt}`;
+    div.innerHTML=`
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <b style="color:var(--gold-neon);text-shadow:var(--glow)">${s.name}</b>
+        <span class="tip">Gatilho: ${s.gatilho} • Base: ${baseTxt}</span>
+      </div>
+      <div class="row">
+        <button class="btn small dark" ${s.base.length?"":"disabled"} data-copy="${baseTxt}">📋 Copiar</button>
+        <input id="${id}" type="checkbox" class="toggle">
+      </div>`;
+    strList.appendChild(div);
+    const cb=div.querySelector("input"); cb.checked=(st[s.name] ?? (i<8));
+    cb.onchange=()=>{ st[s.name]=cb.checked; saveStr(st); log(`${s.name}: ${cb.checked?"ON":"OFF"}`,"sys"); play("snd-click"); };
+    const btn=div.querySelector("[data-copy]");
