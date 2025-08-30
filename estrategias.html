@@ -1,615 +1,108 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-  <!-- FAVICONS -->
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16.png">
-<link rel="manifest" href="/assets/favicon/site.webmanifest">
-<link rel="mask-icon" href="/assets/favicon/safari-pinned-tab.svg" color="#0ea5e9">
-<meta name="theme-color" content="#0b1220">
-
-<!-- Preload opcional para navbar rápida -->
-<link rel="preload" as="image" href="/assets/img/branding/logo-navbar.png" imagesrcset="/assets/img/branding/logo-navbar.png 1x">
-<link rel="preload" as="image" href="/assets/img/branding/logo-static.png">
-<link rel="preload" as="video" href="/assets/media/logo-animated.mp4" type="video/mp4">
+<html lang="pt-BR">
 <head>
-  <!-- NAVBAR brand -->
-<a class="brand" href="index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
-  <!-- Vídeo animado (loop), com fallback para imagem -->
-  <span class="brand-mark" style="display:inline-block; width:48px; height:48px; border-radius:10px; overflow:hidden;">
-    <video
-      src="/assets/media/logo-animated.mp4"
-      autoplay muted loop playsinline
-      style="width:100%;height:100%;object-fit:cover;display:block;"
-      poster="/assets/img/branding/logo-static.png">
-      <!-- Fallback se vídeo indisponível -->
-      <img src="/assets/img/branding/logo-static.png" alt="SC TIPS" style="width:100%;height:100%;object-fit:cover;">
-    </video>
-  </span>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SC TIPS • Estratégias</title>
+  <meta name="theme-color" content="#0b1220">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16.png">
+  <link rel="manifest" href="assets/favicon/site.webmanifest">
 
-  <span style="display:flex;flex-direction:column;line-height:1;">
-    <span style="font-weight:800;color:#fff;letter-spacing:.4px;">SC TIPS</span>
-    <small style="background:#0b1220;border:1px solid #1e2a44;padding:2px 8px;border-radius:999px;color:#22d3ee;width:max-content;">VIP</small>
-  </span>
-</a>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SC Tips VIP • Estratégias</title>
-<link rel="icon" type="image/png" href="./favicon.png">
-<style>
-  :root{
-    --bg:#0b1220;--card:#0e1525;--card2:#111a2e;
-    --bd:#1e2a44;--txt:#e6f6ff;--mut:#9cc1ff;
-    --accent:#22d3ee;--btn:#2563eb;--gold:#f1c40f;
-    --ok:#10b981;--warn:#f59e0b;--bad:#ef4444;
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.55 Inter,system-ui,Segoe UI,Roboto,Arial}
-  a{color:#cfe0ff;text-decoration:none}
-  .wrap{max-width:1200px;margin:0 auto;padding:18px}
-  /* NAV */
-  .nav{position:sticky;top:0;z-index:10;background:#0e1525;border-bottom:1px solid var(--bd)}
-  .nav .row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 18px}
-  .brand{display:flex;align-items:center;gap:10px;font-weight:800}
-  .brand img{height:26px}
-  .brand small{background:#0b1220;border:1px solid var(--bd);padding:2px 8px;border-radius:999px;color:#22d3ee}
-  .menu{display:flex;gap:8px;flex-wrap:wrap}
-  .menu a{padding:8px 14px;border:1px solid transparent;border-radius:10px;color:#cfe0ff;transition:.2s}
-  .menu a:hover{background:rgba(255,255,255,.08)}
-  .menu a.active{background:linear-gradient(135deg,#22d3ee,#60a5fa);color:#001428;font-weight:700}
+  <style>
+    :root {
+      --bg:#0a0b0f; --panel:#0e1525; --panel2:#101319;
+      --ink:#e7f3ff; --muted:#93c5fd; --gold:#f4d063; --blue:#22d3ee;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,Segoe UI,Inter,sans-serif}
+    a{color:var(--blue);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width:1100px;margin:0 auto;padding:20px}
 
-  /* Blocks */
-  .panel{background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px;margin-top:18px}
-  .panel.hi{background:linear-gradient(180deg,#0f172a,#0b1220)}
-  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-  .pill{display:inline-flex;gap:8px;align-items:center;padding:6px 10px;border:1px solid var(--bd);border-radius:999px;background:#0c1427;color:#cfe0ff}
-  .pill.badge{background:#0b1220}
-  .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid var(--bd);border-radius:10px;background:#0d1830;color:#fff;cursor:pointer}
-  .btn:hover{filter:brightness(1.05)}
-  .btn.primary{background:linear-gradient(180deg,#2d6be8,#1d4ed8)}
-  .btn.warn{background:#53350a;border-color:#8a5a14}
-  .btn.alt{background:#0b1220}
-  .kpi{text-align:center;background:var(--card2);border:1px solid var(--bd);border-radius:12px;padding:12px;min-width:120px}
-  .kpi b{font-size:22px}
-  .grid{display:grid;gap:12px}
-  .g-2{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .g-3{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .g-4{grid-template-columns:repeat(4,minmax(0,1fr))}
-  @media(max-width:900px){.g-3,.g-4{grid-template-columns:repeat(2,minmax(0,1fr))}}
-  @media(max-width:620px){.g-2,.g-3,.g-4{grid-template-columns:1fr}}
+    /* NAVBAR */
+    nav{background:#0e1525;border-bottom:1px solid #1e2a44;position:sticky;top:0;z-index:10}
+    nav .row{display:flex;align-items:center;justify-content:space-between;padding:12px 18px}
+    .brand{display:flex;align-items:center;gap:10px}
+    .brand video,.brand img{width:42px;height:42px;border-radius:8px;object-fit:cover}
+    .brand span{display:flex;flex-direction:column;line-height:1}
+    .brand b{color:#fff;font-weight:800}
+    .brand small{background:#0b1220;border:1px solid #1e2a44;padding:2px 8px;border-radius:999px;color:#22d3ee;width:max-content}
+    .menu{display:flex;gap:8px}
+    .menu a{padding:8px 14px;border-radius:10px;color:#cfe0ff}
+    .menu a:hover{background:rgba(255,255,255,.07)}
+    .menu a.active{background:linear-gradient(135deg,#22d3ee,#60a5fa);color:#001428;font-weight:700}
 
-  /* Estratégias cards */
-  .estr{background:var(--card2);border:1px solid var(--bd);border-radius:14px;padding:14px}
-  .estr h4{margin:0 0 6px 0}
-  .estr small{color:var(--mut)}
-  .estr .tag{border:1px solid var(--bd);padding:2px 8px;border-radius:999px;background:#0b1220;margin-left:8px}
+    h1{font-size:28px;margin:16px 0;font-weight:900}
+    h2{margin:20px 0 10px;font-weight:700;color:var(--gold)}
 
-  /* Console */
-  .console{background:#0c162a;border:1px solid var(--bd);border-radius:14px;padding:12px;position:relative}
-  .log{border-left:4px solid #0a3; background:#052; padding:8px 10px;border-radius:10px;margin:6px 0}
-  .log.engine{border-left-color:#0a3;background:#063}
-  .log.predict{border-left-color:#985; background:#2a1f09}
-  .log.demo{border-left-color:#1f4b82;background:#0c223d}
-  .log.bad{border-left-color:#a11;background:#3a0f13}
-  .log .time{opacity:.75;margin-right:10px}
-  .log .tag{display:inline-block;margin-left:8px;border:1px solid var(--bd);background:#0b1220;border-radius:999px;padding:2px 6px}
-  .console .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
-  .console input[type="text"]{flex:1 1 220px;background:#0b1220;border:1px solid var(--bd);color:#cfe0ff;border-radius:10px;padding:8px 10px}
+    .list{display:grid;gap:10px}
+    .item{background:var(--panel2);border:1px solid #1e2a44;padding:12px;border-radius:12px;display:flex;align-items:center;justify-content:space-between}
+    .label{display:flex;align-items:center;gap:8px}
+    .toggle{appearance:none;width:42px;height:24px;border-radius:999px;background:#253046;cursor:pointer;position:relative;outline:none;border:1px solid #3b455a}
+    .toggle:checked{background:#1b7e3a;border-color:#2bbd66}
+    .toggle:before{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;background:#e8f4ff;border-radius:50%;transition:.18s}
+    .toggle:checked:before{left:20px}
 
-  /* Lista números históricos */
-  .chips{display:flex;flex-wrap:wrap;gap:8px}
-  .chip{width:36px;height:36px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-weight:700}
-  .red{background:#b91c1c}.black{background:#0f172a}.green{background:#047857}
-</style>
-  <!-- FAVICONS -->
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16.png">
-<link rel="manifest" href="/assets/favicon/site.webmanifest">
-<link rel="mask-icon" href="/assets/favicon/safari-pinned-tab.svg" color="#0ea5e9">
-<meta name="theme-color" content="#0b1220">
-
-<!-- Preload opcional para navbar rápida -->
-<link rel="preload" as="image" href="/assets/img/branding/logo-navbar.png" imagesrcset="/assets/img/branding/logo-navbar.png 1x">
-<link rel="preload" as="image" href="/assets/img/branding/logo-static.png">
-<link rel="preload" as="video" href="/assets/media/logo-animated.mp4" type="video/mp4">
+    footer{margin:32px 0 12px;text-align:center;color:#8aa;font-size:13px}
+  </style>
 </head>
 <body>
 
-<!-- NAV -->
-<div class="nav">
-  <div class="row wrap">
-    <div class="brand">
-      <img src="logo.png" alt="SC Tips Logo"/>
-      <span>SC TIPS</span><small>VIP</small>
-    </div>
-    <nav class="menu">
+<!-- NAVBAR -->
+<nav>
+  <div class="row">
+    <a class="brand" href="index.html">
+      <video src="assets/media/logo-animated.mp4" autoplay muted loop playsinline poster="assets/img/branding/logo-static.png"></video>
+      <span>
+        <b>SC TIPS</b>
+        <small>VIP</small>
+      </span>
+    </a>
+    <div class="menu">
       <a href="index.html">Home</a>
-      <a href="estrategias.html" class="active">Estratégias</a>
+      <a class="active" href="estrategias.html">Estratégias</a>
       <a href="matrix-premium.html">Matrix Premium</a>
       <a href="puxadores.html">Puxadores Live</a>
       <a href="contato.html">Contato</a>
-    </nav>
+    </div>
   </div>
-</div>
+</nav>
 
 <div class="wrap">
+  <h1>📊 Estratégias SC TIPS</h1>
+  <p>Aqui você encontra as <b>23 estratégias</b> aplicadas em tempo real. Ative ou desative conforme desejar:</p>
 
-  <!-- STATUS / MOTOR -->
-  <div class="panel hi" id="statusBox">
-    <div class="row" style="margin-bottom:10px">
-      <h2 style="margin:0">🎯 Estratégias — Motor</h2>
-      <span class="pill badge" id="pillState">standby</span>
-      <span class="pill">última: <b id="pillLast">—</b></span>
-      <span class="pill">cadência: <b>18s</b></span>
-      <div class="row" style="margin-left:auto">
-        <button class="btn primary" id="btnStart">▶ Iniciar</button>
-        <button class="btn alt" id="btnPause">⏸ Pausar</button>
-        <button class="btn alt" id="btnReset">↻ Reset</button>
-      </div>
-    </div>
-
-    <div class="row" style="margin-bottom:10px">
-      <label class="pill"><input id="chkSync" type="checkbox" checked style="accent-color:#22d3ee"> Sync ao receber número</label>
-      <label class="pill"><input id="chkAuto" type="checkbox" checked style="accent-color:#22d3ee"> Auto Mode</label>
-      <button class="btn" id="btnSim">🎲 Simular número</button>
-    </div>
-
-    <div class="row">
-      <div class="pill">Spins: <b id="kSpins">0</b></div>
-      <div class="pill">Hits: <b id="kHits">0</b></div>
-      <div class="pill">Miss: <b id="kMiss">0</b></div>
-      <div class="pill">Taxa: <b id="kRate">0%</b></div>
-    </div>
-
-    <div class="panel" style="margin-top:12px">
-      <div style="opacity:.8;margin-bottom:8px">Últimos números (clique para repetir):</div>
-      <div class="chips" id="chips"></div>
-    </div>
+  <div class="list">
+    <div class="item"><div class="label"><input class="toggle" type="checkbox" checked> Fire Precision SC</div></div>
+    <div class="item"><div class="label"><input class="toggle" type="checkbox" checked> Análise de Vizinhos</div></div>
+    <div class="item"><div class="label"><input class="toggle" type="checkbox" checked> Pattern Breaker</div></div>
+    <div class="item"><div class="label"><input class="toggle" type="checkbox"> Predição de Cores</div></div>
+    <div class="item"><div class="label"><input class="toggle" type="checkbox"> Hot/Cold</div></div>
+    <div class="item"><div class="label"><input class="toggle" type="checkbox"> Caçador de Repetições</div></div>
+    <div class="item"><div class="label"><input class="toggle" type="checkbox"> Tiro Seco SC</div></div>
+    <div class="item"><div class="label"><input class="toggle" type="checkbox"> Sector Target SC</div></div>
+    <div class="item"><div class="label"><input class="toggle" type="checkbox"> Cavalo SC Premium</div></div>
+    <div class="item"><div class="label"><input class="toggle" type="checkbox"> Cavalos 258</div></div>
+    <div class="item"><div class="label"><input class="toggle" type="checkbox"> Terminais 0/5</div></div>
+    <div class="item"><div class="label"><input class="toggle" type="checkbox"> Múltiplos de 3</div></div>
+    <div class="item"><div class="label"><input class="toggle" type="checkbox"> Diagonais da Roda</div></div>
+    <div class="item"><div class="label"><input class="toggle" type="checkbox"> Sequência 10+4</div></div>
+    <div class="item"><div class="label"><input class="toggle" type="checkbox"> Linha dos Finais 6</div></div>
+    <div class="item"><div class="label"><input class="toggle" type="checkbox"> Duplas Simétricas</div></div>
+    <div class="item"><div class="label"><input class="toggle" type="checkbox"> Trinca Ímpares</div></div>
+    <div class="item"><div class="label"><input class="toggle" type="checkbox"> Trinca Pares</div></div>
+    <div class="item"><div class="label"><input class="toggle" type="checkbox"> Proteção Zero</div></div>
+    <div class="item"><div class="label"><input class="toggle" type="checkbox"> Reverso Recentes</div></div>
+    <div class="item"><div class="label"><input class="toggle" type="checkbox"> Gap Longo</div></div>
+    <div class="item"><div class="label"><input class="toggle" type="checkbox"> Espiral da Roda</div></div>
+    <div class="item"><div class="label"><input class="toggle" type="checkbox"> Alpha 6</div></div>
   </div>
-
-  <!-- CONSOLE -->
-  <div class="panel console" id="consoleBox">
-    <div class="toolbar">
-      <button class="btn warn" id="btnClear">🪄 Limpar</button>
-      <button class="btn alt" id="btnExport">⬇ Exportar TXT</button>
-      <label class="pill"><input id="chkScroll" type="checkbox" checked style="accent-color:#22d3ee"> Auto.scroll</label>
-      <label class="pill"><input id="chkSound" type="checkbox" checked style="accent-color:#22d3ee"> Som</label>
-      <input type="text" id="searchLog" placeholder="Pesquisar logs…">
-    </div>
-    <div id="logs"></div>
-  </div>
-
-  <!-- CONTROLES DE ESTRATÉGIAS -->
-  <div class="panel">
-    <h3 style="margin:0 0 10px 0">🎯 Estratégias SC TIPS — 23 Padrões (Atualizadas)</h3>
-    <div class="row" style="margin-bottom:8px">
-      <button class="btn" id="btnAll">✅ Todas</button>
-      <button class="btn" id="btnBest">🎯 Ótimas</button>
-      <button class="btn" id="btnNone">❌ Limpar</button>
-    </div>
-
-    <div class="grid g-2" id="estrGrid"></div>
-  </div>
-
 </div>
 
-<!-- === Sons globais (colocar no fim da página, antes de </body>) === -->
-<audio id="snd-green" preload="auto">
-  <source src="./sounds/green.wav" type="audio/wav">
-  <source src="./sounds/green.mp3" type="audio/mpeg">
-</audio>
-<audio id="snd-red" preload="auto">
-  <source src="./sounds/red.wav" type="audio/wav">
-  <source src="./sounds/red.mp3" type="audio/mpeg">
-</audio>
-<audio id="snd-alerta" preload="auto">
-  <source src="./sounds/alerta.wav" type="audio/wav">
-  <source src="./sounds/alerta.mp3" type="audio/mpeg">
-</audio>
-<audio id="snd-click" preload="auto">
-  <source src="./sounds/click.wav" type="audio/wav">
-  <source src="./sounds/click.mp3" type="audio/mpeg">
-</audio>
-
-<script>
-/* ======= UTIL ======= */
-const WHEEL = [0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
-const red = new Set([1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);
-const inRange = n => Number.isInteger(n)&&n>=0&&n<=36;
-const nowHMS = ()=> new Date().toTimeString().slice(0,8);
-const el = id => document.getElementById(id);
-const logBox = el('logs');
-
-function pushChip(n){
-  const d=document.createElement('div');
-  d.className='chip '+(n===0?'green':(red.has(n)?'red':'black'));
-  d.textContent=n; d.title='Repetir '+n;
-  d.onclick=()=>ingest({number:n, platform:'Manual'});
-  el('chips').prepend(d);
-  while(el('chips').children.length>36) el('chips').lastChild.remove();
-}
-
-/* ======= CONSOLE ======= */
-function addLog(kind,msg,extra=''){
-  const q = document.createElement('div');
-  q.className='log '+kind+(kind==='predict'&&/Hit/.test(msg)?'':'');
-  q.dataset.kind=kind;
-  q.innerHTML = `<span class="time">[${nowHMS()}]</span> ${msg} ${extra?`<span class="tag">${extra}</span>`:''}`;
-  logBox.appendChild(q);
-  // filtro
-  const term = el('searchLog').value.trim().toLowerCase();
-  if(term){ q.style.display = q.textContent.toLowerCase().includes(term)?'':'none'; }
-  if(el('chkScroll').checked) q.scrollIntoView({behavior:'smooth',block:'end'});
-  if(el('chkSound').checked){
-    if(kind==='predict' && /Hit/.test(msg)) el('snd-green').play().catch(()=>{});
-    else if(kind==='predict' && /Miss/.test(msg)) el('snd-red').play().catch(()=>{});
-    else if(kind==='engine') el('snd-alert').play().catch(()=>{});
-  }
-}
-el('btnClear').onclick=()=>{ logBox.innerHTML=''; }
-el('btnExport').onclick=()=>{
-  const txt=[...logBox.querySelectorAll('.log')].map(x=>x.innerText).join('\n');
-  const blob=new Blob([txt],{type:'text/plain'}), url=URL.createObjectURL(blob);
-  const a=document.createElement('a'); a.href=url; a.download=`SC_TIPS_Logs_${Date.now()}.txt`; a.click();
-  setTimeout(()=>URL.revokeObjectURL(url),1000);
-}
-el('searchLog').oninput=()=>{
-  const term=el('searchLog').value.toLowerCase();
-  [...logBox.children].forEach(x=> x.style.display = x.textContent.toLowerCase().includes(term)?'':'none');
-};
-
-/* ======= ESTRATÉGIAS (23) ======= */
-/* Cada estratégia define: id, nome, “tier” (otimas/normal), e um método predict(history)
-   → retorna até 8 números sugeridos. (Heurísticas simples, mas independentes do Live). */
-const STRATS = [
-  {id:'elite2x', nome:'Elite 2X', tier:'otima',
-    predict:(H)=> pickEnds([2,12,22,32],H)},
-  {id:'quarta', nome:'Quarta Dimensão', tier:'otima',
-    predict:(H)=> add10plus4([4,14,24,34])},
-  {id:'formula5x', nome:'Fórmula 5X', tier:'otima',
-    predict:(H)=> pickEnds([5,15,25,35],H)},
-  {id:'alpha6', nome:'Alpha 6', tier:'otima',
-    predict:(H)=> pickEnds([6,16,26,36],H)},
-  {id:'black', nome:'Padrão Black', tier:'normal',
-    predict:(H)=> H.length? neighbors(H.at(-1),2):[]},
-  {id:'triVerm', nome:'Triângulo Vermelho', tier:'normal',
-    predict:(H)=> reds()},
-  {id:'colOuro', nome:'Coluna de Ouro', tier:'otima',
-    predict:(H)=> coluna(1)},
-  {id:'colPrata', nome:'Coluna de Prata', tier:'normal',
-    predict:(H)=> coluna(2)},
-  {id:'colBronze', nome:'Coluna de Bronze', tier:'normal',
-    predict:(H)=> coluna(3)},
-  {id:'protZero', nome:'Proteção Zero', tier:'normal',
-    predict:(H)=> [0]},
-  {id:'cavalo', nome:'Cavalo SC', tier:'otima',
-    predict:(H)=> cavalo(H)},
-  {id:'pad258', nome:'Cavalos 258', tier:'normal',
-    predict:(H)=> [2,5,8]},
-  {id:'pad369', nome:'Cavalos 369', tier:'normal',
-    predict:(H)=> [3,6,9]},
-  {id:'pattern', nome:'Pattern Breaker', tier:'normal',
-    predict:(H)=> breakPattern(H)},
-  {id:'cores', nome:'Predição de Cores', tier:'normal',
-    predict:(H)=> colorBias(H)},
-  {id:'hotcold', nome:'Hot/Cold', tier:'normal',
-    predict:(H)=> hotCold(H)},
-  {id:'rep', nome:'Caçador de Repetições', tier:'normal',
-    predict:(H)=> repeats(H)},
-  {id:'tiro', nome:'Tiro Seco SC', tier:'otima',
-    predict:(H)=> H.length?[H.at(-1)]:[]},
-  {id:'sector', nome:'Sector Target SC', tier:'otima',
-    predict:(H)=> sectorFrom(H)},
-  {id:'fixos', nome:'Fixos (0 + finais)', tier:'normal',
-    predict:(H)=> [0,10,20,30]},
-  {id:'duzias', nome:'Dúzias & Colunas', tier:'normal',
-    predict:(H)=> dozenColumnMix(H)},
-  {id:'time', nome:'Time Window (High/Low)', tier:'normal',
-    predict:(H)=> highLow(H)},
-  {id:'dealer', nome:'Troca de Dealer', tier:'normal',
-    predict:(H)=> dealerShift(H)},
-];
-
-/* Heurísticas auxiliares bem levinhas */
-function pickEnds(arr,H){ return arr.slice(0,8); }
-function add10plus4(arr){ return arr.slice(0,8); }
-function reds(){ return [...red].slice(0,8); }
-function coluna(k){ // 1..3
-  const all=Array.from({length:36},(_,i)=>i+1).filter(n=> (n%3||3)===k%3);
-  return all.slice(0,8);
-}
-function neighbors(n,k){ if(!inRange(n))return[]; const i=WHEEL.indexOf(n);const out=[];
-  for(let j=1;j<=k;j++){ out.push(WHEEL[(i-j+WHEEL.length)%WHEEL.length]); out.push(WHEEL[(i+j)%WHEEL.length]); }
-  return out.slice(0,8);
-}
-function cavalo(H){ // dois próximos na roda do último conhecido
-  if(!H.length) return [];
-  return neighbors(H.at(-1),1);
-}
-function breakPattern(H){
-  const last8=H.slice(-8); // se repetiu cor muitas vezes, inverte
-  const redsC=last8.filter(n=>red.has(n)).length;
-  if(redsC>=6) return Array.from({length:18},(_,i)=>i*2+2).slice(0,8); // muitos vermelhos → sugere pretos pares
-  return [];
-}
-function colorBias(H){
-  const last12=H.slice(-12), r=last12.filter(n=>red.has(n)).length;
-  if(r>=8) return Array.from({length:18},(_,i)=>i*2+2).slice(0,8);
-  if(r<=4) return Array.from({length:18},(_,i)=>i*2+1).slice(0,8);
-  return [];
-}
-function hotCold(H){
-  const cnt=new Map(); H.forEach(n=>cnt.set(n,(cnt.get(n)||0)+1));
-  const sorted=[...cnt.entries()].sort((a,b)=>b[1]-a[1]).map(v=>v[0]);
-  return (sorted.slice(0,8).length?sorted.slice(0,8):[]);
-}
-function repeats(H){ const a=H.at(-1),b=H.at(-2); return (a===b && inRange(a))?[a]:[]; }
-function sectorFrom(H){ if(!H.length) return []; return neighbors(H.at(-1),2); }
-function dozenColumnMix(H){
-  // pega a dúzia/coluna mais presente nos últimos 12 e retorna 8 representativos
-  const last=H.slice(-12).filter(inRange);
-  if(!last.length) return [];
-  const dozen=[0,0,0]; last.forEach(n=>{ const d=Math.floor((n-1)/12); if(d>=0) dozen[d]++; });
-  const best = dozen.indexOf(Math.max(...dozen))+1; // 1..3
-  const arr=Array.from({length:36},(_,i)=>i+1).filter(n=> Math.ceil(n/12)===best);
-  return arr.slice(0,8);
-}
-function highLow(H){
-  const last=H.slice(-12).filter(inRange);
-  const lows=last.filter(n=>n<=18).length, highs=last.length-lows;
-  return (highs>lows)? Array.from({length:18},(_,i)=>i+19).slice(0,8)
-                     : Array.from({length:18},(_,i)=>i+1).slice(0,8);
-}
-function dealerShift(H){ // sem feed de dealer, usa pulo grande na roda como proxy
-  if(H.length<2) return [];
-  const a=H.at(-2), b=H.at(-1);
-  const ia=WHEEL.indexOf(a), ib=WHEEL.indexOf(b);
-  const step=Math.min(Math.abs(ia-ib),WHEEL.length-Math.abs(ia-ib));
-  return step>=10 ? neighbors(b,2) : [];
-}
-
-/* Monta grid de cards com checkbox */
-const estrSel=new Set(); // ids ativos
-function renderCards(){
-  const g=el('estrGrid'); g.innerHTML='';
-  STRATS.forEach(s=>{
-    const card=document.createElement('label');
-    card.className='estr';
-    card.innerHTML=`
-      <div class="row" style="justify-content:space-between">
-        <h4>${s.nome} ${s.tier==='otima'?'<span class="tag">ótima</span>':''}</h4>
-        <input type="checkbox" data-id="${s.id}" ${s.tier==='otima'?'checked':''} style="transform:scale(1.2)">
-      </div>
-      <small>ID: ${s.id}</small>
-    `;
-    g.appendChild(card);
-    if(s.tier==='otima') estrSel.add(s.id);
-    card.querySelector('input').onchange=(e)=>{
-      e.target.checked?estrSel.add(s.id):estrSel.delete(s.id);
-    };
-  });
-}
-renderCards();
-el('btnAll').onclick=()=>{estrSel.clear(); STRATS.forEach(s=>estrSel.add(s.id)); renderCardsSet();};
-el('btnBest').onclick=()=>{estrSel.clear(); STRATS.filter(s=>s.tier==='otima').forEach(s=>estrSel.add(s.id)); renderCardsSet();};
-el('btnNone').onclick=()=>{estrSel.clear(); renderCardsSet();};
-function renderCardsSet(){ // re-checa de acordo com estrSel
-  [...el('estrGrid').querySelectorAll('input[type=checkbox]')].forEach(ch=>{
-    const id=ch.dataset.id; ch.checked=estrSel.has(id);
-    ch.onchange=(e)=>{ e.target.checked?estrSel.add(id):estrSel.delete(id); };
-  });
-}
-
-/* ======= MOTOR ======= */
-const state = {
-  liveOn:false, lastAt:0, history:[], spins:0, hits:0, miss:0,
-  running:false, timer:null
-};
-const DEDUP_MS=2500; // anti-spam postMessage
-let lastSeen = {n:null,t:0};
-
-function setBadge(txt){ el('pillState').textContent=txt; }
-
-function rate(){ const closed=state.hits+state.miss; return ((state.hits/Math.max(1,closed))*100).toFixed(0); }
-function updateKPIs(){
-  el('kSpins').textContent=state.spins;
-  el('kHits').textContent=state.hits;
-  el('kMiss').textContent=state.miss;
-  el('kRate').textContent=rate()+'%';
-}
-
-function predictFromHistory(){
-  const H=state.history.slice();
-  let bag=[];
-  STRATS.filter(s=>estrSel.has(s.id)).forEach(s=>{
-    try{
-      const arr=s.predict(H)||[];
-      if(arr.length){
-        bag = bag.concat(arr.map(n=>({n,by:s.nome})));
-      }
-    }catch(e){}
-  });
-  // normaliza: top 8 por frequência
-  const cnt=new Map();
-  bag.forEach(({n})=> cnt.set(n,(cnt.get(n)||0)+1));
-  const top=[...cnt.entries()].sort((a,b)=>b[1]-a[1]).slice(0,8).map(x=>x[0]);
-  addLog('engine', `forçando previsão • ${top.length} previstos`);
-  return top;
-}
-
-function handleSpin(number, reason='feed'){
-  if(!inRange(number)) return;
-  pushChip(number);
-  state.spins++; el('pillLast').textContent = (state.liveOn?'LIVE ':'')+nowHMS();
-  // Avalia acerto nas últimas previsões (se rodamos engine antes)
-  const preds = predictFromHistory(); // gera antes de marcar
-  const hit = preds.includes(number);
-  if(hit){ state.hits++; addLog('predict', `✔ Hit: nº ${number} estava nas previsões`, 'PREDICT'); }
-  else   { state.miss++; addLog('predict', `✖ Miss: nº ${number} não estava nas previsões`, 'PREDICT'); }
-  updateKPIs();
-}
-
-function cadenceTick(){
-  if(!state.running) return;
-  // Apenas log de ciclo (previsões já são geradas dentro do handleSpin no feed real e também aqui para "ciclo vazio")
-  addLog('engine','tick de cadência • aguardando número…','ENGINE');
-}
-
-function start(){
-  if(state.running) return;
-  state.running=true; setBadge('rodando');
-  state.timer = setInterval(cadenceTick, 18000);
-}
-
-function pause(){
-  state.running=false; setBadge('pausado');
-  if(state.timer) clearInterval(state.timer), state.timer=null;
-}
-
-function resetAll(){
-  pause();
-  state.spins=state.hits=state.miss=0; updateKPIs();
-  state.history=[]; el('chips').innerHTML=''; el('pillLast').textContent='—';
-  addLog('demo','Reset executado','SYSTEM');
-}
-
-/* Botões */
-el('btnStart').onclick=()=>{ start(); addLog('demo','Iniciado','SYSTEM'); };
-el('btnPause').onclick=()=>{ pause(); addLog('demo','Pausado','SYSTEM'); };
-el('btnReset').onclick=()=> resetAll();
-el('btnSim').onclick=()=>{
-  const n=Math.floor(Math.random()*37);
-  ingest({number:n, platform:'Sim'});
-};
-
-/* ======= FEED REAL (BroadcastChannel + postMessage) ======= */
-function ingest(payload){
-  let n=null;
-  if(typeof payload==='number') n=payload;
-  else if(typeof payload==='object' && inRange(payload.number)) n=payload.number;
-  else if(typeof payload==='string'){ const m=payload.match(/\b([0-9]|[12][0-9]|3[0-6])\b/); if(m) n=parseInt(m[1],10); }
-  if(!inRange(n)) return;
-
-  const now=Date.now(); if(lastSeen.n===n && now-lastSeen.t<DEDUP_MS) return;
-  lastSeen={n,t:now};
-
-  state.liveOn=true; state.lastAt=now;
-  state.history.push(n); if(state.history.length>400) state.history=state.history.slice(-400);
-
-  if(el('chkSync').checked){ handleSpin(n,'feed'); }
-  else { pushChip(n); addLog('demo',`Número ${n} recebido (sync off)`,'FEED'); }
-}
-
-try{
-  const bc=new BroadcastChannel('sc-tips-live');
-  bc.onmessage=(e)=> ingest(e.data);
-}catch{}
-window.addEventListener('message',e=>ingest(e.data));
-
-/* ======= Auto-scroll & som já ligados (padrão) ======= */
-addLog('demo','SC Tips Estratégias inicializado','SYSTEM');
-
-/* ======= Seleção inicial (ótimas marcadas) ======= */
-renderCardsSet();
-updateKPIs();
-</script>
-  <script>
-  // Autostart + preferências padrão (sons e autoscroll ligados)
-  window.addEventListener('DOMContentLoaded', () => {
-    const clickIf = (sel) => { const el = document.querySelector(sel); if (el) el.click(); };
-    const checkIf = (sel) => { const el = document.querySelector(sel); if (el && !el.checked) el.click(); };
-
-    // ====== ESTRATÉGIAS ======
-    checkIf('#str-sync');      // “Sync ao receber número”
-    checkIf('#str-auto');      // “Auto Mode”
-    clickIf('#str-start');     // Iniciar
-
-    // ====== PUXADORES — LIVE ======
-    checkIf('#live-sync');     // “Sync ao receber número”
-    checkIf('#live-auto');     // “Auto vizinhos / Auto Mode”
-    clickIf('#live-start');    // Iniciar
-
-    // ====== Console (global) ======
-    checkIf('#cons-autoscroll'); // Auto.scroll ligado
-    checkIf('#cons-sound');      // Som ligado
-  });
- // ===== Console: autoscroll + som ligados por padrão =====
-  try{
-    const elAuto = document.getElementById('cons-autoscroll');
-    const elSom  = document.getElementById('cons-sound');
-    if(elAuto && !elAuto.checked) elAuto.click();
-    if(elSom  && !elSom.checked)  elSom.click();
-  }catch{}
-
-  // ===== Log helper (usa seu Console se existir) =====
-  function log(tag, text){
-    // se houver função global do seu console:
-    if (window.SCLog) { window.SCLog(tag, text); return; }
-    // fallback simples no console do navegador
-    console.log(`[${tag}] ${text}`);
-  }
-
-  // ===== Auto-start ao abrir a página =====
-  window.addEventListener('DOMContentLoaded', ()=>{
-    btnStart?.click();
-  });
-})();
-</script>
-<!-- ====== /PUXADORES LIVE UPGRADE ====== -->
-<footer style="margin:24px 0 12px;text-align:center;color:#8aa;font-size:12px;">
+<footer>
   © 2025 <b>SC TIPS</b> — Todos os direitos reservados.
 </footer>
-  
-  </script>
-  <footer style="margin:24px 0 12px;text-align:center;color:#8aa;font-size:12px;">
-  © 2025 <b>SC TIPS</b> — Todos os direitos reservados.
-  </footer>
-  
-    </div>
 
-    <div class="plat card" data-id="lucky">
-      <div class="row-head">
-        <span>🍀 Lucky</span>
-        <span class="lat" id="lat-lucky">—</span>
-      </div>
-      <canvas class="spark" height="40"></canvas>
-    </div>
-
-    <div class="plat card" data-id="engine">
-      <div class="row-head">
-        <span>🧠 Engine</span>
-        <span class="lat" id="lat-engine">—</span>
-      </div>
-      <canvas class="spark" height="40"></canvas>
-    </div>
-  </div>
-
-  <div class="row-acts" style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">
-    <button id="plat-simular" class="btn primary">🎲 Simular número</button>
-    <button id="plat-limpar" class="btn">🪄 Limpar números</button>
-    <button id="plat-exportar" class="btn">📄 Exportar CSV</button>
-  </div>
-</section>
-
-<style>
-  #plataformas-matrix .card{
-    background:#0b1320;border:1px solid #1c2a44;border-radius:12px;padding:10px
-  }
-  #plataformas-matrix .card.selected{ outline:2px solid #3b82f6 }
-  #plataformas-matrix .row-head{
-    display:flex;justify-content:space-between;align-items:center;
-    font-weight:700;margin-bottom:8px
-  }
-  #plataformas-matrix .lat{
-    font-size:12px;opacity:.75;padding:2px 6px;border-radius:999px;
-    border:1px solid #2a3a58;background:#0e1a2d
-  }
-  #plataformas-matrix .btn{
-    padding:10px 14px;border-radius:10px;border:1px solid #1e2a44;background:#0e1a2d
-  }
-  #plataformas-matrix .btn.primary{
-    background:linear-gradient(180deg,#f6c34a,#d99a22);color:#111;font-weight:800
-  }
-  #plataformas-matrix canvas.spark{ width:100% }
-</style>
 </body>
 </html>
