@@ -532,33 +532,38 @@ updateKPIs();
     checkIf('#cons-autoscroll'); // Auto.scroll ligado
     checkIf('#cons-sound');      // Som ligado
   });
+ // ===== Console: autoscroll + som ligados por padrão =====
+  try{
+    const elAuto = document.getElementById('cons-autoscroll');
+    const elSom  = document.getElementById('cons-sound');
+    if(elAuto && !elAuto.checked) elAuto.click();
+    if(elSom  && !elSom.checked)  elSom.click();
+  }catch{}
+
+  // ===== Log helper (usa seu Console se existir) =====
+  function log(tag, text){
+    // se houver função global do seu console:
+    if (window.SCLog) { window.SCLog(tag, text); return; }
+    // fallback simples no console do navegador
+    console.log(`[${tag}] ${text}`);
+  }
+
+  // ===== Auto-start ao abrir a página =====
+  window.addEventListener('DOMContentLoaded', ()=>{
+    btnStart?.click();
+  });
+})();
+</script>
+<!-- ====== /PUXADORES LIVE UPGRADE ====== -->
+<footer style="margin:24px 0 12px;text-align:center;color:#8aa;font-size:12px;">
+  © 2025 <b>SC TIPS</b> — Todos os direitos reservados.
+</footer>
+  
   </script>
   <footer style="margin:24px 0 12px;text-align:center;color:#8aa;font-size:12px;">
   © 2025 <b>SC TIPS</b> — Todos os direitos reservados.
   </footer>
-  <!-- ================= Plataformas Matrix (reutilizável) ================= -->
-<section id="plataformas-matrix" class="panel" style="margin-top:28px">
-  <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-    <span style="font-weight:800;font-size:18px">🎲 Plataformas Matrix</span>
-    <small id="plat-uptime" style="opacity:.6">—</small>
-  </div>
-
-  <div class="grid" style="display:grid;grid-template-columns:repeat(2, minmax(0,1fr));gap:12px">
-    <!-- Card plataforma -->
-    <div class="plat card selected" data-id="donald">
-      <div class="row-head">
-        <span>🎲 Donald</span>
-        <span class="lat" id="lat-donald">—</span>
-      </div>
-      <canvas class="spark" height="40"></canvas>
-    </div>
-
-    <div class="plat card" data-id="bbtips">
-      <div class="row-head">
-        <span>📈 BBTips</span>
-        <span class="lat" id="lat-bbtips">—</span>
-      </div>
-      <canvas class="spark" height="40"></canvas>
+  
     </div>
 
     <div class="plat card" data-id="lucky">
