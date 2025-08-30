@@ -1,103 +1,206 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>SC Tips • Puxadores — Live</title>
-  <link rel="icon" type="image/png" href="./favicon.png" />
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16.png">
+  <link rel="manifest" href="/assets/favicon/site.webmanifest">
+  <link rel="mask-icon" href="/assets/favicon/safari-pinned-tab.svg" color="#0ea5e9">
+  <meta name="theme-color" content="#0b1220">
+
+  <!-- Preload brand -->
+  <link rel="preload" as="image" href="/assets/img/branding/logo-navbar.png">
+  <link rel="preload" as="image" href="/assets/img/branding/logo-static.png">
+  <link rel="preload" as="video"  href="/assets/media/logo-animated.mp4" type="video/mp4">
 
   <style>
     :root{
-      --bg:#050b12;--panel:#0f172a;--text:#e6f6ff;--muted:#93c5fd;
-      --brand:#22d3ee;--ok:#10b981;--warn:#f59e0b;--err:#ef4444;
+      --bg:#0b1220;--panel:#0f172a;--panel2:#0c1425;--bd:#1e2a44;
+      --txt:#e6f6ff;--mut:#9cc1ff;--brand1:#22d3ee;--brand2:#60a5fa;
+      --ok:#10b981;--warn:#f59e0b;--err:#ef4444
     }
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{background:var(--bg);color:var(--text);font-family:"Inter",system-ui}
-    .wrap{max-width:1100px;margin:0 auto;padding:18px}
-    .nav{position:sticky;top:0;z-index:10;background:#0e1525;border-bottom:1px solid #1e2a44}
-    .nav .row{display:flex;align-items:center;justify-content:space-between;padding:12px 20px}
-    .brand{font-weight:800;color:#fff}
-    .menu{display:flex;gap:8px}
-    .menu a{padding:8px 14px;border-radius:10px;color:#cfe0ff;text-decoration:none}
-    .menu a.active{background:linear-gradient(135deg,#22d3ee,#60a5fa);color:#001428;font-weight:600}
-    .card{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px;margin-bottom:14px}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
-    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-    .badge{padding:6px 10px;border:1px solid #334155;border-radius:999px;font-size:12px}
-    .badge.live{background:#063b2e;color:#b7ffdf}
-    .badge.standby{background:#202838;color:#cfe0ff}
+    *{box-sizing:border-box}
+    html,body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.55 Inter,system-ui,Segoe UI,Roboto,Arial}
+    a{color:#dbeafe;text-decoration:none}
+
+    /* NAV */
+    .nav{position:sticky;top:0;z-index:20;background:#0e1525;border-bottom:1px solid var(--bd)}
+    .nav .row{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 18px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:900}
+    .brand small{background:#0b1220;border:1px solid var(--bd);padding:2px 8px;border-radius:999px;color:#22d3ee}
+    .menu{display:flex;gap:8px;flex-wrap:wrap}
+    .menu a{padding:8px 14px;border:1px solid transparent;border-radius:10px}
+    .menu a:hover{background:rgba(255,255,255,.08)}
+    .menu a.active{background:linear-gradient(135deg,var(--brand1),var(--brand2));color:#001428;font-weight:700}
+
+    /* LAYOUT */
+    .wrap{max-width:1200px;margin:0 auto;padding:18px}
+    .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+    .grid{display:grid;gap:14px}
+    @media(min-width:920px){ .grid-2{grid-template-columns:1.2fr 1fr} }
+
+    .card{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px}
+    .pill{display:inline-flex;gap:8px;align-items:center;padding:6px 10px;border:1px solid var(--bd);border-radius:999px;background:#0c1427;color:#cfe0ff;font-size:12px}
+    .badge{padding:6px 10px;border-radius:999px;border:1px solid var(--bd);background:#0b1220}
+    .badge.live{background:#063b2e;border-color:#10b981;color:#b7ffdf}
+    .badge.standby{background:#202838;border-color:#334155}
+    .btn{cursor:pointer;border:1px solid rgba(255,255,255,.12);background:#10233b;color:#fff;border-radius:10px;padding:10px 14px}
+    .btn.primary{background:#2563eb;border-color:#2563eb}
+    .btn.ghost{background:transparent}
+    .btn:hover{filter:brightness(1.08)}
+    select,input{background:#0c1425;border:1px solid #22324e;color:#fff;border-radius:8px;padding:8px 10px}
     .kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
     .kpi .box{background:#0c1425;border:1px solid #22324e;border-radius:10px;padding:12px;text-align:center}
     .kpi .box b{font-size:22px}
-    .entry{border:1px solid #1d364e;background:linear-gradient(135deg,rgba(96,165,250,.06),rgba(34,211,238,.06));border-radius:12px;padding:10px;margin:6px 0}
-    footer{text-align:center;color:#8aa;font-size:12px;margin:24px 0 12px}
+
+    /* Console (global) */
+    .sc-card{background:#0b1220;border:1px solid #3b2f0a;border-radius:16px;padding:14px;margin:22px 0}
+    .sc-console-header{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+    .sc-title{font:700 20px/1.2 Inter;color:#ffd873}
+    .sc-tools{display:flex;gap:8px;align-items:center;margin-left:auto}
+    .sc-input{background:#0c1324;border:1px solid #24314d;border-radius:10px;padding:8px 10px;color:#e6f6ff;min-width:220px}
+    .sc-stream{max-height:300px;overflow:auto;background:linear-gradient(180deg,#0c1018,#0a0f14);border:1px solid #0a350a;border-radius:12px;padding:8px 6px}
+    .sc-row{display:flex;gap:8px;align-items:center;background:#082b08;border:1px solid #0da10d;border-radius:10px;margin:6px;padding:8px 10px;color:#c8ffd0}
+    .sc-tag{font-weight:700;color:#171103;background:#ffd873;border:1px solid #ffb300;border-radius:10px;padding:3px 8px}
+
+    /* Histórico */
+    #hist button{width:36px;height:36px;border-radius:10px;border:1px solid #1f2a44}
+
     /* Plataformas */
     .plat-panel{background:#0b1420;border:1px solid #1e2a44;border-radius:14px;padding:14px}
-    .plat-title{font-weight:800;color:#ffd95e;display:flex;align-items:center;gap:8px;margin-bottom:10px}
-    .plat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-    .plat{background:#0f172a;border:1px solid #22314f;border-radius:12px;padding:10px;cursor:pointer;position:relative}
-    .plat.active{outline:2px solid #60a5fa}
-    .plat h4{margin:0 0 6px;font-weight:700}
+    .plat-title{font-weight:800;color:#ffd95e;margin-bottom:10px}
+    .plat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .plat{background:#0f172a;border:1px solid #22314f;border-radius:12px;padding:10px;position:relative;cursor:pointer}
+    .plat.active{outline:2px solid #60a5fa;box-shadow:0 0 0 4px rgba(96,165,250,.15) inset}
+    .plat h4{margin:0 0 6px 0;font-weight:700}
     .lat{position:absolute;top:8px;right:8px;font-size:12px;background:#13223a;border:1px solid #28426d;padding:2px 6px;border-radius:999px}
     .spark{height:28px;width:100%;display:block;border:1px solid #1f2c49;border-radius:6px;background:#091222}
-    .btn-row{display:flex;gap:10px;margin-top:12px}
+    .btn-row{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
     .btnX{background:#113969;border:1px solid #1f4b84;color:#dbeafe;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}
     .btnGold{background:#f6c453;border:1px solid #c99d2b;color:#1b1205}
+    .btnGhost{background:#0f172a;border:1px solid #22314f;color:#cbd5e1}
   </style>
 </head>
+
 <body>
   <!-- NAV -->
-  <div class="nav">
+  <nav class="nav">
     <div class="row">
-      <div class="brand">SC TIPS <b>VIP</b></div>
+      <a class="brand" href="index.html">
+        <img src="/assets/img/branding/logo-navbar.png" alt="SC Tips" height="26">
+        <span>SC TIPS</span><small>VIP</small>
+      </a>
       <div class="menu">
         <a href="index.html">Home</a>
         <a href="estrategias.html">Estratégias</a>
         <a href="matrix-premium.html">Matrix Premium</a>
-        <a href="puxadores.html" class="active">Puxadores Live</a>
+        <a class="active" href="puxadores.html">Puxadores Live</a>
         <a href="contato.html">Contato</a>
       </div>
     </div>
-  </div>
+  </nav>
 
   <div class="wrap">
-    <h1>🎯 Puxadores — Live</h1>
-    <div class="row" style="margin:12px 0">
-      <span id="liveBadge" class="badge standby">standby</span>
-      <span id="agoBadge" class="badge standby">última: —</span>
-      <span id="cadBadge" class="badge standby">cadência: 18s</span>
-    </div>
-    <div id="cadBar" style="height:6px;background:#1e293b;border-radius:999px;overflow:hidden">
-      <i style="display:block;height:100%;width:0%;background:#60a5fa"></i>
+    <!-- Console -->
+    <div id="sc-console" class="sc-card">
+      <div class="sc-console-header">
+        <div class="sc-title">🖥️ Console Sistema</div>
+        <div class="sc-tools">
+          <button class="btn" id="sc-btn-clear">🧹 Limpar</button>
+          <button class="btn" id="sc-btn-export">⬇️ Exportar TXT</button>
+          <label class="pill"><input type="checkbox" id="cons-autoscroll" checked> Auto.scroll</label>
+          <label class="pill"><input type="checkbox" id="cons-sound" checked> Som</label>
+          <input id="sc-search" class="sc-input" type="text" placeholder="Pesquisar logs…"/>
+        </div>
+      </div>
+      <div id="sc-stream" class="sc-stream" aria-live="polite"></div>
     </div>
 
-    <!-- Último + painel -->
-    <div class="grid">
-      <div class="card">
-        <div>Último</div>
-        <div id="lastBadge" style="width:92px;height:92px;border-radius:999px;border:4px solid #334155;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:900;background:#0a1322">--</div>
+    <!-- Header -->
+    <div class="row" style="margin-bottom:12px">
+      <h1 style="margin:0">🎯 Puxadores — Live</h1>
+      <span id="liveBadge" class="badge standby">standby</span>
+      <span id="originBadge" class="pill">Origem: —</span>
+      <span id="tableBadge"  class="pill">Mesa: —</span>
+      <span id="agoBadge"    class="pill">última: —</span>
+      <div style="margin-left:auto" class="row">
+        <button id="btnCopy"  class="btn ghost">Copiar</button>
+        <button id="btnReset" class="btn ghost">Reset</button>
       </div>
+    </div>
+
+    <!-- Top grid -->
+    <div class="grid grid-2" style="margin-bottom:14px">
       <div class="card">
-        <h3>📊 Painel</h3>
+        <div class="row" style="gap:16px">
+          <div>
+            <div style="opacity:.8">Último</div>
+            <div id="lastBadge" style="width:92px;height:92px;border-radius:999px;border:4px solid #334155;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:900;background:#0a1322">--</div>
+          </div>
+
+          <div class="card" style="background:#0b1426;border-color:#1d2c4a;padding:12px">
+            <div class="row" style="gap:10px">
+              <label>Base:</label>
+              <select id="selBase"></select>
+              <span class="pill">Puxadores: <b id="pullersText">—</b></span>
+            </div>
+            <div class="row" style="margin-top:8px">
+              <label class="row" style="gap:8px">
+                <input type="checkbox" id="cbAuto" checked />
+                Auto vizinhos
+              </label>
+              <div id="manualViz" class="row" style="display:none;gap:6px">
+                <button class="btn" data-viz="1">1 viz</button>
+                <button class="btn" data-viz="2">2 viz</button>
+                <button class="btn" data-viz="3">3 viz</button>
+              </div>
+              <span class="pill" id="vizNow">2 viz.</span>
+            </div>
+          </div>
+
+          <div class="row" style="margin-left:auto;gap:8px">
+            <button id="btnSim"    class="btn primary">🎲 Simular nº</button>
+            <button id="btnInsert" class="btn">➕ Inserir nº</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin:0 0 8px 0">📊 Painel</h3>
         <div class="kpi">
-          <div class="box"><div>Total Spins</div><b id="kTot">0</b></div>
-          <div class="box"><div>Sinais</div><b id="kSig">0</b></div>
-          <div class="box"><div>Wins</div><b id="kWin">0</b></div>
-          <div class="box"><div>Losses</div><b id="kLos">0</b></div>
+          <div class="box"><div class="muted">Total Spins</div><b id="kTot">0</b></div>
+          <div class="box"><div class="muted">Sinais</div><b id="kSig">0</b></div>
+          <div class="box"><div class="muted">Wins</div><b id="kWin">0</b></div>
+          <div class="box"><div class="muted">Losses</div><b id="kLos">0</b></div>
         </div>
       </div>
     </div>
 
     <!-- Histórico -->
-    <div class="card">
-      <h3>🧾 Histórico (últimos 36)</h3>
+    <div class="card" style="margin-bottom:14px">
+      <h3 style="margin:0 0 8px 0">🧾 Histórico (últimos 36)</h3>
       <div id="hist" class="row"></div>
     </div>
 
+    <!-- Sinais -->
+    <div id="activeBox" class="card" style="display:none;margin-bottom:14px">
+      <h3 style="margin:0 0 8px 0">👁️ Sinais ativos</h3>
+      <div id="activeList" class="row" style="flex-wrap:wrap"></div>
+    </div>
+
+    <div id="recentBox" class="card" style="display:none">
+      <h3 style="margin:0 0 8px 0">🗂️ Sinais recentes</h3>
+      <div id="recentList" class="row" style="flex-wrap:wrap"></div>
+    </div>
+
     <!-- Plataformas -->
-    <div class="plat-panel">
+    <div class="plat-panel" id="plat-panel" style="margin-top:16px">
       <div class="plat-title">🎲 Plataformas Matrix</div>
-      <div class="plat-grid">
+      <div class="plat-grid" id="plat-grid">
         <div class="plat active" data-id="donald">
           <span class="lat" id="lat-donald">—</span>
           <h4>🎲 Donald</h4>
@@ -119,59 +222,258 @@
           <canvas class="spark" id="spk-engine"></canvas>
         </div>
       </div>
+
       <div class="btn-row">
-        <button class="btnX btnGold" id="btn-live-sim">🎲 Simular número</button>
-        <button class="btnX" id="btn-live-clear">🧹 Limpar números</button>
-        <button class="btnX" id="btn-live-csv">📄 Exportar CSV</button>
+        <button class="btnX btnGold"  id="btn-live-sim">🎲 Simular número</button>
+        <button class="btnX btnGhost" id="btn-live-clear">🧹 Limpar números</button>
+        <button class="btnX btnGhost" id="btn-live-csv">📄 Exportar CSV</button>
       </div>
     </div>
   </div>
 
-  <footer>
+  <!-- Sons globais -->
+  <audio id="snd-green" preload="auto">
+    <source src="./sounds/green.wav" type="audio/wav">
+    <source src="./sounds/green.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="snd-red" preload="auto">
+    <source src="./sounds/red.wav" type="audio/wav">
+    <source src="./sounds/red.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="snd-alerta" preload="auto">
+    <source src="./sounds/alerta.wav" type="audio/wav">
+    <source src="./sounds/alerta.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="snd-click" preload="auto">
+    <source src="./sounds/click.wav" type="audio/wav">
+    <source src="./sounds/click.mp3" type="audio/mpeg">
+  </audio>
+
+  <footer style="margin:24px 0 12px;text-align:center;color:#8aa;font-size:12px;">
     © 2025 <b>SC TIPS</b> — Todos os direitos reservados.
   </footer>
 
-  <!-- Sons -->
-  <audio id="snd-green" preload="auto"><source src="./sounds/green.wav" type="audio/wav"><source src="./sounds/green.mp3" type="audio/mpeg"></audio>
-  <audio id="snd-red" preload="auto"><source src="./sounds/red.wav" type="audio/wav"><source src="./sounds/red.mp3" type="audio/mpeg"></audio>
-  <audio id="snd-alerta" preload="auto"><source src="./sounds/alerta.wav" type="audio/wav"><source src="./sounds/alerta.mp3" type="audio/mpeg"></audio>
-  <audio id="snd-click" preload="auto"><source src="./sounds/click.wav" type="audio/wav"><source src="./sounds/click.mp3" type="audio/mpeg"></audio>
-
   <script>
-    // Estado simples
-    let lastAt=0,hist=[];
-    const elBadge=document.getElementById('liveBadge');
-    const elAgo=document.getElementById('agoBadge');
-    const elCad=document.getElementById('cadBadge');
-    const elCadBar=document.querySelector('#cadBar i');
-    const elLast=document.getElementById('lastBadge');
-    const elHist=document.getElementById('hist');
-    function render(){
-      if(lastAt){elAgo.textContent='última: '+Math.round((Date.now()-lastAt)/1000)+'s';}
-      elHist.innerHTML=hist.slice(-36).map(n=>`<button style="width:32px;height:32px;border-radius:6px;background:#22324e">${n}</button>`).join('');
-      document.getElementById('kTot').textContent=hist.length;
+  // =================== CORE ===================
+  const WHEEL=[0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
+  const RED=new Set([1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);
+  const inRange=n=>Number.isInteger(n)&&n>=0&&n<=36;
+
+  const PULLERS={0:[10,20,30],1:[17,7],2:[2,22],3:[3,33],4:[21,9],5:[25,15,35],
+    6:[20,17,7],7:[7,17,20],8:[30,0,20],9:[9,19],10:[0,20,30],11:[30,0,20],12:[33,15],13:[20,7],
+    14:[17,7],15:[9,5,35],16:[3,33],17:[17,20,7],18:[2,22],19:[19,9],20:[17,7],21:[2,22],22:[2,22],
+    23:[0,10],24:[35,15,25],25:[20,22],26:[0,10,30],27:[17,7,20],28:[7,17,20],29:[7,17,20],30:[0,20,30],
+    31:[9,19],32:[0,10,20,30],33:[3,33],34:[7,20],35:[3,33,15],36:[20,30]};
+
+  const $=s=>document.querySelector(s);
+  const el=id=>document.getElementById(id);
+  const neighbors=(n,k)=>{
+    const i=WHEEL.indexOf(n); if(i<0) return []; const out=[];
+    for(let d=-k; d<=k; d++) out.push(WHEEL[(i+d+WHEEL.length)%WHEEL.length]);
+    return [...new Set(out)];
+  };
+  const colorBadge=(n)=>{
+    if(!inRange(n)) return {bg:'#0a1322', br:'#334155'};
+    if(n===0) return {bg:'#0c3d1e', br:'#16a34a'};
+    return RED.has(n) ? {bg:'#7a1d1d', br:'#ef4444'} : {bg:'#0d1523', br:'#94a3b8'};
+  };
+
+  const st={live:false,lastAt:0, origin:'—', table:'—', last:null, hist:[], signals:[], neighbors:2, auto:true, win:0, loss:0};
+  const MAX_ACTIVE_TICKS=18;
+
+  // ===== Console helper (fallback) =====
+  function SCLog(tag,text,kind='SYSTEM'){
+    const row=document.createElement('div');
+    row.className='sc-row';
+    const t=new Date().toLocaleTimeString();
+    row.innerHTML=`<span class="sc-time">[${t}]</span><span class="sc-tag">${kind}</span><span class="sc-msg">${tag} — ${text}</span>`;
+    el('sc-stream').appendChild(row);
+    if(el('cons-autoscroll')?.checked){ el('sc-stream').scrollTop = el('sc-stream').scrollHeight; }
+  }
+  el('sc-btn-clear').onclick=()=>{ el('sc-stream').innerHTML=''; };
+  el('sc-btn-export').onclick=()=>{
+    const txt=[...el('sc-stream').children].map(x=>x.innerText).join('\n');
+    const blob=new Blob([txt],{type:'text/plain'}), url=URL.createObjectURL(blob);
+    const a=document.createElement('a'); a.href=url; a.download=`SC_TIPS_Logs_${Date.now()}.txt`; a.click();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+  };
+  el('sc-search').oninput=()=>{
+    const term=el('sc-search').value.toLowerCase();
+    [...el('sc-stream').children].forEach(x=> x.style.display = x.textContent.toLowerCase().includes(term)?'':'none');
+  };
+
+  // ===== Render =====
+  function renderTop(){
+    el('liveBadge').textContent = st.live ? 'LIVE' : 'standby';
+    el('liveBadge').className = 'badge ' + (st.live ? 'live' : 'standby');
+    el('originBadge').textContent = 'Origem: ' + st.origin;
+    el('tableBadge').textContent  = 'Mesa: ' + st.table;
+    el('agoBadge').textContent    = 'última: ' + (st.lastAt? (Math.round((Date.now()-st.lastAt)/1000)+'s') : '—');
+
+    const {bg,br} = colorBadge(st.last);
+    const badge = el('lastBadge');
+    badge.style.background = bg;
+    badge.style.borderColor = br;
+    badge.textContent = inRange(st.last) ? st.last : '--';
+
+    const base = parseInt(el('selBase').value,10);
+    el('pullersText').textContent = (PULLERS[base]||[]).join(', ') || '—';
+    el('vizNow').textContent = st.neighbors + ' viz.';
+  }
+
+  function renderHist(){
+    const box = el('hist'); box.innerHTML='';
+    st.hist.slice(-36).forEach(n=>{
+      const b=document.createElement('button');
+      const {bg}=colorBadge(n);
+      b.textContent=n; b.style.background=bg; b.onclick=()=> handleInbound({number:n,platform:'REPEAT'});
+      box.appendChild(b);
+    });
+    el('kTot').textContent = st.hist.length;
+  }
+
+  function renderSignals(){
+    const active = st.signals.filter(s=>s.active);
+    const recent = st.signals.filter(s=>!s.active && s.closedAt).slice(-8);
+    el('kSig').textContent = st.signals.length;
+    el('kWin').textContent = st.win;
+    el('kLos').textContent = st.loss;
+
+    const aBox=el('activeBox'), aList=el('activeList');
+    aBox.style.display = active.length ? 'block':'none';
+    aList.innerHTML='';
+    active.forEach(s=>{
+      const d=document.createElement('div');
+      d.className='pill';
+      d.textContent=`Base ${s.base} • puxadores ${s.pullers.join(', ')} • ${s.neighbors} viz. • ${s.ticks} spins`;
+      aList.appendChild(d);
+    });
+
+    const rBox=el('recentBox'), rList=el('recentList');
+    rBox.style.display = recent.length ? 'block':'none';
+    rList.innerHTML='';
+    recent.forEach(s=>{
+      const d=document.createElement('div'); d.className='pill';
+      d.style.borderColor = s.win ? '#155e46' : '#7c2d2d';
+      d.textContent=`Base ${s.base} • ${s.win?'WIN':'LOSS'} • ${s.ticks} spins`;
+      rList.appendChild(d);
+    });
+  }
+
+  function onNumber(n){
+    st.hist.push(n);
+    st.signals = st.signals.map(s=> s.active? {...s,ticks:(s.ticks||0)+1}:s)
+                           .filter(s=> !s.active || (s.ticks||0)<=MAX_ACTIVE_TICKS);
+
+    let anyHit=false;
+    st.signals.forEach(s=>{
+      if(!s.active) return;
+      const neigh=new Set(neighbors(s.base,s.neighbors));
+      const hit = n===s.base || neigh.has(n);
+      if(hit){ s.active=false; s.win=true; s.closedAt=Date.now(); anyHit=true; }
+    });
+    if(anyHit){ st.win++; try{ el('snd-green').play(); }catch{} }
+    else{
+      const justClosed = st.signals.some(s=>!s.active && s.closedAt && (Date.now()-s.closedAt)<60);
+      if(justClosed){ st.loss++; try{ el('snd-red').play(); }catch{} }
     }
-    function onNumber(n){
-      lastAt=Date.now();
-      hist.push(n);
-      elLast.textContent=n;
-      elBadge.textContent='LIVE';elBadge.className='badge live';
-      render();
-      try{document.getElementById(n%2?'snd-red':'snd-green').play();}catch{}
+
+    const base = parseInt(el('selBase').value,10);
+    const pulls=PULLERS[base]||[];
+    const isTrigger = (n===base) || pulls.includes(n);
+    if(isTrigger){
+      const respect = st.hist.slice(-12).some(x=> x===base || neighbors(base,st.neighbors).includes(x));
+      if(!respect){
+        st.signals.push({id:Date.now()+Math.random(), base, pullers:pulls.slice(), neighbors:st.neighbors, startedAt:Date.now(), ticks:0, active:true});
+        try{ el('snd-alerta').play(); }catch{}
+      }
     }
-    document.getElementById('btn-live-sim').onclick=()=>onNumber(Math.floor(Math.random()*37));
-    document.getElementById('btn-live-clear').onclick=()=>{hist=[];render();}
-    document.getElementById('btn-live-csv').onclick=()=>{
-      const csv="time,number\n"+hist.map((n,i)=>`${i},${n}`).join("\n");
-      const a=document.createElement('a');a.href='data:text/csv,'+encodeURIComponent(csv);a.download='puxadores.csv';a.click();
+
+    renderHist(); renderSignals();
+  }
+
+  // ===== Inbound =====
+  function handleInbound(payload,via='?'){
+    if(!payload) return; let n=null;
+    if(typeof payload==='number') n=payload;
+    else if(typeof payload==='string'){ const m=payload.match(/\b([0-9]|[12][0-9]|3[0-6])\b/); if(m) n=parseInt(m[1],10); }
+    else if(typeof payload==='object'){
+      if(inRange(payload.number)) n=payload.number;
+      if(payload.platform) st.origin=String(payload.platform);
+      if(payload.table)    st.table =String(payload.table);
     }
-    setInterval(()=>{
-      if(lastAt && Date.now()-lastAt>30000){elBadge.textContent='standby';elBadge.className='badge standby';}
-      const elapsed=(Date.now()-lastAt)%18000;
-      elCad.textContent='cadência: '+Math.ceil((18000-elapsed)/1000)+'s';
-      elCadBar.style.width=(elapsed/18000*100)+'%';
-      render();
-    },1000);
+    if(!inRange(n)) return;
+    st.live=true; st.lastAt=Date.now(); st.last=n;
+    renderTop(); onNumber(n);
+  }
+  window.handleInbound = handleInbound;
+
+  // ===== BroadcastChannel + postMessage =====
+  try{ const bc=new BroadcastChannel('sc-tips-live'); bc.onmessage=(e)=>handleInbound(e?.data,'BC'); }catch{}
+  window.addEventListener('message',(e)=>handleInbound(e?.data,'PM'));
+
+  // ===== UI =====
+  // base select
+  const sel=el('selBase');
+  for(let i=0;i<=36;i++){ const op=document.createElement('option'); op.value=i; op.textContent='Nº '+i; if(i===17) op.selected=true; sel.appendChild(op); }
+  sel.onchange=()=>renderTop();
+
+  el('cbAuto').onchange=(e)=>{ st.auto=e.target.checked; el('manualViz').style.display = st.auto?'none':'flex'; };
+  el('manualViz').addEventListener('click',(ev)=>{
+    const b=ev.target.closest('button[data-viz]'); if(!b) return;
+    st.neighbors=parseInt(b.dataset.viz,10); renderTop();
+  });
+
+  el('btnSim').onclick=()=>{ if(Date.now()-st.lastAt<8000) return; handleInbound({number:Math.floor(Math.random()*37), platform:'SIM'}); };
+  el('btnInsert').onclick=()=>{ const v=prompt('Digite um número (0-36):'); const n=Number(v); if(inRange(n)) handleInbound({number:n, platform:'MANUAL'}); };
+  el('btnCopy').onclick=async ()=>{
+    const base=parseInt(el('selBase').value,10);
+    const txt=(inRange(st.last)?`Último: ${st.last}`:'—')+` | Base ${base} → puxadores ${(PULLERS[base]||[]).join(', ')||'-'} + ${st.neighbors} viz.`;
+    try{ await navigator.clipboard.writeText(txt);}catch{}
+  };
+  el('btnReset').onclick=()=>{
+    st.hist=[]; st.signals=[]; st.win=0; st.loss=0; st.last=null; st.origin='—'; st.table='—'; st.live=false; st.lastAt=0;
+    renderTop(); renderHist(); renderSignals();
+  };
+  setInterval(()=>{ if(st.lastAt) el('agoBadge').textContent='última: '+Math.round((Date.now()-st.lastAt)/1000)+'s'; }, 1000);
+
+  renderTop(); renderHist(); renderSignals();
+
+  // ===== Plataformas • UI =====
+  document.querySelectorAll('#plat-grid .plat').forEach(card=>{
+    card.addEventListener('click', ()=>{
+      document.querySelectorAll('#plat-grid .plat').forEach(c=>c.classList.remove('active'));
+      card.classList.add('active');
+      SCLog('plataforma','ativa: '+card.dataset.id,'SYSTEM');
+    });
+  });
+  const spkIds=['donald','bbtips','lucky','engine'];
+  const spkData={donald:[],bbtips:[],lucky:[],engine:[]};
+  function drawSpark(id){
+    const cv=el('spk-'+id); if(!cv) return;
+    const g=cv.getContext('2d'), w=cv.width=cv.clientWidth, h=cv.height=cv.clientHeight;
+    g.clearRect(0,0,w,h);
+    const arr=spkData[id]; if(arr.length<2) return;
+    g.beginPath(); g.moveTo(0,h-arr[0]*h);
+    for(let i=1;i<arr.length;i++) g.lineTo((i/(arr.length-1))*w, h-arr[i]*h);
+    g.strokeStyle='#22c55e'; g.lineWidth=2; g.stroke();
+  }
+  setInterval(()=>{ spkIds.forEach(id=>{ const a=spkData[id]; a.push(Math.random()*0.9+0.05); if(a.length>24) a.shift(); drawSpark(id); }); },800);
+  setInterval(()=>{ ['donald','bbtips','lucky','engine'].forEach(k=>{ const v=Math.floor(6+Math.random()*24); const lab=el('lat-'+k); if(lab) lab.textContent=v+'ms'; }); },3000);
+  el('btn-live-sim')?.addEventListener('click',()=>{ try{ el('snd-click').currentTime=0; el('snd-click').play(); }catch{} handleInbound({number:Math.floor(Math.random()*37), platform:'Sim'}); });
+  el('btn-live-clear')?.addEventListener('click',()=>{ st.hist=[]; renderHist(); SCLog('histórico','limpo','SYSTEM'); });
+  el('btn-live-csv')?.addEventListener('click',()=>{
+    const rows=[['time','number']]; st.hist.forEach((n,i)=>rows.push([i+1,n]));
+    const csv=rows.map(r=>r.join(',')).join('\n'); const a=document.createElement('a');
+    a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv); a.download='puxadores_history.csv'; a.click();
+  });
+
+  // Preferências padrão
+  try{
+    const elAuto=el('cons-autoscroll'), elSom=el('cons-sound');
+    if(elAuto && !elAuto.checked) elAuto.click();
+    if(elSom && !elSom.checked) elSom.click();
+  }catch{}
   </script>
 </body>
 </html>
