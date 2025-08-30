@@ -1,1034 +1,177 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <!-- FAVICONS -->
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16.png">
-<link rel="manifest" href="/assets/favicon/site.webmanifest">
-<link rel="mask-icon" href="/assets/favicon/safari-pinned-tab.svg" color="#0ea5e9">
-<meta name="theme-color" content="#0b1220">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SC Tips • Puxadores — Live</title>
+  <link rel="icon" type="image/png" href="./favicon.png" />
 
-<!-- Preload opcional para navbar rápida -->
-<link rel="preload" as="image" href="/assets/img/branding/logo-navbar.png" imagesrcset="/assets/img/branding/logo-navbar.png 1x">
-<link rel="preload" as="image" href="/assets/img/branding/logo-static.png">
-<link rel="preload" as="video" href="/assets/media/logo-animated.mp4" type="video/mp4">
-
-  <!-- FAVICONS -->
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16.png">
-<link rel="manifest" href="/assets/favicon/site.webmanifest">
-<link rel="mask-icon" href="/assets/favicon/safari-pinned-tab.svg" color="#0ea5e9">
-<meta name="theme-color" content="#0b1220">
-
-<!-- Preload opcional para navbar rápida -->
-<link rel="preload" as="image" href="/assets/img/branding/logo-navbar.png" imagesrcset="/assets/img/branding/logo-navbar.png 1x">
-<link rel="preload" as="image" href="/assets/img/branding/logo-static.png">
-<link rel="preload" as="video" href="/assets/media/logo-animated.mp4" type="video/mp4">
-<!-- NAVBAR brand -->
-<a class="brand" href="index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
-  <!-- Vídeo animado (loop), com fallback para imagem -->
-  <span class="brand-mark" style="display:inline-block; width:48px; height:48px; border-radius:10px; overflow:hidden;">
-    <video
-      src="/assets/media/logo-animated.mp4"
-      autoplay muted loop playsinline
-      style="width:100%;height:100%;object-fit:cover;display:block;"
-      poster="/assets/img/branding/logo-static.png">
-      <!-- Fallback se vídeo indisponível -->
-      <img src="/assets/img/branding/logo-static.png" alt="SC TIPS" style="width:100%;height:100%;object-fit:cover;">
-    </video>
-  </span>
-
-  <span style="display:flex;flex-direction:column;line-height:1;">
-    <span style="font-weight:800;color:#fff;letter-spacing:.4px;">SC TIPS</span>
-    <small style="background:#0b1220;border:1px solid #1e2a44;padding:2px 8px;border-radius:999px;color:#22d3ee;width:max-content;">VIP</small>
-  </span>
-</a>
-  
-  <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>SC Tips • Puxadores — Live</title>
-  <div class="flex items-center gap-2" style="margin:8px 0 12px">
-  <span id="liveBadge" class="badge">standby</span>
-  <span class="pill">última: <b id="lastAgo">—</b></span>
-  <span class="pill">cadência: <b id="cadLeft">18s</b></span>
-  <div style="flex:1; height:6px; background:#0b1320; border:1px solid #1e2a44; border-radius:6px; overflow:hidden">
-    <div id="cadBar" style="height:100%; width:0%; background:linear-gradient(90deg,#22d3ee,#60a5fa)"></div>
-  </div>
-</div>
-<script>
-<!-- ===== Status Puxadores ===== -->
-<div id="live-status" class="panel" style="margin-bottom:16px">
-  <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-    <span class="pill" id="lv-state">standby</span>
-    <span class="pill">última: <b id="lv-last">—</b></span>
-    <span class="pill">cadência: <b id="lv-cad">18s</b></span>
-  </div>
-  <div style="height:6px;background:#0e1a2d;border:1px solid #1e2a44;border-radius:999px;margin-top:10px">
-    <div id="lv-bar" style="height:100%;width:0%;background:#3b82f6;border-radius:999px"></div>
-  </div>
-</div>
-
-const elLastAgo  = document.getElementById('lastAgo');
-const elCadLeft  = document.getElementById('cadLeft');
-const elCadBar   = document.getElementById('cadBar');
-const elLive     = document.getElementById('liveBadge');
-
-function setLive(isLive){
-  elLive.textContent = isLive ? 'LIVE' : 'standby';
-  elLive.classList.toggle('live', isLive);
-  elLive.classList.toggle('standby', !isLive);
-}
-
-/* Chame isto SEMPRE que chegar um número (real ou simulado) */
-function onNumberArrived(n){
-  // ➜ seu fluxo atual (atualiza último, histórico, sinais, etc.)
-  // ex.: updateLast(n); addToHistory(n); processSignals(n);
-
-  lastLiveAt   = Date.now();           // marca chegada
-  cadenceStart = lastLiveAt;           // reseta cadência
-  setLive(true);
-}
-
-/* Se já existe um handler, apenas injete a chamada acima dentro dele */
-window._handleInbound_original = window.handleInbound;
-window.handleInbound = function(payload, via='?'){
-  // Se você já tem parsing → reaproveite; abaixo um atalho seguro:
-  let n = null;
-  if (typeof payload === 'number') n = payload;
-  else if (payload && typeof payload === 'object' && Number.isInteger(payload.number)) n = payload.number;
-
-  // chama o handler original (se existir)
-  if (typeof window._handleInbound_original === 'function') {
-    window._handleInbound_original(payload, via);
-  }
-  if (Number.isInteger(n) && n >= 0 && n <= 36) onNumberArrived(n);
-};
-
-/* Render loop (1x/seg) */
-setInterval(()=>{
-  const now = Date.now();
-
-  // “última”
-  const agoS = lastLiveAt ? Math.round((now - lastLiveAt)/1000) : null;
-  elLastAgo.textContent = (agoS == null) ? '—' : (agoS + 's');
-
-  // LIVE cai para standby se ficou muito tempo sem número
-  setLive(agoS != null && agoS < 30); // ficou >30s sem número → standby
-
-  // cadência: conto regressivo e barra
-  const elapsed = (now - cadenceStart) % CADENCE_MS;
-  const remain  = CADENCE_MS - elapsed;
-  const remainS = Math.ceil(remain / 1000);
-
-  elCadLeft.textContent = remainS + 's';
-  elCadBar.style.width  = (elapsed / CADENCE_MS * 100) + '%';
-}, 1000);
-
-/* Opcional: se você tem um botão “Simular nº”, garanta que chame onNumberArrived */
-(function hookSimular(){
-  const btn = document.querySelector('[data-action="simular-numero"]') || document.getElementById('btnSimularNumero');
-  if (!btn) return;
-  btn.addEventListener('click', ()=>{
-    const n = Math.floor(Math.random()*37);
-    // chame seu pipeline existente:
-    if (typeof window.handleInbound === 'function') window.handleInbound({ number:n, platform:'Sim' }, 'SIM');
-    else onNumberArrived(n);
-  });
-})();
-</script><script>
-/* ===== Cadência & “última” para Puxadores Live ===== */
-const CADENCE_MS = 18000;              // alvo 18s
-let lastLiveAt = 0;                    // timestamp do último número real/simulado
-let cadenceStart = Date.now();         // quando começou o ciclo atual
-
-const elLastAgo  = document.getElementById('lastAgo');
-const elCadLeft  = document.getElementById('cadLeft');
-const elCadBar   = document.getElementById('cadBar');
-const elLive     = document.getElementById('liveBadge');
-
-function setLive(isLive){
-  elLive.textContent = isLive ? 'LIVE' : 'standby';
-  elLive.classList.toggle('live', isLive);
-  elLive.classList.toggle('standby', !isLive);
-}
-
-/* Chame isto SEMPRE que chegar um número (real ou simulado) */
-function onNumberArrived(n){
-  // ➜ seu fluxo atual (atualiza último, histórico, sinais, etc.)
-  // ex.: updateLast(n); addToHistory(n); processSignals(n);
-
-  lastLiveAt   = Date.now();           // marca chegada
-  cadenceStart = lastLiveAt;           // reseta cadência
-  setLive(true);
-}
-
-/* Se já existe um handler, apenas injete a chamada acima dentro dele */
-window._handleInbound_original = window.handleInbound;
-window.handleInbound = function(payload, via='?'){
-  // Se você já tem parsing → reaproveite; abaixo um atalho seguro:
-  let n = null;
-  if (typeof payload === 'number') n = payload;
-  else if (payload && typeof payload === 'object' && Number.isInteger(payload.number)) n = payload.number;
-
-  // chama o handler original (se existir)
-  if (typeof window._handleInbound_original === 'function') {
-    window._handleInbound_original(payload, via);
-  }
-  if (Number.isInteger(n) && n >= 0 && n <= 36) onNumberArrived(n);
-};
-
-/* Render loop (1x/seg) */
-setInterval(()=>{
-  const now = Date.now();
-
-  // “última”
-  const agoS = lastLiveAt ? Math.round((now - lastLiveAt)/1000) : null;
-  elLastAgo.textContent = (agoS == null) ? '—' : (agoS + 's');
-
-  // LIVE cai para standby se ficou muito tempo sem número
-  setLive(agoS != null && agoS < 30); // ficou >30s sem número → standby
-
-  // cadência: conto regressivo e barra
-  const elapsed = (now - cadenceStart) % CADENCE_MS;
-  const remain  = CADENCE_MS - elapsed;
-  const remainS = Math.ceil(remain / 1000);
-
-  elCadLeft.textContent = remainS + 's';
-  elCadBar.style.width  = (elapsed / CADENCE_MS * 100) + '%';
-}, 1000);
-
-/* Opcional: se você tem um botão “Simular nº”, garanta que chame onNumberArrived */
-(function hookSimular(){
-  const btn = document.querySelector('[data-action="simular-numero"]') || document.getElementById('btnSimularNumero');
-  if (!btn) return;
-  btn.addEventListener('click', ()=>{
-    const n = Math.floor(Math.random()*37);
-    // chame seu pipeline existente:
-    if (typeof window.handleInbound === 'function') window.handleInbound({ number:n, platform:'Sim' }, 'SIM');
-    else onNumberArrived(n);
-  });
-})();
-</script>
-<style>
-  .badge{padding:4px 8px;border-radius:8px;border:1px solid #1e2a44;background:#0f1a2e;color:#cfe0ff;font-size:12px}
-  .pill{padding:4px 8px;border-radius:999px;border:1px solid #1e2a44;background:#0f1a2e;color:#cfe0ff;font-size:12px}
-  .badge.live{background:#063b2e;border-color:#10b981;color:#b7ffdf}
-  .badge.standby{background:#202838;border-color:#334155;color:#cfe0ff}
-</style>
-<link rel="icon" type="image/png" href="./favicon.png" />
-<style>
-  :root{--bg:#050b12;--panel:#0f172a;--text:#e6f6ff;--muted:#93c5fd;--brand:#22d3ee;--ok:#10b981;--warn:#f59e0b;--err:#ef4444;}
-  *{box-sizing:border-box}
-  html,body{margin:0;background:var(--bg);color:var(--text);font-family:"Inter",system-ui,Segoe UI,Roboto,Arial}
-  .wrap{max-width:1100px;margin:0 auto;padding:18px}
-  /* NAV */
-  .nav{position:sticky;top:0;z-index:10;background:#0e1525;border-bottom:1px solid #1e2a44}
-  .nav .row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 20px}
-  .brand{font-weight:800;color:#fff;display:flex;gap:8px;align-items:center}
-  .brand b{color:var(--brand)}
-  .menu{display:flex;gap:8px;flex-wrap:wrap}
-  .menu a{padding:8px 14px;border:1px solid transparent;border-radius:10px;color:#cfe0ff;text-decoration:none}
-  .menu a:hover{background:rgba(255,255,255,.08)}
-  .menu a.active{background:linear-gradient(135deg,#22d3ee,#60a5fa);color:#001428;font-weight:600}
-  /* CARDS */
-  .card{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
-  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-  .badge{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.12);font-size:12px}
-  .b-ok{border-color:#155e46;background:#0b2b22;color:#bfffe9}
-  .b-stand{border-color:#334155;background:#0b1430;color:#dbeafe}
-  .b-warn{border-color:#7c5200;background:#2a1f04;color:#fde68a}
-  h1{margin:0 0 8px 0}
-  button{cursor:pointer;border:1px solid rgba(255,255,255,.12);background:#10233b;color:#fff;border-radius:10px;padding:10px 14px}
-  button.primary{background:#2563eb;border-color:#2563eb}
-  button.ghost{background:transparent}
-  button:hover{filter:brightness(1.08)}
-  select,input{background:#0c1425;border:1px solid #22324e;color:#fff;border-radius:8px;padding:8px 10px}
-  .muted{color:var(--muted)}
-  .kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-  .kpi .box{background:#0c1425;border:1px solid #22324e;border-radius:10px;padding:12px;text-align:center}
-  .kpi .box b{font-size:22px}
-  .pill{padding:6px 10px;border:1px solid rgba(255,255,255,.12);border-radius:999px;background:rgba(255,255,255,.05)}
-  .entry{border:1px solid #1d364e;background:linear-gradient(135deg,rgba(96,165,250,.06),rgba(34,211,238,.06));border-radius:12px;padding:10px}
-  .list{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
-</style>
+  <style>
+    :root{
+      --bg:#050b12;--panel:#0f172a;--text:#e6f6ff;--muted:#93c5fd;
+      --brand:#22d3ee;--ok:#10b981;--warn:#f59e0b;--err:#ef4444;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--text);font-family:"Inter",system-ui}
+    .wrap{max-width:1100px;margin:0 auto;padding:18px}
+    .nav{position:sticky;top:0;z-index:10;background:#0e1525;border-bottom:1px solid #1e2a44}
+    .nav .row{display:flex;align-items:center;justify-content:space-between;padding:12px 20px}
+    .brand{font-weight:800;color:#fff}
+    .menu{display:flex;gap:8px}
+    .menu a{padding:8px 14px;border-radius:10px;color:#cfe0ff;text-decoration:none}
+    .menu a.active{background:linear-gradient(135deg,#22d3ee,#60a5fa);color:#001428;font-weight:600}
+    .card{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px;margin-bottom:14px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .badge{padding:6px 10px;border:1px solid #334155;border-radius:999px;font-size:12px}
+    .badge.live{background:#063b2e;color:#b7ffdf}
+    .badge.standby{background:#202838;color:#cfe0ff}
+    .kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .kpi .box{background:#0c1425;border:1px solid #22324e;border-radius:10px;padding:12px;text-align:center}
+    .kpi .box b{font-size:22px}
+    .entry{border:1px solid #1d364e;background:linear-gradient(135deg,rgba(96,165,250,.06),rgba(34,211,238,.06));border-radius:12px;padding:10px;margin:6px 0}
+    footer{text-align:center;color:#8aa;font-size:12px;margin:24px 0 12px}
+    /* Plataformas */
+    .plat-panel{background:#0b1420;border:1px solid #1e2a44;border-radius:14px;padding:14px}
+    .plat-title{font-weight:800;color:#ffd95e;display:flex;align-items:center;gap:8px;margin-bottom:10px}
+    .plat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    .plat{background:#0f172a;border:1px solid #22314f;border-radius:12px;padding:10px;cursor:pointer;position:relative}
+    .plat.active{outline:2px solid #60a5fa}
+    .plat h4{margin:0 0 6px;font-weight:700}
+    .lat{position:absolute;top:8px;right:8px;font-size:12px;background:#13223a;border:1px solid #28426d;padding:2px 6px;border-radius:999px}
+    .spark{height:28px;width:100%;display:block;border:1px solid #1f2c49;border-radius:6px;background:#091222}
+    .btn-row{display:flex;gap:10px;margin-top:12px}
+    .btnX{background:#113969;border:1px solid #1f4b84;color:#dbeafe;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}
+    .btnGold{background:#f6c453;border:1px solid #c99d2b;color:#1b1205}
+  </style>
 </head>
-  <script>
-/* ================== CORE REUTILIZÁVEL (todas as páginas) ================== */
-(function(){
-  // ---- Cadência (18s) para Puxadores — Live e Estratégias:
-  const CAD = 18;                 // alvo em segundos
-  let t = CAD;                    // contador atual
-  let intervalId = null;
-
-  const elCad   = document.getElementById('lv-cad');
-  const elBar   = document.getElementById('lv-bar');
-  const elState = document.getElementById('lv-state');
-  const elLast  = document.getElementById('lv-last');
-
-  function setState(s){ if(elState){ elState.textContent = s; elState.className = 'pill ' + (s==='rodando'?'live':'standby'); } }
-  function renderCad(){ 
-    if(elCad) elCad.textContent = t+'s';
-    if(elBar){ const pct = (1 - (t/CAD))*100; elBar.style.width = pct+'%'; }
-  }
-  function tick(){
-    t = (t<=0? CAD : t-1);
-    renderCad();
-    if(t===CAD){ // “zero → reseta”
-      // log opcional
-      window.SCLog && window.SCLog('tick de cadência • aguardando número…','ENGINE','ok');
-    }
-  }
-  function startCadence(){
-    if(intervalId) clearInterval(intervalId);
-    t = CAD; renderCad(); setState('rodando');
-    intervalId = setInterval(tick,1000);
-  }
-  function stopCadence(){
-    if(intervalId) clearInterval(intervalId);
-    setState('standby');
-  }
-
-  // Auto-iniciar cadência quando existir o bloco de status
-  if(elBar && elCad){ startCadence(); }
-
-  // ---- “Plataformas Matrix” mini-motor (sparklines + latência fake/real)
-  const platRoot = document.getElementById('plataformas-matrix');
-  if(platRoot){
-    const ctxs = [...platRoot.querySelectorAll('canvas.spark')].map(c => ({c, g:c.getContext('2d'), data:[]}));
-    const ids  = ['donald','bbtips','lucky','engine'];
-    const lats = Object.fromEntries(ids.map(id => [id, 20+Math.floor(Math.random()*10)]));
-    function drawSpark(g, data, w, h){
-      g.clearRect(0,0,w,h);
-      g.beginPath();
-      const n=data.length||1;
-      for(let i=0;i<n;i++){
-        const x = (w/(n-1||1))*i, y = h - (h*(data[i]||0));
-        if(i===0) g.moveTo(x,y); else g.lineTo(x,y);
-      }
-      g.strokeStyle = '#22c55e'; g.lineWidth = 2; g.stroke();
-    }
-    function step(){
-      ctxs.forEach(obj=>{
-        const {c,g} = obj;
-        c.width = c.clientWidth; // retina safe
-        obj.data.push(Math.random()*0.9+0.05);
-        if(obj.data.length>32) obj.data.shift();
-        drawSpark(g,obj.data,c.width,c.height);
-      });
-      // varia as latências
-      ids.forEach(id=>{
-        lats[id] = Math.max(5, Math.min(40, lats[id] + (Math.random()*6-3)));
-        const el = document.getElementById('lat-'+id.replace(/.*?/, id));
-        if(el) el.textContent = Math.round(lats[id])+'ms';
-      });
-      const up = document.getElementById('plat-uptime');
-      if(up) up.textContent = 'atualizado: '+new Date().toLocaleTimeString();
-      requestAnimationFrame(step);
-    }
-    step();
-
-    platRoot.querySelectorAll('.plat.card').forEach(card=>{
-      card.addEventListener('click', ()=>{
-        platRoot.querySelectorAll('.plat.card').forEach(x=>x.classList.remove('selected'));
-        card.classList.add('selected');
-        // opcional: disparar troca de origem/motor
-        const pid = card.dataset.id;
-        window.SCLog && window.SCLog('plataforma selecionada: '+pid,'SYSTEM','ok');
-      });
-    });
-
-    // Ações de rodapé
-    platRoot.querySelector('#plat-simular')?.addEventListener('click', ()=>{
-      // manda um número aleatório pro fluxo
-      const n = Math.floor(Math.random()*37);
-      window.postMessage({type:'ROULETTE_RESULT', number:n, platform:'Sim'}, '*');
-      window.SCLog && window.SCLog('simular nº '+n,'DEMO','ok');
-    });
-    platRoot.querySelector('#plat-limpar')?.addEventListener('click', ()=>{
-      window.dispatchEvent(new CustomEvent('SC_CLEAR_HISTORY'));
-      window.SCLog && window.SCLog('histórico limpo','SYSTEM','warn');
-    });
-    platRoot.querySelector('#plat-exportar')?.addEventListener('click', ()=>{
-      window.dispatchEvent(new CustomEvent('SC_EXPORT_CSV'));
-      window.SCLog && window.SCLog('exportar CSV solicitado','SYSTEM','ok');
-    });
-  }
-
-  // ---- Feed real: BroadcastChannel + postMessage
-  let bc;
-  try{
-    bc = new BroadcastChannel('sc-tips-live');
-    bc.onmessage = (e)=>handleInbound(e?.data,'BC');
-  }catch{}
-  window.addEventListener('message', (e)=>handleInbound(e?.data,'PM'));
-
-  function handleInbound(payload, via){
-    let n=null, origin=null, table=null;
-    if(typeof payload==='number'){ n=payload; }
-    else if(typeof payload==='object'){
-      if(Number.isInteger(payload.number)) n=payload.number;
-      if(payload.platform) origin=payload.platform;
-      if(payload.table) table=payload.table;
-    }
-    if(n==null || n<0 || n>36) return;
-    // atualiza “última”
-    if(elLast) elLast.textContent = 'LIVE ' + new Date().toLocaleTimeString();
-    // reseta cadência ao receber
-    if(elBar) { t = CAD; renderCad(); }
-    // propaga pra outros módulos da página (histórico, etc.)
-    window.dispatchEvent(new CustomEvent('SC_NUMBER',{detail:{n,origin,table,via}}));
-  }
-
-  // expõe um helper mínimo global (opcional)
-  window.SCCore = { startCadence, stopCadence };
-})();
-                  </script>
 <body>
-  <!-- ===== Console Sistema (SC TIPS) ===== -->
-<div id="sc-console" class="sc-card">
-  <div class="sc-console-header">
-    <div class="sc-title">🖥️ Console Sistema</div>
-    <div class="sc-tools">
-      <button class="sc-btn" id="sc-btn-clear">🧹 Limpar</button>
-      <button class="sc-btn" id="sc-btn-export">⬇️ Exportar TXT</button>
-      <label class="sc-toggle"><input type="checkbox" id="sc-auto" /> Auto.scroll</label>
-      <label class="sc-toggle"><input type="checkbox" id="sc-sound" /> Som</label>
-      <input id="sc-search" class="sc-input" type="text" placeholder="Pesquisar logs…" />
-    </div>
-  </div>
-  <div id="sc-stream" class="sc-stream"></div>
-</div>
-<!-- ===== fim Console ===== -->
-
-<style>
-  /* estilos do console */
-  .sc-card{background:#0b1220;border:1px solid #3b2f0a;border-radius:16px;
-           padding:14px;margin:22px 0;box-shadow:inset 0 0 0 1px #171103}
-  .sc-console-header{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
-  .sc-title{font:700 22px/1.2 Inter,system-ui;color:#ffd873;text-shadow:0 0 8px rgba(255,215,115,.25)}
-  .sc-tools{display:flex;gap:8px;align-items:center;margin-left:auto}
-  .sc-btn{background:#1a1530;border:1px solid #4b3b12;color:#e9f3ff;border-radius:10px;
-         padding:8px 12px;cursor:pointer}
-  .sc-btn:hover{background:#231a42}
-  .sc-toggle{display:inline-flex;gap:6px;align-items:center;color:#d9e3ff;font-size:14px;background:#11182a;
-             border:1px solid #2b223f;padding:7px 10px;border-radius:999px}
-  .sc-input{background:#0c1324;border:1px solid #24314d;border-radius:10px;padding:8px 10px;color:#e6f6ff;min-width:220px}
-  .sc-stream{max-height:360px;overflow:auto;background:linear-gradient(180deg,#0c1018,#0a0f14);
-             border:1px solid #0a350a;border-radius:12px;padding:8px 6px}
-  .sc-row{display:flex;gap:8px;align-items:center;background:#082b08;border:1px solid #0da10d;
-         border-radius:10px;margin:6px;padding:8px 10px;color:#c8ffd0}
-  .sc-time{font-family:ui-monospace,Consolas,monospace;color:#90ff97;background:#051d05;border-radius:6px;
-           padding:2px 6px;border:1px solid #0a350a}
-  .sc-tag{font-weight:700;color:#171103;background:#ffd873;border:1px solid #ffb300;border-radius:10px;
-          padding:3px 8px}
-  .sc-msg{flex:1}
-  .sc-cat{font-family:ui-monospace,monospace;color:#79ff85}
-  .sc-STRATEGY{background:#2d260b;border-color:#a98000;color:#ffeab3}
-  .sc-PREDICT{background:#2d0b0b;border-color:#a40000;color:#ffc6c6}
-  .sc-SYSTEM{background:#0b1f2d;border-color:#1f78a1;color:#c7ecff}
-  .sc-ENGINE{background:#0b2d24;border-color:#15a17f;color:#bcfff0}
-  .sc-USER{background:#26112f;border-color:#8c2bb8;color:#f0caff}
-  .sc-DEMO{background:#272707;border-color:#a3a314;color:#fffec2}
-</style>
-
-<!-- NAV -->
-<div class="nav">
-  <div class="row">
-    <div class="brand">SC TIPS <b>VIP</b></div>
-    <div class="menu">
-      <a href="index.html">Home</a>
-      <a href="estrategias.html">Estratégias</a>
-      <a href="matrix-premium.html">Matrix Premium </a>
-      <a href="puxadores.html" class="active">Puxadores Live</a>
-      <a href="contato.html">Contato</a>
-    </div>
-  </div>
-</div>
-
-<div class="wrap">
-  <!-- Header -->
-  <div class="row" style="margin-bottom:12px">
-    <h1 class="row" style="gap:8px;margin:0">🎯 Puxadores — Live</h1>
-    <span id="liveBadge" class="badge b-stand">standby</span>
-    <span id="originBadge" class="badge b-stand">Origem: —</span>
-    <span id="tableBadge" class="badge b-stand">Mesa: —</span>
-    <span id="agoBadge" class="badge b-stand">última: —</span>
-    <div style="margin-left:auto" class="row">
-      <button id="btnCopy" class="ghost">Copiar</button>
-      <button id="btnReset" class="ghost">Reset</button>
-    </div>
-  </div>
-
-  <!-- Top grid -->
-  <div class="grid" style="margin-bottom:14px">
-    <div class="card">
-      <div class="row" style="gap:16px">
-        <div>
-          <div style="opacity:.8">Último</div>
-          <div id="lastBadge" style="width:92px;height:92px;border-radius:999px;border:4px solid #334155;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:900;background:#0a1322">--</div>
-        </div>
-
-        <div class="row" style="gap:10px;align-items:flex-start">
-          <div class="card" style="background:#0b1426;border-color:#1d2c4a;padding:12px">
-            <div class="muted" style="font-size:12px;margin-bottom:6px">Estratégia atual</div>
-            <div class="row">
-              <label>Base:</label>
-              <select id="selBase"></select>
-              <span class="pill">Puxadores: <b id="pullersText">—</b></span>
-            </div>
-            <div class="row" style="margin-top:8px">
-              <label class="row" style="gap:8px">
-                <input type="checkbox" id="cbAuto" checked />
-                Auto vizinhos
-              </label>
-              <div id="manualViz" class="row" style="display:none;gap:6px">
-                <button data-viz="1">1 viz</button>
-                <button data-viz="2">2 viz</button>
-                <button data-viz="3">3 viz</button>
-              </div>
-              <span class="pill" id="vizNow">2 viz.</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="row" style="margin-left:auto;gap:8px">
-          <button id="btnSim" class="primary">🎲 Simular nº</button>
-          <button id="btnInsert">➕ Inserir nº</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <h3 style="margin:0 0 8px 0">📊 Painel</h3>
-      <div class="kpi">
-        <div class="box"><div class="muted">Total Spins</div><b id="kTot">0</b></div>
-        <div class="box"><div class="muted">Sinais</div><b id="kSig">0</b></div>
-        <div class="box"><div class="muted">Wins</div><b id="kWin">0</b></div>
-        <div class="box"><div class="muted">Losses</div><b id="kLos">0</b></div>
+  <!-- NAV -->
+  <div class="nav">
+    <div class="row">
+      <div class="brand">SC TIPS <b>VIP</b></div>
+      <div class="menu">
+        <a href="index.html">Home</a>
+        <a href="estrategias.html">Estratégias</a>
+        <a href="matrix-premium.html">Matrix Premium</a>
+        <a href="puxadores.html" class="active">Puxadores Live</a>
+        <a href="contato.html">Contato</a>
       </div>
     </div>
   </div>
 
-  <!-- Histórico -->
-  <div class="card" style="margin-bottom:14px">
-    <h3 style="margin:0 0 8px 0">🧾 Histórico (últimos 36)</h3>
-    <div id="hist" class="row"></div>
+  <div class="wrap">
+    <h1>🎯 Puxadores — Live</h1>
+    <div class="row" style="margin:12px 0">
+      <span id="liveBadge" class="badge standby">standby</span>
+      <span id="agoBadge" class="badge standby">última: —</span>
+      <span id="cadBadge" class="badge standby">cadência: 18s</span>
+    </div>
+    <div id="cadBar" style="height:6px;background:#1e293b;border-radius:999px;overflow:hidden">
+      <i style="display:block;height:100%;width:0%;background:#60a5fa"></i>
+    </div>
+
+    <!-- Último + painel -->
+    <div class="grid">
+      <div class="card">
+        <div>Último</div>
+        <div id="lastBadge" style="width:92px;height:92px;border-radius:999px;border:4px solid #334155;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:900;background:#0a1322">--</div>
+      </div>
+      <div class="card">
+        <h3>📊 Painel</h3>
+        <div class="kpi">
+          <div class="box"><div>Total Spins</div><b id="kTot">0</b></div>
+          <div class="box"><div>Sinais</div><b id="kSig">0</b></div>
+          <div class="box"><div>Wins</div><b id="kWin">0</b></div>
+          <div class="box"><div>Losses</div><b id="kLos">0</b></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Histórico -->
+    <div class="card">
+      <h3>🧾 Histórico (últimos 36)</h3>
+      <div id="hist" class="row"></div>
+    </div>
+
+    <!-- Plataformas -->
+    <div class="plat-panel">
+      <div class="plat-title">🎲 Plataformas Matrix</div>
+      <div class="plat-grid">
+        <div class="plat active" data-id="donald">
+          <span class="lat" id="lat-donald">—</span>
+          <h4>🎲 Donald</h4>
+          <canvas class="spark" id="spk-donald"></canvas>
+        </div>
+        <div class="plat" data-id="bbtips">
+          <span class="lat" id="lat-bbtips">—</span>
+          <h4>📈 BBTips</h4>
+          <canvas class="spark" id="spk-bbtips"></canvas>
+        </div>
+        <div class="plat" data-id="lucky">
+          <span class="lat" id="lat-lucky">—</span>
+          <h4>🍀 Lucky</h4>
+          <canvas class="spark" id="spk-lucky"></canvas>
+        </div>
+        <div class="plat" data-id="engine">
+          <span class="lat" id="lat-engine">—</span>
+          <h4>🧠 Engine</h4>
+          <canvas class="spark" id="spk-engine"></canvas>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btnX btnGold" id="btn-live-sim">🎲 Simular número</button>
+        <button class="btnX" id="btn-live-clear">🧹 Limpar números</button>
+        <button class="btnX" id="btn-live-csv">📄 Exportar CSV</button>
+      </div>
+    </div>
   </div>
 
-  <!-- Sinais -->
-  <div id="activeBox" class="card" style="display:none;margin-bottom:14px">
-    <h3 style="margin:0 0 8px 0">👁️ Sinais ativos</h3>
-    <div id="activeList" class="list"></div>
-  </div>
+  <footer>
+    © 2025 <b>SC TIPS</b> — Todos os direitos reservados.
+  </footer>
 
-  <div id="recentBox" class="card" style="display:none">
-    <h3 style="margin:0 0 8px 0">🗂️ Sinais recentes</h3>
-    <div id="recentList" class="list"></div>
-  </div>
-</div>
+  <!-- Sons -->
+  <audio id="snd-green" preload="auto"><source src="./sounds/green.wav" type="audio/wav"><source src="./sounds/green.mp3" type="audio/mpeg"></audio>
+  <audio id="snd-red" preload="auto"><source src="./sounds/red.wav" type="audio/wav"><source src="./sounds/red.mp3" type="audio/mpeg"></audio>
+  <audio id="snd-alerta" preload="auto"><source src="./sounds/alerta.wav" type="audio/wav"><source src="./sounds/alerta.mp3" type="audio/mpeg"></audio>
+  <audio id="snd-click" preload="auto"><source src="./sounds/click.wav" type="audio/wav"><source src="./sounds/click.mp3" type="audio/mpeg"></audio>
 
-<script>
-(()=>{
-  // ===== RODA / CORES =====
-  const WHEEL = [0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
-  const isRed = new Set([1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);
-  const inRange = n => Number.isInteger(n)&&n>=0&&n<=36;
-
-  // ===== PUXADORES (base -> gatilhos) =====
-  const PULLERS = {
-    0:[10,20,30],1:[17,7],2:[2,22],3:[3,33],4:[21,9],5:[25,15,35],
-    6:[20,17,7],7:[7,17,20],8:[30,0,20],9:[9,19],10:[0,20,30],
-    11:[30,0,20],12:[33,15],13:[20,7],14:[17,7],15:[9,5,35],
-    16:[3,33],17:[17,20,7],18:[2,22],19:[19,9],20:[17,7],
-    21:[2,22],22:[2,22],23:[0,10],24:[35,15,25],25:[20,22],
-    26:[0,10,30],27:[17,7,20],28:[7,17,20],29:[7,17,20],30:[0,20,30],
-    31:[9,19],32:[0,10,20,30],33:[3,33],34:[7,20],35:[3,33,15],36:[20,30]
-  };
-
-  // ===== ESTADO =====
-  const st = {
-    live:false,lastAt:0, origin:'—', table:'—',
-    last:null, hist:[], signals:[], neighbors:2, auto:true,
-    win:0, loss:0
-  };
-  const MAX_ACTIVE_TICKS = 18;
-
-  // ===== UTILS =====
-  const $ = s=>document.querySelector(s);
-  const el = id=>document.getElementById(id);
-  const nowSec = ()=> Math.round((Date.now()-st.lastAt)/1000)+'s';
-  const colorBadge = (n)=> {
-    if(!inRange(n)) return {bg:'#0a1322', br:'#334155'};
-    if(n===0) return {bg:'#0c3d1e', br:'#16a34a'};
-    return isRed.has(n) ? {bg:'#7a1d1d', br:'#ef4444'} : {bg:'#0d1523', br:'#94a3b8'};
-  };
-  const neighbors = (n,k)=>{
-    const i = WHEEL.indexOf(n); if(i<0) return [];
-    const out=[]; for(let d=-k; d<=k; d++) out.push(WHEEL[(i+d+WHEEL.length)%WHEEL.length]);
-    return [...new Set(out)];
-  };
-
-  // ===== RENDER =====
-  function renderTop(){
-    el('liveBadge').textContent = st.live ? 'LIVE' : 'standby';
-    el('liveBadge').className = 'badge ' + (st.live ? 'b-ok' : 'b-stand');
-    el('originBadge').textContent = 'Origem: ' + st.origin;
-    el('tableBadge').textContent  = 'Mesa: ' + st.table;
-    el('agoBadge').textContent    = 'última: ' + (st.lastAt? nowSec() : '—');
-
-    const {bg,br} = colorBadge(st.last);
-    const badge = el('lastBadge');
-    badge.style.background = bg;
-    badge.style.borderColor = br;
-    badge.textContent = inRange(st.last) ? st.last : '--';
-
-    el('pullersText').textContent = (PULLERS[el('selBase').value]||[]).join(', ') || '—';
-    el('vizNow').textContent = st.neighbors + ' viz.';
-  }
-
-  function renderHist(){
-    const box = el('hist'); box.innerHTML='';
-    st.hist.slice(-36).forEach(n=>{
-      const b = document.createElement('button');
-      const {bg} = colorBadge(n);
-      b.textContent = n;
-      b.style.cssText = `width:36px;height:36px;border-radius:10px;border:1px solid #1f2a44;background:${bg}`;
-      b.onclick = ()=> handleInbound({number:n,platform:'REPEAT'});
-      box.appendChild(b);
-    });
-    el('kTot').textContent = st.hist.length;
-  }
-
-  function renderSignals(){
-    const active = st.signals.filter(s=>s.active);
-    const recent = st.signals.filter(s=>!s.active && s.closedAt).slice(-8);
-    el('kSig').textContent = st.signals.length;
-    el('kWin').textContent = st.win;
-    el('kLos').textContent = st.loss;
-
-    const aBox = el('activeBox'), aList = el('activeList');
-    aBox.style.display = active.length ? 'block':'none';
-    aList.innerHTML = '';
-    active.forEach(s=>{
-      const d = document.createElement('div');
-      d.className='entry';
-      d.innerHTML = `<b>Base ${s.base}</b> • puxadores ${s.pullers.join(', ')} • <b>${s.neighbors}</b> viz.<br>
-                     <span class="muted">vigência: ${s.ticks} spins</span>`;
-      aList.appendChild(d);
-    });
-
-    const rBox = el('recentBox'), rList = el('recentList');
-    rBox.style.display = recent.length ? 'block':'none';
-    rList.innerHTML = '';
-    recent.forEach(s=>{
-      const d = document.createElement('div');
-      d.className='entry';
-      d.style.borderColor = s.win ? '#155e46' : '#7c2d2d';
-      d.innerHTML = `<b>Base ${s.base}</b> • ${s.win? 'WIN':'LOSS'} • ${s.ticks} spins`;
-      rList.appendChild(d);
-    });
-  }
-
-  // ===== LÓGICA DE SINAIS =====
-  function onNumber(n){
-    // Atualiza histórico
-    st.hist.push(n);
-    // Atualiza sinais existentes
-    st.signals = st.signals
-      .map(s => s.active ? {...s, ticks:(s.ticks||0)+1} : s)
-      .filter(s => !s.active || (s.ticks||0) <= MAX_ACTIVE_TICKS);
-
-    // Verifica HIT
-    let anyHit=false;
-    st.signals.forEach(s=>{
-      if(!s.active) return;
-      const neigh = new Set(neighbors(s.base, s.neighbors));
-      const hit = n===s.base || neigh.has(n);
-      if(hit){ s.active=false; s.win=true; s.closedAt=Date.now(); anyHit=true; }
-    });
-    if(anyHit){ st.win++; try{ el('sndHit').play(); }catch{} }
-    else {
-      // se não teve hit e foi giro que fechou algum, marca miss
-      const justClosed = st.signals.some(s => !s.active && s.closedAt && (Date.now()-s.closedAt)<50);
-      if(justClosed){ st.loss++; try{ el('sndMiss').play(); }catch{} }
-    }
-
-    // Gatilho para abrir novo sinal quando base/“puxador” aparece e não houve respeito recente
-    const base = parseInt(el('selBase').value,10);
-    const pull = PULLERS[base]||[];
-    const isTrigger = (n===base) || pull.includes(n);
-    if(isTrigger){
-      const recent = st.hist.slice(-12);
-      const respect = recent.some(x=> x===base || neighbors(base, st.neighbors).includes(x));
-      if(!respect){
-        st.signals.push({
-          id: Date.now()+Math.random(),
-          base, pullers: pull.slice(), neighbors: st.neighbors,
-          startedAt: Date.now(), ticks:0, active:true
-        });
-        try{ el('sndAlert').play(); }catch{}
-      }
-    }
-
-    renderHist();
-    renderSignals();
-  }
-
-  // ===== ENTRADAS =====
-  function handleInbound(payload, via='?'){
-    if(!payload) return;
-    let n=null;
-    if(typeof payload==='number') n=payload;
-    else if(typeof payload==='string'){
-      const m = payload.match(/\b([0-9]|[12][0-9]|3[0-6])\b/); if(m) n=parseInt(m[1],10);
-    } else if(typeof payload==='object'){
-      if(inRange(payload.number)) n=payload.number;
-      if(payload.platform) st.origin = String(payload.platform);
-      if(payload.table)    st.table  = String(payload.table);
-    }
-    if(!inRange(n)) return;
-
-    st.live = true;
-    st.lastAt = Date.now();
-    st.last = n;
-    renderTop();
-    onNumber(n);
-  }
-
-  // ===== EVENTOS EXTERNOS =====
-  try {
-    const bc = new BroadcastChannel('sc-tips-live');
-    bc.onmessage = (e)=> handleInbound(e?.data,'BC');
-  } catch {}
-  window.addEventListener('message', (e)=> handleInbound(e?.data,'PM'));
-
-  // ===== CONTROLES UI =====
-  // base select
-  const sel = el('selBase');
-  for(let i=0;i<=36;i++){
-    const op=document.createElement('option'); op.value=i; op.textContent='Nº '+i;
-    if(i===17) op.selected = true;
-    sel.appendChild(op);
-  }
-  sel.onchange = ()=> renderTop();
-
-  // auto viz
-  el('cbAuto').onchange = (e)=>{
-    st.auto = e.target.checked;
-    el('manualViz').style.display = st.auto ? 'none' : 'flex';
-  };
-  el('manualViz').querySelectorAll('button').forEach(b=>{
-    b.onclick = ()=>{ st.neighbors = parseInt(b.dataset.viz,10); renderTop(); };
-  });
-
-  // simulate
-  el('btnSim').onclick = ()=>{
-    if(Date.now()-st.lastAt < 8000) return; // pausa sim se feed real recente
-    handleInbound({number: Math.floor(Math.random()*37), platform:'SIM'});
-  };
-  // manual insert
-  el('btnInsert').onclick = ()=>{
-    const v = prompt('Digite um número (0-36):');
-    const n = Number(v); if(inRange(n)) handleInbound({number:n, platform:'MANUAL'});
-  };
-  // copy
-  el('btnCopy').onclick = async ()=>{
-    const base = parseInt(el('selBase').value,10);
-    const txt = (inRange(st.last) ? `Último: ${st.last}` : '—')+
-      ` | Base ${base} → puxadores ${(PULLERS[base]||[]).join(', ')||'-'} + ${st.neighbors} viz.`;
-    try{ await navigator.clipboard.writeText(txt);}catch{}
-  };
-  // reset
-  el('btnReset').onclick = ()=>{
-    st.hist=[]; st.signals=[]; st.win=0; st.loss=0; st.last=null; st.origin='—'; st.table='—'; st.live=false; st.lastAt=0;
-    renderTop(); renderHist(); renderSignals();
-  };
-
-  // timer de “há Xs”
-  setInterval(()=>{ if(st.lastAt) el('agoBadge').textContent = 'última: '+nowSec(); }, 1000);
-
-  // init
-  renderTop(); renderHist(); renderSignals();
-})();
-</script>
   <script>
-  // Autostart + preferências padrão (sons e autoscroll ligados)
-  window.addEventListener('DOMContentLoaded', () => {
-    const clickIf = (sel) => { const el = document.querySelector(sel); if (el) el.click(); };
-    const checkIf = (sel) => { const el = document.querySelector(sel); if (el && !el.checked) el.click(); };
-
-    // ====== ESTRATÉGIAS ======
-    checkIf('#str-sync');      // “Sync ao receber número”
-    checkIf('#str-auto');      // “Auto Mode”
-    clickIf('#str-start');     // Iniciar
-
-    // ====== PUXADORES — LIVE ======
-    checkIf('#live-sync');     // “Sync ao receber número”
-    checkIf('#live-auto');     // “Auto vizinhos / Auto Mode”
-    clickIf('#live-start');    // Iniciar
-
-    // ====== Console (global) ======
-    checkIf('#cons-autoscroll'); // Auto.scroll ligado
-    checkIf('#cons-sound');      // Som ligado
-  });
+    // Estado simples
+    let lastAt=0,hist=[];
+    const elBadge=document.getElementById('liveBadge');
+    const elAgo=document.getElementById('agoBadge');
+    const elCad=document.getElementById('cadBadge');
+    const elCadBar=document.querySelector('#cadBar i');
+    const elLast=document.getElementById('lastBadge');
+    const elHist=document.getElementById('hist');
+    function render(){
+      if(lastAt){elAgo.textContent='última: '+Math.round((Date.now()-lastAt)/1000)+'s';}
+      elHist.innerHTML=hist.slice(-36).map(n=>`<button style="width:32px;height:32px;border-radius:6px;background:#22324e">${n}</button>`).join('');
+      document.getElementById('kTot').textContent=hist.length;
+    }
+    function onNumber(n){
+      lastAt=Date.now();
+      hist.push(n);
+      elLast.textContent=n;
+      elBadge.textContent='LIVE';elBadge.className='badge live';
+      render();
+      try{document.getElementById(n%2?'snd-red':'snd-green').play();}catch{}
+    }
+    document.getElementById('btn-live-sim').onclick=()=>onNumber(Math.floor(Math.random()*37));
+    document.getElementById('btn-live-clear').onclick=()=>{hist=[];render();}
+    document.getElementById('btn-live-csv').onclick=()=>{
+      const csv="time,number\n"+hist.map((n,i)=>`${i},${n}`).join("\n");
+      const a=document.createElement('a');a.href='data:text/csv,'+encodeURIComponent(csv);a.download='puxadores.csv';a.click();
+    }
+    setInterval(()=>{
+      if(lastAt && Date.now()-lastAt>30000){elBadge.textContent='standby';elBadge.className='badge standby';}
+      const elapsed=(Date.now()-lastAt)%18000;
+      elCad.textContent='cadência: '+Math.ceil((18000-elapsed)/1000)+'s';
+      elCadBar.style.width=(elapsed/18000*100)+'%';
+      render();
+    },1000);
   </script>
-  <!-- ====== PUXADORES LIVE • PLATAFORMAS + MOTOR UI ====== -->
-<style>
-  .plat-panel{background:#0b1420;border:1px solid #1e2a44;border-radius:14px;padding:14px;margin-top:18px}
-  .plat-title{font-weight:800;color:#ffd95e;display:flex;align-items:center;gap:8px;margin-bottom:10px}
-  .plat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-  .plat{background:#0f172a;border:1px solid #22314f;border-radius:12px;padding:10px;position:relative;cursor:pointer}
-  .plat.active{outline:2px solid #60a5fa;box-shadow:0 0 0 4px rgba(96,165,250,.15) inset}
-  .plat h4{margin:0 0 6px 0;font-weight:700}
-  .lat{position:absolute;top:8px;right:8px;font-size:12px;background:#13223a;border:1px solid #28426d;padding:2px 6px;border-radius:999px}
-  .spark{height:28px;width:100%;display:block;border:1px solid #1f2c49;border-radius:6px;background:#091222}
-  .btn-row{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
-  .btnX{background:#113969;border:1px solid #1f4b84;color:#dbeafe;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}
-  .btnGold{background:#f6c453;border:1px solid #c99d2b;color:#1b1205}
-  .btnGhost{background:#0f172a;border:1px solid #22314f;color:#cbd5e1}
-  /* mini barra de cadência no topo (usa #live-cadencia e #live-ultima) */
-  #live-cadbar{height:6px;background:#1e293b;border-radius:999px;overflow:hidden;margin:-6px 0 10px 0}
-  #live-cadbar>i{display:block;height:100%;width:0%;background:#60a5fa}
-</style>
-
-<div id="live-cadbar"><i></i></div>
-
-<div class="plat-panel" id="plat-panel">
-  <div class="plat-title">🎲 Plataformas Matrix</div>
-  <div class="plat-grid" id="plat-grid">
-    <div class="plat active" data-id="donald">
-      <span class="lat" id="lat-donald">—</span>
-      <h4>🎲 Donald</h4>
-      <canvas class="spark" id="spk-donald"></canvas>
-    </div>
-    <div class="plat" data-id="bbtips">
-      <span class="lat" id="lat-bbtips">—</span>
-      <h4>📈 BBTips</h4>
-      <canvas class="spark" id="spk-bbtips"></canvas>
-    </div>
-    <div class="plat" data-id="lucky">
-      <span class="lat" id="lat-lucky">—</span>
-      <h4>🍀 Lucky</h4>
-      <canvas class="spark" id="spk-lucky"></canvas>
-    </div>
-    <div class="plat" data-id="engine">
-      <span class="lat" id="lat-engine">—</span>
-      <h4>🧠 Engine</h4>
-      <canvas class="spark" id="spk-engine"></canvas>
-    </div>
-  </div>
-
-  <div class="btn-row">
-    <button class="btnX btnGold" id="btn-live-sim">🎲 Simular número</button>
-    <button class="btnX btnGhost" id="btn-live-clear">🧹 Limpar números</button>
-    <button class="btnX btnGhost" id="btn-live-csv">📄 Exportar CSV</button>
-  </div>
-</div>
-
-<script>
-(() => {
-  // ===== CONFIG =====
-  const CAD_MS = 18000;
-  const FEED_CH = "sc-tips-live";
-
-  // ===== ELEMENTOS EXISTENTES (já no seu Live) =====
-  const elUltimaBadge = document.querySelector('[data-last-badge]') || document.querySelector('.ultima-badge');
-  const elUltimaText  = document.getElementById('live-ultima') || document.querySelector('.ultima-label');
-  const elCadencia    = document.getElementById('live-cadencia') || document.querySelector('.cadencia-label');
-  const elCadBar      = document.querySelector('#live-cadbar > i');
-
-  // Botões já existentes (seus ids podem variar – ajuste se necessário)
-  const btnStart = document.getElementById('live-start');
-  const btnPause = document.getElementById('live-pause');
-  const btnReset = document.getElementById('live-reset');
-
-  // Sons globais (já estão na pasta /sounds com .wav)
-  const SND = {
-    green: document.getElementById('snd-green'),
-    red:   document.getElementById('snd-red'),
-    alert: document.getElementById('snd-alerta'),
-    click: document.getElementById('snd-click')
-  };
-
-  // ===== ESTADO =====
-  const state = {
-    activePlatform: 'donald',
-    lastLiveTs: 0,
-    running: true,
-    history: [],           // números recebidos (para export)
-    lat: {donald: '—', bbtips:'—', lucky:'—', engine:'—'}
-  };
-
-  // ===== UI: selecionar plataforma =====
-  document.querySelectorAll('#plat-grid .plat').forEach(card=>{
-    card.addEventListener('click', ()=>{
-      document.querySelectorAll('#plat-grid .plat').forEach(c=>c.classList.remove('active'));
-      card.classList.add('active');
-      state.activePlatform = card.dataset.id;
-      log('SYSTEM', `plataforma ativa: ${state.activePlatform}`);
-    });
-  });
-
-  // ===== Cadência (barra + label 18s) =====
-  if(elCadencia) elCadencia.textContent = '18s';
-  let cadInt=null, cadStart=Date.now();
-  function cadTick() {
-    const elapsed = (Date.now()-cadStart)%CAD_MS;
-    const pct = Math.min(100, (elapsed/CAD_MS)*100);
-    if(elCadBar) elCadBar.style.width = pct+'%';
-  }
-  function cadReset(){ cadStart=Date.now(); cadTick(); }
-  cadInt = setInterval(cadTick, 100);
-
-  // ===== Feed tempo real =====
-  function handleInbound(payload) {
-    let n=null, plat=null, table=null;
-    if (typeof payload === 'number') n=payload;
-    else if (payload && typeof payload==='object') {
-      if (Number.isInteger(payload.number)) n=payload.number;
-      if (payload.platform) plat=String(payload.platform);
-      if (payload.table) table=String(payload.table);
-    }
-    if(n==null || n<0 || n>36) return;
-
-    state.lastLiveTs = Date.now();
-    cadReset();
-
-    // badge "última"
-    if (elUltimaText) elUltimaText.textContent = 'LIVE ' + new Date().toLocaleTimeString();
-    if (elUltimaBadge) elUltimaBadge.textContent = String(n);
-
-    // histórico e log
-    state.history.push({t:state.lastLiveTs, n, plat:plat||state.activePlatform});
-    log('DEMO', `Número ${n} (${n===0?'green':'red/black'}) adicionado`);
-
-    // disparos simples (ex.: vizinhos/regras internas do seu Live)
-    // Se houver função global do seu Live para processar número, chame-a aqui:
-    if (window.SC_LIVE_PROCESS) window.SC_LIVE_PROCESS(n);
-
-    // exemplo de "preditivo" básico: acerto quando cai em pullers/base corrente visual
-    // -> se você já tem essa lógica em outro lugar, pode remover esta parte:
-    if (window.LIVE_PREDICT) {
-      const ok = window.LIVE_PREDICT(n);
-      log('PREDICT', (ok?'✓ Hit: ':'✗ Miss: ') + `nº ${n} ` + (ok?'estava':'não estava') + ' nas previsões');
-      if (SND[ ok?'green':'red' ]) { try{ SND[ ok?'green':'red' ].currentTime=0; SND[ ok?'green':'red' ].play(); }catch{} }
-    }
-  }
-
-  // BroadcastChannel + postMessage
-  try {
-    const bc = new BroadcastChannel(FEED_CH);
-    bc.onmessage = (e)=> handleInbound(e.data);
-  }catch{}
-  window.addEventListener('message', (e)=> handleInbound(e.data));
-
-  // ===== Sparkline fake só pra UI (substitua por dados reais se quiser) =====
-  const spkIds = ['donald','bbtips','lucky','engine'];
-  const spkData = {donald:[],bbtips:[],lucky:[],engine:[]};
-  function drawSpark(id){
-    const cv = document.getElementById('spk-'+id); if(!cv) return;
-    const ctx = cv.getContext('2d');
-    const w = cv.width = cv.clientWidth, h = cv.height = cv.clientHeight;
-    ctx.clearRect(0,0,w,h);
-    const arr = spkData[id];
-    if(arr.length<2) return;
-    ctx.beginPath(); ctx.moveTo(0, h-arr[0]*h);
-    for(let i=1;i<arr.length;i++) ctx.lineTo((i/(arr.length-1))*w, h-arr[i]*h);
-    ctx.strokeStyle = '#22c55e'; ctx.lineWidth=2; ctx.stroke();
-  }
-  setInterval(()=>{
-    spkIds.forEach(id=>{
-      const arr = spkData[id];
-      arr.push(Math.random()*0.9+0.05);
-      if(arr.length>24) arr.shift();
-      drawSpark(id);
-    });
-  }, 800);
-
-  // Latência fake (se vier dado real, atualize state.lat e chame updateLat)
-  function updateLat(){
-    Object.entries(state.lat).forEach(([k,v])=>{
-      const el = document.getElementById('lat-'+k);
-      if(el) el.textContent = typeof v==='number' ? `${v}ms` : '—';
-    });
-  }
-  updateLat();
-  // exemplo de tick de latência “mock”
-  setInterval(()=>{
-    ['donald','bbtips','lucky','engine'].forEach(k=>{
-      state.lat[k] = Math.floor(6 + Math.random()*24);
-    });
-    updateLat();
-  }, 3000);
-
-  // ===== Botões extras =====
-  document.getElementById('btn-live-sim')?.addEventListener('click', ()=>{
-    try{ SND.click.currentTime=0; SND.click.play(); }catch{}
-    handleInbound({number: Math.floor(Math.random()*37), platform: 'Sim'});
-  });
-  document.getElementById('btn-live-clear')?.addEventListener('click', ()=>{
-    state.history = [];
-    log('SYSTEM', 'histórico limpo');
-  });
-  document.getElementById('btn-live-csv')?.addEventListener('click', ()=>{
-    const rows = [['time','number','platform']];
-    state.history.forEach(r=>rows.push([new Date(r.t).toISOString(), r.n, r.plat]));
-    const csv = rows.map(r=>r.join(',')).join('\n');
-    const a = document.createElement('a');
-    a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
-    a.download = 'puxadores_history.csv';
-    a.click();
-  });
-
-  // ===== Start/Pause/Reset integrando com seus botões =====
-  btnStart?.addEventListener('click', ()=>{ state.running=true;  cadReset(); log('SYSTEM','Iniciado'); });
-  btnPause?.addEventListener('click', ()=>{ state.running=false;             log('SYSTEM','Pausado');  });
-  btnReset?.addEventListener('click', ()=>{ state.history=[]; cadReset();    log('SYSTEM','Reset');    });
-
-  // ===== Console: autoscroll + som ligados por padrão =====
-  try{
-    const elAuto = document.getElementById('cons-autoscroll');
-    const elSom  = document.getElementById('cons-sound');
-    if(elAuto && !elAuto.checked) elAuto.click();
-    if(elSom  && !elSom.checked)  elSom.click();
-  }catch{}
-
-  // ===== Log helper (usa seu Console se existir) =====
-  function log(tag, text){
-    // se houver função global do seu console:
-    if (window.SCLog) { window.SCLog(tag, text); return; }
-    // fallback simples no console do navegador
-    console.log(`[${tag}] ${text}`);
-  }
-
-  // ===== Auto-start ao abrir a página =====
-  window.addEventListener('DOMContentLoaded', ()=>{
-    btnStart?.click();
-  });
-})();
-</script>
-<!-- ====== /PUXADORES LIVE UPGRADE ====== -->
-<footer style="margin:24px 0 12px;text-align:center;color:#8aa;font-size:12px;">
-  © 2025 <b>SC TIPS</b> — Todos os direitos reservados.
-</footer>
-
 </body>
-  <!-- === Sons globais (colocar no fim da página, antes de </body>) === -->
-<audio id="snd-green" preload="auto">
-  <source src="./sounds/green.wav" type="audio/wav">
-  <source src="./sounds/green.mp3" type="audio/mpeg">
-</audio>
-<audio id="snd-red" preload="auto">
-  <source src="./sounds/red.wav" type="audio/wav">
-  <source src="./sounds/red.mp3" type="audio/mpeg">
-</audio>
-<audio id="snd-alerta" preload="auto">
-  <source src="./sounds/alerta.wav" type="audio/wav">
-  <source src="./sounds/alerta.mp3" type="audio/mpeg">
-</audio>
-<audio id="snd-click" preload="auto">
-  <source src="./sounds/click.wav" type="audio/wav">
-  <source src="./sounds/click.mp3" type="audio/mpeg">
-</audio>
 </html>
