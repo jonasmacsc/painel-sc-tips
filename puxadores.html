@@ -1,479 +1,392 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>SC Tips • Puxadores — Live</title>
+  <!-- ===== HEAD / META ===== -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🛰️ FASCOR • Puxadores Live — SC TIPS</title>
+  <meta name="theme-color" content="#0b0a05">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16.png">
+  <link rel="manifest" href="assets/favicon/site.webmanifest">
 
-  <!-- Favicons -->
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16.png">
-  <link rel="manifest" href="/assets/favicon/site.webmanifest">
-  <link rel="mask-icon" href="/assets/favicon/safari-pinned-tab.svg" color="#0ea5e9">
-  <meta name="theme-color" content="#0b1220">
-
-  <!-- Preload brand -->
-  <link rel="preload" as="image" href="/assets/img/branding/logo-navbar.png">
-  <link rel="preload" as="image" href="/assets/img/branding/logo-static.png">
-  <link rel="preload" as="video"  href="/assets/media/logo-animated.mp4" type="video/mp4">
-
+  <!-- ===== THEME / CSS (FASCOR) ===== -->
   <style>
     :root{
-      --bg:#0b1220;--panel:#0f172a;--panel2:#0c1425;--bd:#1e2a44;
-      --txt:#e6f6ff;--mut:#9cc1ff;--brand1:#22d3ee;--brand2:#60a5fa;
-      --ok:#10b981;--warn:#f59e0b;--err:#ef4444
+      --bg:#070804; --panel:#0b0f08; --panel2:#0e130b; --stroke:#2a2b1a;
+      --ink:#f8ffe9; --muted:#d8e9a0;
+      --gold:#f7d253; --gold-deep:#c2972a; --gold-neon:#fff06a;
+      --glow:0 0 10px rgba(255,240,106,.45),0 0 24px rgba(247,210,83,.35);
+      --glow-strong:0 0 14px rgba(255,240,106,.7),0 0 36px rgba(247,210,83,.6);
+      --ok:#2ad17f; --err:#ff6464; --warn:#ffd24d;
+      --chip-green:#00d37e; --chip-red:#ff5a5a; --chip-black:#6fe0ff;
     }
-    *{box-sizing:border-box}
-    html,body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.55 Inter,system-ui,Segoe UI,Roboto,Arial}
-    a{color:#dbeafe;text-decoration:none}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{background:var(--bg);color:var(--ink);font:16px/1.5 Inter,Segoe UI,system-ui,sans-serif}
+    a{color:var(--gold-neon);text-decoration:none}
 
-    /* NAV */
-    .nav{position:sticky;top:0;z-index:20;background:#0e1525;border-bottom:1px solid var(--bd)}
-    .nav .row{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 18px}
-    .brand{display:flex;align-items:center;gap:10px;font-weight:900}
-    .brand small{background:#0b1220;border:1px solid var(--bd);padding:2px 8px;border-radius:999px;color:#22d3ee}
+    /* NAVBAR */
+    nav{position:sticky;top:0;z-index:10;background:linear-gradient(180deg,rgba(15,17,10,.9),rgba(10,11,6,.9));border-bottom:1px solid #3a361c;box-shadow:var(--glow)}
+    nav .row{display:flex;align-items:center;justify-content:space-between;padding:12px 18px}
+    .brand{display:flex;align-items:center;gap:10px;text-shadow:var(--glow)}
+    .brand video{width:42px;height:42px;border-radius:10px;object-fit:cover;background:#000;box-shadow:var(--glow)}
+    .brand b{font-weight:900;letter-spacing:.3px;color:var(--gold-neon)}
+    .brand small{border:1px solid #3a361c;padding:2px 8px;border-radius:999px;color:#13140a;background:#0b0d07}
     .menu{display:flex;gap:8px;flex-wrap:wrap}
-    .menu a{padding:8px 14px;border:1px solid transparent;border-radius:10px}
-    .menu a:hover{background:rgba(255,255,255,.08)}
-    .menu a.active{background:linear-gradient(135deg,var(--brand1),var(--brand2));color:#001428;font-weight:700}
+    .menu a{padding:8px 14px;border-radius:10px;color:#eee9c9;border:1px solid #3a361c;background:#0b0d07}
+    .menu a:hover{box-shadow:var(--glow)}
+    .menu a.active{background:linear-gradient(135deg,var(--gold-neon),var(--gold));color:#161305;font-weight:800;border:0;box-shadow:var(--glow-strong)}
 
-    /* LAYOUT */
-    .wrap{max-width:1200px;margin:0 auto;padding:18px}
-    .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-    .grid{display:grid;gap:14px}
-    @media(min-width:920px){ .grid-2{grid-template-columns:1.2fr 1fr} }
+    .wrap{max-width:1240px;margin:0 auto;padding:18px}
+    h1{font-size:30px;margin:14px 0 10px;font-weight:900;color:var(--gold-neon);text-shadow:var(--glow)}
+    h2{font-size:18px;margin:8px 0 12px;color:var(--muted);font-weight:700}
+    h3{margin:14px 0 10px;font-weight:800;color:var(--gold);text-shadow:var(--glow)}
 
-    .card{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px}
-    .pill{display:inline-flex;gap:8px;align-items:center;padding:6px 10px;border:1px solid var(--bd);border-radius:999px;background:#0c1427;color:#cfe0ff;font-size:12px}
-    .badge{padding:6px 10px;border-radius:999px;border:1px solid var(--bd);background:#0b1220}
-    .badge.live{background:#063b2e;border-color:#10b981;color:#b7ffdf}
-    .badge.standby{background:#202838;border-color:#334155}
-    .btn{cursor:pointer;border:1px solid rgba(255,255,255,.12);background:#10233b;color:#fff;border-radius:10px;padding:10px 14px}
-    .btn.primary{background:#2563eb;border-color:#2563eb}
-    .btn.ghost{background:transparent}
-    .btn:hover{filter:brightness(1.08)}
-    select,input{background:#0c1425;border:1px solid #22324e;color:#fff;border-radius:8px;padding:8px 10px}
-    .kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-    .kpi .box{background:#0c1425;border:1px solid #22324e;border-radius:10px;padding:12px;text-align:center}
-    .kpi .box b{font-size:22px}
+    .grid{display:grid;gap:16px}
+    @media(min-width:1100px){.grid{grid-template-columns:1.2fr 1fr}}
 
-    /* Console (global) */
-    .sc-card{background:#0b1220;border:1px solid #3b2f0a;border-radius:16px;padding:14px;margin:22px 0}
-    .sc-console-header{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
-    .sc-title{font:700 20px/1.2 Inter;color:#ffd873}
-    .sc-tools{display:flex;gap:8px;align-items:center;margin-left:auto}
-    .sc-input{background:#0c1324;border:1px solid #24314d;border-radius:10px;padding:8px 10px;color:#e6f6ff;min-width:220px}
-    .sc-stream{max-height:300px;overflow:auto;background:linear-gradient(180deg,#0c1018,#0a0f14);border:1px solid #0a350a;border-radius:12px;padding:8px 6px}
-    .sc-row{display:flex;gap:8px;align-items:center;background:#082b08;border:1px solid #0da10d;border-radius:10px;margin:6px;padding:8px 10px;color:#c8ffd0}
-    .sc-tag{font-weight:700;color:#171103;background:#ffd873;border:1px solid #ffb300;border-radius:10px;padding:3px 8px}
+    .card{background:linear-gradient(180deg,#0f1209,#0b0f08);border:1px solid #3a361c;padding:14px;border-radius:16px;box-shadow:inset 0 0 0 1px rgba(255,240,106,.08),var(--glow)}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 
-    /* Histórico */
-    #hist button{width:36px;height:36px;border-radius:10px;border:1px solid #1f2a44}
+    /* Botões */
+    .btn{padding:10px 14px;border-radius:12px;cursor:pointer;color:#13120a;border:0;font-weight:800;letter-spacing:.3px;background:linear-gradient(180deg,var(--gold-neon),var(--gold));box-shadow:var(--glow)}
+    .btn:hover{filter:brightness(1.05);box-shadow:var(--glow-strong)}
+    .btn.ghost{color:#efeacd;background:#0b0d07;border:1px solid #3a361c;box-shadow:var(--glow)}
+    .btn.small{padding:6px 10px;font-size:14px}
+    .btn.dark{color:#efeacd;background:#121406;border:1px solid #3a361c}
 
-    /* Plataformas */
-    .plat-panel{background:#0b1420;border:1px solid #1e2a44;border-radius:14px;padding:14px}
-    .plat-title{font-weight:800;color:#ffd95e;margin-bottom:10px}
-    .plat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-    .plat{background:#0f172a;border:1px solid #22314f;border-radius:12px;padding:10px;position:relative;cursor:pointer}
-    .plat.active{outline:2px solid #60a5fa;box-shadow:0 0 0 4px rgba(96,165,250,.15) inset}
-    .plat h4{margin:0 0 6px 0;font-weight:700}
-    .lat{position:absolute;top:8px;right:8px;font-size:12px;background:#13223a;border:1px solid #28426d;padding:2px 6px;border-radius:999px}
-    .spark{height:28px;width:100%;display:block;border:1px solid #1f2c49;border-radius:6px;background:#091222}
-    .btn-row{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
-    .btnX{background:#113969;border:1px solid #1f4b84;color:#dbeafe;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}
-    .btnGold{background:#f6c453;border:1px solid #c99d2b;color:#1b1205}
-    .btnGhost{background:#0f172a;border:1px solid #22314f;color:#cbd5e1}
+    /* Console */
+    .console{background:#0a0d07;border:1px solid #3a361c;padding:12px;border-radius:16px;margin:16px 0;box-shadow:var(--glow)}
+    .loglist{background:#0a0c06;border:1px solid #2d2a15;border-radius:12px;height:260px;overflow:auto;padding:8px}
+    .log{margin:6px 0;padding:8px 10px;border-radius:10px;font-size:14px}
+    .hit{background:rgba(42,209,127,.08);border:1px solid #2ad17f}
+    .miss{background:rgba(255,100,100,.08);border:1px solid #ff6464}
+    .sys{background:rgba(255,240,106,.06);border:1px solid #7a6b1b}
+    .warn{background:rgba(255,210,77,.08);border:1px solid #b4931f}
+    input[type="text"],input[type="number"],input[type="url"]{background:#0b0d07;border:1px solid #3a361c;color:#efeacd;border-radius:12px;padding:10px 12px;outline:none;min-width:180px;box-shadow:var(--glow)}
+    .pill{display:inline-flex;align-items:center;gap:8px;background:#0b0d07;border:1px solid #3a361c;padding:6px 10px;border-radius:999px;color:#efeacd}
+
+    /* Chips Números */
+    .lastbar{display:flex;flex-wrap:wrap;gap:8px}
+    .chip{min-width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:12px;font-weight:900;border:2px solid #1a1a10;box-shadow:var(--glow)}
+    .chip.green{background:rgba(0,211,126,.18);border-color:var(--chip-green);color:#ccffe9}
+    .chip.red{background:rgba(255,90,90,.18);border-color:var(--chip-red);color:#ffecec}
+    .chip.black{background:rgba(111,224,255,.12);border-color:var(--chip-black);color:#eaffff}
+
+    /* Puxadores */
+    .pull{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;border:1px solid #3a361c;background:#0b0d07;border-radius:14px;padding:12px;box-shadow:var(--glow)}
+    .pull .hdr{display:flex;gap:8px;align-items:center}
+    .pull .hdr b{color:var(--gold-neon);text-shadow:var(--glow)}
+    .pull .meta{font-size:12px;color:#d6ce98}
+    .pull .actions .btn{min-width:90px}
+
+    .stat{display:inline-flex;gap:6px;align-items:center;padding:6px 10px;border:1px solid #3a361c;border-radius:999px;background:#0b0d07;box-shadow:var(--glow)}
+    .stat b{color:var(--gold-neon)}
   </style>
 </head>
-
 <body>
-  <!-- NAV -->
-  <nav class="nav">
+
+  <!-- ===== NAV ===== -->
+  <nav>
     <div class="row">
-      <a class="brand" href="index.html">
-        <img src="/assets/img/branding/logo-navbar.png" alt="SC Tips" height="26">
-        <span>SC TIPS</span><small>VIP</small>
+      <a class="brand" href="index.html" title="SC TIPS • Home">
+        <video src="assets/media/logo-animated.mp4" autoplay muted loop playsinline poster="assets/img/branding/logo-static.png"></video>
+        <span><b>SC TIPS</b><small>FASCOR • VIP</small></span>
       </a>
-      <div class="menu">
-        <a href="index.html">Home</a>
-        <a href="estrategias.html">Estratégias</a>
-        <a href="matrix-premium.html">Matrix Premium</a>
-        <a class="active" href="puxadores.html">Puxadores Live</a>
-        <a href="contato.html">Contato</a>
+      <div class="menu" id="mainMenu">
+        <a href="index.html" data-page="home">Home</a>
+        <a href="estrategias.html" data-page="estrategias">Estratégias</a>
+        <a href="matrix-premium.html" data-page="matrix">Matrix Premium</a>
+        <a class="active" href="puxadores.html" data-page="puxadores">Puxadores Live</a>
+        <a href="contato.html" data-page="contato">Contato</a>
       </div>
     </div>
   </nav>
 
   <div class="wrap">
-    <!-- Console -->
-    <div id="sc-console" class="sc-card">
-      <div class="sc-console-header">
-        <div class="sc-title">🖥️ Console Sistema</div>
-        <div class="sc-tools">
-          <button class="btn" id="sc-btn-clear">🧹 Limpar</button>
-          <button class="btn" id="sc-btn-export">⬇️ Exportar TXT</button>
-          <label class="pill"><input type="checkbox" id="cons-autoscroll" checked> Auto.scroll</label>
-          <label class="pill"><input type="checkbox" id="cons-sound" checked> Som</label>
-          <input id="sc-search" class="sc-input" type="text" placeholder="Pesquisar logs…"/>
-        </div>
+    <h1>🛰️ Puxadores Live — Tema FASCOR (Gold Neon)</h1>
+
+    <!-- ===== CONSOLE ===== -->
+    <section class="console" role="region" aria-label="Console e Logs">
+      <h3>🖥️ Console</h3>
+      <div class="row">
+        <button class="btn dark" id="btnClear">🧹 Limpar</button>
+        <button class="btn dark" id="btnExport">📄 Exportar TXT</button>
+        <button class="btn dark" id="btnCSV">📊 Exportar CSV</button>
+        <button class="btn ghost" id="btnSounds">🔊 Sons: <span id="sndState">off</span></button>
       </div>
-      <div id="sc-stream" class="sc-stream" aria-live="polite"></div>
-    </div>
-
-    <!-- Header -->
-    <div class="row" style="margin-bottom:12px">
-      <h1 style="margin:0">🎯 Puxadores — Live</h1>
-      <span id="liveBadge" class="badge standby">standby</span>
-      <span id="originBadge" class="pill">Origem: —</span>
-      <span id="tableBadge"  class="pill">Mesa: —</span>
-      <span id="agoBadge"    class="pill">última: —</span>
-      <div style="margin-left:auto" class="row">
-        <button id="btnCopy"  class="btn ghost">Copiar</button>
-        <button id="btnReset" class="btn ghost">Reset</button>
+      <div class="row" style="margin-top:8px">
+        <input id="logFilter" type="text" placeholder="🔍 Pesquisar logs (mesa, dealer, nº, Evolution/Pragmatic)">
+        <span class="pill"><input type="checkbox" id="flt-sys" checked> SYS</span>
+        <span class="pill"><input type="checkbox" id="flt-hit" checked> HIT</span>
+        <span class="pill"><input type="checkbox" id="flt-miss" checked> MISS</span>
       </div>
-    </div>
+      <div class="loglist" id="loglist"></div>
+    </section>
 
-    <!-- Top grid -->
-    <div class="grid grid-2" style="margin-bottom:14px">
-      <div class="card">
-        <div class="row" style="gap:16px">
-          <div>
-            <div style="opacity:.8">Último</div>
-            <div id="lastBadge" style="width:92px;height:92px;border-radius:999px;border:4px solid #334155;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:900;background:#0a1322">--</div>
-          </div>
+    <div class="grid">
+      <!-- ===== LADO ESQUERDO: Mesas / Seguidor ===== -->
+      <section class="card">
+        <h3>🧲 Seguir Mesas (Puxadores)</h3>
 
-          <div class="card" style="background:#0b1426;border-color:#1d2c4a;padding:12px">
-            <div class="row" style="gap:10px">
-              <label>Base:</label>
-              <select id="selBase"></select>
-              <span class="pill">Puxadores: <b id="pullersText">—</b></span>
-            </div>
-            <div class="row" style="margin-top:8px">
-              <label class="row" style="gap:8px">
-                <input type="checkbox" id="cbAuto" checked />
-                Auto vizinhos
-              </label>
-              <div id="manualViz" class="row" style="display:none;gap:6px">
-                <button class="btn" data-viz="1">1 viz</button>
-                <button class="btn" data-viz="2">2 viz</button>
-                <button class="btn" data-viz="3">3 viz</button>
-              </div>
-              <span class="pill" id="vizNow">2 viz.</span>
-            </div>
-          </div>
-
-          <div class="row" style="margin-left:auto;gap:8px">
-            <button id="btnSim"    class="btn primary">🎲 Simular nº</button>
-            <button id="btnInsert" class="btn">➕ Inserir nº</button>
-          </div>
+        <!-- Conexão WS por mesa -->
+        <div class="row" style="margin-bottom:8px">
+          <input id="wsUrl" type="url" placeholder="URL WS da mesa (Evolution/Pragmatic)">
+          <button class="btn small dark" id="btnMask">🙈 Mascarar</button>
+          <button class="btn small dark" id="btnCopyUrl">📋 Copiar</button>
+          <button class="btn small" id="btnConnect">🔌 Conectar</button>
+          <button class="btn small dark" id="btnDisconnect" disabled>❌ Desconectar</button>
         </div>
-      </div>
-
-      <div class="card">
-        <h3 style="margin:0 0 8px 0">📊 Painel</h3>
-        <div class="kpi">
-          <div class="box"><div class="muted">Total Spins</div><b id="kTot">0</b></div>
-          <div class="box"><div class="muted">Sinais</div><b id="kSig">0</b></div>
-          <div class="box"><div class="muted">Wins</div><b id="kWin">0</b></div>
-          <div class="box"><div class="muted">Losses</div><b id="kLos">0</b></div>
+        <div class="row">
+          <input id="roomName" type="text" placeholder="Nome da Mesa / Dealer">
+          <input id="simNumber" type="number" min="0" max="36" placeholder="Simular nº (0-36)">
+          <button class="btn small" id="btnSim">🎯 Simular</button>
+          <button class="btn small dark" id="btnCopyRoom">📋 Copiar mesa</button>
         </div>
-      </div>
-    </div>
 
-    <!-- Histórico -->
-    <div class="card" style="margin-bottom:14px">
-      <h3 style="margin:0 0 8px 0">🧾 Histórico (últimos 36)</h3>
-      <div id="hist" class="row"></div>
-    </div>
-
-    <!-- Sinais -->
-    <div id="activeBox" class="card" style="display:none;margin-bottom:14px">
-      <h3 style="margin:0 0 8px 0">👁️ Sinais ativos</h3>
-      <div id="activeList" class="row" style="flex-wrap:wrap"></div>
-    </div>
-
-    <div id="recentBox" class="card" style="display:none">
-      <h3 style="margin:0 0 8px 0">🗂️ Sinais recentes</h3>
-      <div id="recentList" class="row" style="flex-wrap:wrap"></div>
-    </div>
-
-    <!-- Plataformas -->
-    <div class="plat-panel" id="plat-panel" style="margin-top:16px">
-      <div class="plat-title">🎲 Plataformas Matrix</div>
-      <div class="plat-grid" id="plat-grid">
-        <div class="plat active" data-id="donald">
-          <span class="lat" id="lat-donald">—</span>
-          <h4>🎲 Donald</h4>
-          <canvas class="spark" id="spk-donald"></canvas>
+        <div class="row" style="margin:10px 0">
+          <span class="stat">Mesa: <b id="statRoom">—</b></span>
+          <span class="stat">WS: <b id="wsstat">offline</b></span>
+          <span class="stat">Contagem: <b id="pullCount">0</b></span>
+          <span class="stat">Hits: <b id="hitCount">0</b></span>
         </div>
-        <div class="plat" data-id="bbtips">
-          <span class="lat" id="lat-bbtips">—</span>
-          <h4>📈 BBTips</h4>
-          <canvas class="spark" id="spk-bbtips"></canvas>
-        </div>
-        <div class="plat" data-id="lucky">
-          <span class="lat" id="lat-lucky">—</span>
-          <h4>🍀 Lucky</h4>
-          <canvas class="spark" id="spk-lucky"></canvas>
-        </div>
-        <div class="plat" data-id="engine">
-          <span class="lat" id="lat-engine">—</span>
-          <h4>🧠 Engine</h4>
-          <canvas class="spark" id="spk-engine"></canvas>
-        </div>
-      </div>
 
-      <div class="btn-row">
-        <button class="btnX btnGold"  id="btn-live-sim">🎲 Simular número</button>
-        <button class="btnX btnGhost" id="btn-live-clear">🧹 Limpar números</button>
-        <button class="btnX btnGhost" id="btn-live-csv">📄 Exportar CSV</button>
-      </div>
+        <h2>🔢 Últimos números</h2>
+        <div class="lastbar" id="lastbar"></div>
+
+        <div class="row" style="margin-top:10px">
+          <button class="btn small" id="btnClearNums">🧹 Limpar números</button>
+          <button class="btn small" id="btnPing">📡 Broadcast Ping</button>
+          <button class="btn small dark" id="btnCSVNums">📊 Exportar CSV</button>
+        </div>
+
+        <div class="tip" style="margin-top:8px">Tokens da URL são ocultos. Eventos aceitos: <code>roulette.winSpots</code> (Evolution), <code>spin_result/result</code> (Pragmatic) e genéricos com <code>number</code>.</div>
+      </section>
+
+      <!-- ===== LADO DIREITO: Plataformas / Lista de salas ===== -->
+      <section class="card">
+        <h3>🎲 Plataformas & Salas</h3>
+        <div class="row" id="platforms"></div>
+
+        <h2>Salas (exemplo)</h2>
+        <div id="rooms" class="list" style="display:grid;gap:10px"></div>
+        <div class="tip" style="margin-top:8px">Clique numa sala para preencher a Mesa e seguir rapidamente.</div>
+      </section>
     </div>
   </div>
 
-  <!-- Sons globais -->
-  <audio id="snd-green" preload="auto">
-    <source src="./sounds/green.wav" type="audio/wav">
-    <source src="./sounds/green.mp3" type="audio/mpeg">
-  </audio>
-  <audio id="snd-red" preload="auto">
-    <source src="./sounds/red.wav" type="audio/wav">
-    <source src="./sounds/red.mp3" type="audio/mpeg">
-  </audio>
-  <audio id="snd-alerta" preload="auto">
-    <source src="./sounds/alerta.wav" type="audio/wav">
-    <source src="./sounds/alerta.mp3" type="audio/mpeg">
-  </audio>
-  <audio id="snd-click" preload="auto">
-    <source src="./sounds/click.wav" type="audio/wav">
-    <source src="./sounds/click.mp3" type="audio/mpeg">
-  </audio>
-
-  <footer style="margin:24px 0 12px;text-align:center;color:#8aa;font-size:12px;">
-    © 2025 <b>SC TIPS</b> — Todos os direitos reservados.
+  <footer style="text-align:center;margin:28px 0 12px;color:#c9c29b;font-size:13px">
+    © 2025 <b>SC TIPS</b> — Tema FASCOR Gold Neon.
   </footer>
 
+  <!-- ===== ÁUDIO ===== -->
+  <audio id="snd-green" src="assets/audio/green.mp3" preload="auto"></audio>
+  <audio id="snd-red"   src="assets/audio/red.mp3"   preload="auto"></audio>
+  <audio id="snd-alert" src="assets/audio/alerta.mp3" preload="auto"></audio>
+  <audio id="snd-click" src="assets/audio/click.mp3"  preload="auto"></audio>
+
+  <!-- ===== JS ===== -->
   <script>
-  // =================== CORE ===================
-  const WHEEL=[0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
-  const RED=new Set([1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);
-  const inRange=n=>Number.isInteger(n)&&n>=0&&n<=36;
-
-  const PULLERS={0:[10,20,30],1:[17,7],2:[2,22],3:[3,33],4:[21,9],5:[25,15,35],
-    6:[20,17,7],7:[7,17,20],8:[30,0,20],9:[9,19],10:[0,20,30],11:[30,0,20],12:[33,15],13:[20,7],
-    14:[17,7],15:[9,5,35],16:[3,33],17:[17,20,7],18:[2,22],19:[19,9],20:[17,7],21:[2,22],22:[2,22],
-    23:[0,10],24:[35,15,25],25:[20,22],26:[0,10,30],27:[17,7,20],28:[7,17,20],29:[7,17,20],30:[0,20,30],
-    31:[9,19],32:[0,10,20,30],33:[3,33],34:[7,20],35:[3,33,15],36:[20,30]};
-
-  const $=s=>document.querySelector(s);
-  const el=id=>document.getElementById(id);
-  const neighbors=(n,k)=>{
-    const i=WHEEL.indexOf(n); if(i<0) return []; const out=[];
-    for(let d=-k; d<=k; d++) out.push(WHEEL[(i+d+WHEEL.length)%WHEEL.length]);
-    return [...new Set(out)];
-  };
-  const colorBadge=(n)=>{
-    if(!inRange(n)) return {bg:'#0a1322', br:'#334155'};
-    if(n===0) return {bg:'#0c3d1e', br:'#16a34a'};
-    return RED.has(n) ? {bg:'#7a1d1d', br:'#ef4444'} : {bg:'#0d1523', br:'#94a3b8'};
-  };
-
-  const st={live:false,lastAt:0, origin:'—', table:'—', last:null, hist:[], signals:[], neighbors:2, auto:true, win:0, loss:0};
-  const MAX_ACTIVE_TICKS=18;
-
-  // ===== Console helper (fallback) =====
-  function SCLog(tag,text,kind='SYSTEM'){
-    const row=document.createElement('div');
-    row.className='sc-row';
-    const t=new Date().toLocaleTimeString();
-    row.innerHTML=`<span class="sc-time">[${t}]</span><span class="sc-tag">${kind}</span><span class="sc-msg">${tag} — ${text}</span>`;
-    el('sc-stream').appendChild(row);
-    if(el('cons-autoscroll')?.checked){ el('sc-stream').scrollTop = el('sc-stream').scrollHeight; }
+  /* ========= Helpers & Console ========= */
+  const $ = s => document.querySelector(s);
+  const loglist = $("#loglist");
+  const filters = { sys:true, hit:true, miss:true, text:"" };
+  function capLogs(max=800){ while(loglist.children.length>max){ loglist.removeChild(loglist.firstChild); } }
+  function log(msg, cls="sys"){
+    if(cls!=="warn" && !filters[cls]) return;
+    if(filters.text && !String(msg).toLowerCase().includes(filters.text)) return;
+    const d=document.createElement("div");
+    d.className="log "+cls;
+    d.textContent=`[${new Date().toLocaleTimeString()}] ${msg}`;
+    loglist.appendChild(d); loglist.scrollTop=loglist.scrollHeight; capLogs();
   }
-  el('sc-btn-clear').onclick=()=>{ el('sc-stream').innerHTML=''; };
-  el('sc-btn-export').onclick=()=>{
-    const txt=[...el('sc-stream').children].map(x=>x.innerText).join('\n');
-    const blob=new Blob([txt],{type:'text/plain'}), url=URL.createObjectURL(blob);
-    const a=document.createElement('a'); a.href=url; a.download=`SC_TIPS_Logs_${Date.now()}.txt`; a.click();
-    setTimeout(()=>URL.revokeObjectURL(url),1000);
+  $("#btnClear").onclick=()=>loglist.innerHTML="";
+  $("#btnExport").onclick=()=>{
+    const txt=[...loglist.children].map(x=>x.textContent).join("\n");
+    const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([txt],{type:"text/plain"}));
+    a.download="puxadores_logs.txt"; a.click(); URL.revokeObjectURL(a.href);
   };
-  el('sc-search').oninput=()=>{
-    const term=el('sc-search').value.toLowerCase();
-    [...el('sc-stream').children].forEach(x=> x.style.display = x.textContent.toLowerCase().includes(term)?'':'none');
-  };
+  $("#btnCSV").onclick=()=>exportCSV();
+  $("#flt-sys").onchange=e=>filters.sys=e.target.checked;
+  $("#flt-hit").onchange=e=>filters.hit=e.target.checked;
+  $("#flt-miss").onchange=e=>filters.miss=e.target.checked;
+  $("#logFilter").oninput=e=>filters.text=(e.target.value||"").toLowerCase();
 
-  // ===== Render =====
-  function renderTop(){
-    el('liveBadge').textContent = st.live ? 'LIVE' : 'standby';
-    el('liveBadge').className = 'badge ' + (st.live ? 'live' : 'standby');
-    el('originBadge').textContent = 'Origem: ' + st.origin;
-    el('tableBadge').textContent  = 'Mesa: ' + st.table;
-    el('agoBadge').textContent    = 'última: ' + (st.lastAt? (Math.round((Date.now()-st.lastAt)/1000)+'s') : '—');
+  /* ========= Sons ========= */
+  let soundsOn=false; const sndState=$("#sndState");
+  $("#btnSounds").onclick=()=>{ soundsOn=!soundsOn; sndState.textContent=soundsOn?"on":"off"; try{$("#snd-click").play().catch(()=>{});}catch(e){} };
+  function play(id){ if(!soundsOn) return; const el=document.getElementById(id); if(el){ el.currentTime=0; el.play().catch(()=>{});} }
 
-    const {bg,br} = colorBadge(st.last);
-    const badge = el('lastBadge');
-    badge.style.background = bg;
-    badge.style.borderColor = br;
-    badge.textContent = inRange(st.last) ? st.last : '--';
-
-    const base = parseInt(el('selBase').value,10);
-    el('pullersText').textContent = (PULLERS[base]||[]).join(', ') || '—';
-    el('vizNow').textContent = st.neighbors + ' viz.';
+  /* ========= Chips Últimos Números ========= */
+  const lastbar = $("#lastbar");
+  const redSet = new Set([1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);
+  function colorOf(n){ return n===0?"green":(redSet.has(n)?"red":"black"); }
+  let recent = []; // máx 20
+  function pushNumber(n){
+    recent.unshift(n); if(recent.length>20) recent.pop(); renderChips();
+    $("#pullCount").textContent = String(Number($("#pullCount").textContent||"0")+1);
+    if(n===lastGood) $("#hitCount").textContent = String(Number($("#hitCount").textContent||"0")+1);
   }
-
-  function renderHist(){
-    const box = el('hist'); box.innerHTML='';
-    st.hist.slice(-36).forEach(n=>{
-      const b=document.createElement('button');
-      const {bg}=colorBadge(n);
-      b.textContent=n; b.style.background=bg; b.onclick=()=> handleInbound({number:n,platform:'REPEAT'});
-      box.appendChild(b);
-    });
-    el('kTot').textContent = st.hist.length;
-  }
-
-  function renderSignals(){
-    const active = st.signals.filter(s=>s.active);
-    const recent = st.signals.filter(s=>!s.active && s.closedAt).slice(-8);
-    el('kSig').textContent = st.signals.length;
-    el('kWin').textContent = st.win;
-    el('kLos').textContent = st.loss;
-
-    const aBox=el('activeBox'), aList=el('activeList');
-    aBox.style.display = active.length ? 'block':'none';
-    aList.innerHTML='';
-    active.forEach(s=>{
-      const d=document.createElement('div');
-      d.className='pill';
-      d.textContent=`Base ${s.base} • puxadores ${s.pullers.join(', ')} • ${s.neighbors} viz. • ${s.ticks} spins`;
-      aList.appendChild(d);
-    });
-
-    const rBox=el('recentBox'), rList=el('recentList');
-    rBox.style.display = recent.length ? 'block':'none';
-    rList.innerHTML='';
-    recent.forEach(s=>{
-      const d=document.createElement('div'); d.className='pill';
-      d.style.borderColor = s.win ? '#155e46' : '#7c2d2d';
-      d.textContent=`Base ${s.base} • ${s.win?'WIN':'LOSS'} • ${s.ticks} spins`;
-      rList.appendChild(d);
+  function renderChips(){
+    lastbar.innerHTML=""; recent.forEach(n=>{
+      const c=document.createElement("div");
+      c.className="chip "+colorOf(n); c.textContent=n;
+      c.title="Repetir "+n; c.onclick=()=>handleIncoming({number:n, source:"chip"});
+      lastbar.appendChild(c);
     });
   }
+  function clearNums(){ recent=[]; renderChips(); $("#pullCount").textContent="0"; $("#hitCount").textContent="0"; }
+  $("#btnClearNums").onclick=()=>{ clearNums(); log("🧹 Últimos números limpos","sys"); };
+  function exportCSV(){
+    const header="timestamp,numero\n"; const now=new Date().toISOString();
+    const rows=recent.map(n=>`${now},${n}`).join("\n");
+    const a=document.createElement("a");
+    a.href=URL.createObjectURL(new Blob([header+rows+"\n"],{type:"text/csv"}));
+    a.download="puxadores_last_numbers.csv"; a.click(); URL.revokeObjectURL(a.href);
+  }
+  $("#btnCSVNums").onclick=exportCSV;
 
-  function onNumber(n){
-    st.hist.push(n);
-    st.signals = st.signals.map(s=> s.active? {...s,ticks:(s.ticks||0)+1}:s)
-                           .filter(s=> !s.active || (s.ticks||0)<=MAX_ACTIVE_TICKS);
-
-    let anyHit=false;
-    st.signals.forEach(s=>{
-      if(!s.active) return;
-      const neigh=new Set(neighbors(s.base,s.neighbors));
-      const hit = n===s.base || neigh.has(n);
-      if(hit){ s.active=false; s.win=true; s.closedAt=Date.now(); anyHit=true; }
+  /* ========= Plataformas + sparkline ========= */
+  const plats=[{name:"Evolution",icon:"🎡"},{name:"Pragmatic",icon:"🎰"},{name:"Donald",icon:"🎲"},{name:"BBTips",icon:"📈"},{name:"Lucky",icon:"🍀"},{name:"Engine",icon:"🧠"}];
+  const platBox=$("#platforms"); let activePlatform=localStorage.getItem("px_active_platform")||"Engine";
+  function renderPlatforms(){
+    platBox.innerHTML="";
+    plats.forEach(p=>{
+      const wrap=document.createElement("div");
+      wrap.className="pull"; wrap.style="grid-template-columns:auto auto;gap:12px";
+      wrap.innerHTML=`<div class="hdr"><b>${p.icon} ${p.name}</b><span class="meta" id="lat_${p.name}">—ms</span></div>
+                      <canvas class="spark" id="sp_${p.name}" width="150" height="40"></canvas>`;
+      wrap.onclick=()=>{ activePlatform=p.name; localStorage.setItem("px_active_platform",activePlatform); log("Plataforma ativa: "+activePlatform,"sys"); };
+      platBox.appendChild(wrap);
     });
-    if(anyHit){ st.win++; try{ el('snd-green').play(); }catch{} }
-    else{
-      const justClosed = st.signals.some(s=>!s.active && s.closedAt && (Date.now()-s.closedAt)<60);
-      if(justClosed){ st.loss++; try{ el('snd-red').play(); }catch{} }
-    }
-
-    const base = parseInt(el('selBase').value,10);
-    const pulls=PULLERS[base]||[];
-    const isTrigger = (n===base) || pulls.includes(n);
-    if(isTrigger){
-      const respect = st.hist.slice(-12).some(x=> x===base || neighbors(base,st.neighbors).includes(x));
-      if(!respect){
-        st.signals.push({id:Date.now()+Math.random(), base, pullers:pulls.slice(), neighbors:st.neighbors, startedAt:Date.now(), ticks:0, active:true});
-        try{ el('snd-alerta').play(); }catch{}
-      }
-    }
-
-    renderHist(); renderSignals();
   }
-
-  // ===== Inbound =====
-  function handleInbound(payload,via='?'){
-    if(!payload) return; let n=null;
-    if(typeof payload==='number') n=payload;
-    else if(typeof payload==='string'){ const m=payload.match(/\b([0-9]|[12][0-9]|3[0-6])\b/); if(m) n=parseInt(m[1],10); }
-    else if(typeof payload==='object'){
-      if(inRange(payload.number)) n=payload.number;
-      if(payload.platform) st.origin=String(payload.platform);
-      if(payload.table)    st.table =String(payload.table);
-    }
-    if(!inRange(n)) return;
-    st.live=true; st.lastAt=Date.now(); st.last=n;
-    renderTop(); onNumber(n);
+  renderPlatforms();
+  const sparkData={}; plats.forEach(p=>sparkData[p.name]=[]);
+  function pushSpark(name,v){ const arr=sparkData[name]; arr.push(v); if(arr.length>30) arr.shift();
+    const cv=$("#sp_"+name), ctx=cv.getContext("2d"); ctx.clearRect(0,0,cv.width,cv.height);
+    ctx.beginPath(); ctx.moveTo(0,cv.height-(arr[0]||0));
+    arr.forEach((val,i)=>ctx.lineTo(i*5, cv.height - Math.min(cv.height-2,val)));
+    ctx.strokeStyle="#38ff8b"; ctx.lineWidth=2; ctx.stroke();
   }
-  window.handleInbound = handleInbound;
+  setInterval(()=>{ plats.forEach(p=>{ const v=6+Math.floor(Math.random()*20); $("#lat_"+p.name).textContent=v+"ms"; pushSpark(p.name, Math.min(38,v)); }); }, 1200);
 
-  // ===== BroadcastChannel + postMessage =====
-  try{ const bc=new BroadcastChannel('sc-tips-live'); bc.onmessage=(e)=>handleInbound(e?.data,'BC'); }catch{}
-  window.addEventListener('message',(e)=>handleInbound(e?.data,'PM'));
-
-  // ===== UI =====
-  // base select
-  const sel=el('selBase');
-  for(let i=0;i<=36;i++){ const op=document.createElement('option'); op.value=i; op.textContent='Nº '+i; if(i===17) op.selected=true; sel.appendChild(op); }
-  sel.onchange=()=>renderTop();
-
-  el('cbAuto').onchange=(e)=>{ st.auto=e.target.checked; el('manualViz').style.display = st.auto?'none':'flex'; };
-  el('manualViz').addEventListener('click',(ev)=>{
-    const b=ev.target.closest('button[data-viz]'); if(!b) return;
-    st.neighbors=parseInt(b.dataset.viz,10); renderTop();
+  /* ========= Salas exemplo ========= */
+  const rooms = [
+    { id:"evo_auto_roulette",   name:"Evolution • Auto Roulette", dealer:"Auto",     platform:"Evolution" },
+    { id:"evo_speed_roulette",  name:"Evolution • Speed Roulette",dealer:"Vários",   platform:"Evolution" },
+    { id:"prag_auto_roulette",  name:"Pragmatic • Auto Roulette", dealer:"Auto",     platform:"Pragmatic" },
+    { id:"prag_mega_roulette",  name:"Pragmatic • Mega Roulette", dealer:"Vários",   platform:"Pragmatic" }
+  ];
+  const roomsBox=$("#rooms");
+  rooms.forEach(r=>{
+    const el=document.createElement("div");
+    el.className="pull";
+    el.innerHTML=`
+      <div class="hdr"><b>${r.name}</b></div>
+      <div class="actions row">
+        <button class="btn small" data-follow="${r.id}">Seguir</button>
+      </div>
+      <div style="grid-column:1/-1" class="meta">Dealer: ${r.dealer} • Plataforma: ${r.platform}</div>`;
+    roomsBox.appendChild(el);
+  });
+  roomsBox.addEventListener("click",(e)=>{
+    const btn=e.target.closest("[data-follow]"); if(!btn) return;
+    const id=btn.getAttribute("data-follow");
+    const r=rooms.find(x=>x.id===id); if(!r) return;
+    $("#roomName").value = r.name;
+    $("#statRoom").textContent = r.name;
+    activePlatform = r.platform;
+    localStorage.setItem("px_active_platform",activePlatform);
+    log("Mesa selecionada: "+r.name,"sys");
   });
 
-  el('btnSim').onclick=()=>{ if(Date.now()-st.lastAt<8000) return; handleInbound({number:Math.floor(Math.random()*37), platform:'SIM'}); };
-  el('btnInsert').onclick=()=>{ const v=prompt('Digite um número (0-36):'); const n=Number(v); if(inRange(n)) handleInbound({number:n, platform:'MANUAL'}); };
-  el('btnCopy').onclick=async ()=>{
-    const base=parseInt(el('selBase').value,10);
-    const txt=(inRange(st.last)?`Último: ${st.last}`:'—')+` | Base ${base} → puxadores ${(PULLERS[base]||[]).join(', ')||'-'} + ${st.neighbors} viz.`;
-    try{ await navigator.clipboard.writeText(txt);}catch{}
+  /* ========= WS por mesa ========= */
+  let ws=null, masked=false;
+  function sanitizeWsUrl(u){ try{ const url=new URL(u); ["EVOSESSIONID","JSESSIONID","videoToken","token","auth","session","videoSessionId","client_version"].forEach(k=>url.searchParams.delete(k)); return url.origin+url.pathname+(url.search?`?${url.searchParams.toString()}`:""); } catch(_){ return (u||"").replace(/(EVOSESSIONID|JSESSIONID|videoToken|token)=([^&]+)/gi,"$1=•••"); } }
+  function setConnUI(b){ $("#btnConnect").disabled=b; $("#btnDisconnect").disabled=!b; $("#wsstat").textContent=b?"online":"offline"; }
+  $("#btnMask").onclick=()=>{ masked=!masked; const el=$("#wsUrl");
+    if(masked){ el.dataset.real=el.value; if(el.value){ try{const u=new URL(el.value); el.value=`${u.protocol}//${u.host}/•••`;}catch(_){el.value="•••"} } }
+    else { if(el.dataset.real) el.value=el.dataset.real; }
   };
-  el('btnReset').onclick=()=>{
-    st.hist=[]; st.signals=[]; st.win=0; st.loss=0; st.last=null; st.origin='—'; st.table='—'; st.live=false; st.lastAt=0;
-    renderTop(); renderHist(); renderSignals();
+  $("#btnCopyUrl").onclick=()=>{ const el=$("#wsUrl"); const v=(masked && el.dataset.real)?el.dataset.real:el.value; navigator.clipboard.writeText(v||""); log("URL copiada","sys"); };
+  $("#btnCopyRoom").onclick=()=>{ const v=$("#roomName").value||""; navigator.clipboard.writeText(v); log("Mesa copiada","sys"); };
+
+  $("#btnConnect").onclick=()=>{
+    const raw=($("#wsUrl").dataset.real||$("#wsUrl").value||"").trim();
+    if(!raw){ log("Cole a URL do WebSocket da mesa.","warn"); return; }
+    const safe=sanitizeWsUrl(raw);
+    try{
+      ws=new WebSocket(raw);
+      ws.onopen =()=>{ setConnUI(true); log("✅ Conectado mesa: "+($("#roomName").value||"—")+" • "+safe,"sys"); };
+      ws.onclose=()=>{ setConnUI(false); log("❌ WS encerrado","warn"); };
+      ws.onerror=e=>log("⚠️ WS erro: "+(e?.message||"desconhecido"),"warn");
+      ws.onmessage=ev=>{ let data=ev.data; try{ data=JSON.parse(ev.data);}catch(_){ } handleIncoming(data); };
+    }catch(e){ log("⚠️ Falha abrir WS: "+e.message,"warn"); }
   };
-  setInterval(()=>{ if(st.lastAt) el('agoBadge').textContent='última: '+Math.round((Date.now()-st.lastAt)/1000)+'s'; }, 1000);
+  $("#btnDisconnect").onclick=()=>{ if(ws){ try{ws.close()}catch(_){}} ws=null; setConnUI(false); log("🔌 Conexão encerrada","warn"); };
 
-  renderTop(); renderHist(); renderSignals();
+  /* ========= BroadcastChannel / postMessage ========= */
+  const bc = new BroadcastChannel("matrix-channel");
+  $("#btnPing").onclick=()=>{ bc.postMessage({type:"ping", at:Date.now(), from:"puxadores"}); log("📡 Ping BC enviado","sys"); };
+  bc.onmessage = ev => { log("📡 BC: "+JSON.stringify(ev.data),"sys"); if(ev.data?.type==="entries"){ play("snd-alert"); } };
+  window.addEventListener("message", ev=>{ if(ev.data?.type==="matrix"){ log("💬 postMessage: "+JSON.stringify(ev.data.payload),"sys"); } });
 
-  // ===== Plataformas • UI =====
-  document.querySelectorAll('#plat-grid .plat').forEach(card=>{
-    card.addEventListener('click', ()=>{
-      document.querySelectorAll('#plat-grid .plat').forEach(c=>c.classList.remove('active'));
-      card.classList.add('active');
-      SCLog('plataforma','ativa: '+card.dataset.id,'SYSTEM');
-    });
-  });
-  const spkIds=['donald','bbtips','lucky','engine'];
-  const spkData={donald:[],bbtips:[],lucky:[],engine:[]};
-  function drawSpark(id){
-    const cv=el('spk-'+id); if(!cv) return;
-    const g=cv.getContext('2d'), w=cv.width=cv.clientWidth, h=cv.height=cv.clientHeight;
-    g.clearRect(0,0,w,h);
-    const arr=spkData[id]; if(arr.length<2) return;
-    g.beginPath(); g.moveTo(0,h-arr[0]*h);
-    for(let i=1;i<arr.length;i++) g.lineTo((i/(arr.length-1))*w, h-arr[i]*h);
-    g.strokeStyle='#22c55e'; g.lineWidth=2; g.stroke();
+  /* ========= Handler de eventos ========= */
+  let lastGood=null, lastAt=0;
+  function handleIncoming(payload){
+    let n=null, platform=activePlatform;
+    if(payload?.type==="roulette.winSpots"){ n=payload?.args?.result?.[0]?.number ?? null; platform="Evolution"; }
+    if(n==null && (payload?.type==="spin_result" || payload?.type==="result" || payload?.winningNumber!=null)){ n=payload?.result ?? payload?.winningNumber ?? null; platform="Pragmatic"; }
+    if(n==null && typeof payload?.number==="number"){ n=payload.number; }
+
+    if(typeof n!=="number" || n<0 || n>36){
+      log("Msg (sem nº): "+(typeof payload==="string"?payload:JSON.stringify(payload)),"sys");
+      return;
+    }
+    const now=performance.now();
+    if(lastGood===n && (now-lastAt)<1200){ log(`(dedupe) nº ${n} ignorado`, "sys"); return; }
+    lastGood=n; lastAt=now;
+
+    pushNumber(n);
+    const col=colorOf(n);
+    const room=$("#roomName").value || "Mesa";
+    log(`🎯 ${room}: nº ${n} (${col}) • ${platform}`,"hit");
+    play("snd-green");
   }
-  setInterval(()=>{ spkIds.forEach(id=>{ const a=spkData[id]; a.push(Math.random()*0.9+0.05); if(a.length>24) a.shift(); drawSpark(id); }); },800);
-  setInterval(()=>{ ['donald','bbtips','lucky','engine'].forEach(k=>{ const v=Math.floor(6+Math.random()*24); const lab=el('lat-'+k); if(lab) lab.textContent=v+'ms'; }); },3000);
-  el('btn-live-sim')?.addEventListener('click',()=>{ try{ el('snd-click').currentTime=0; el('snd-click').play(); }catch{} handleInbound({number:Math.floor(Math.random()*37), platform:'Sim'}); });
-  el('btn-live-clear')?.addEventListener('click',()=>{ st.hist=[]; renderHist(); SCLog('histórico','limpo','SYSTEM'); });
-  el('btn-live-csv')?.addEventListener('click',()=>{
-    const rows=[['time','number']]; st.hist.forEach((n,i)=>rows.push([i+1,n]));
-    const csv=rows.map(r=>r.join(',')).join('\n'); const a=document.createElement('a');
-    a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv); a.download='puxadores_history.csv'; a.click();
-  });
 
-  // Preferências padrão
-  try{
-    const elAuto=el('cons-autoscroll'), elSom=el('cons-sound');
-    if(elAuto && !elAuto.checked) elAuto.click();
-    if(elSom && !elSom.checked) elSom.click();
-  }catch{}
+  /* ========= Simulação ========= */
+  $("#btnSim").onclick=()=>{
+    const v=parseInt($("#simNumber").value,10);
+    if(Number.isFinite(v)&&v>=0&&v<=36){ handleIncoming({number:v, source:"sim"}); }
+    else { log("Informe nº 0–36","warn"); play("snd-red"); }
+  };
+
+  /* ========= Menu ativo / blindagem ========= */
+  (function(){
+    const menu = document.getElementById('mainMenu');
+    if (!menu) return;
+    const map = {
+      home:"index.html", estrategias:"estrategias.html", matrix:"matrix-premium.html", puxadores:"puxadores.html", contato:"contato.html"
+    };
+    menu.querySelectorAll('a[data-page]').forEach(a=>{
+      const key=a.getAttribute('data-page');
+      if(map[key] && a.getAttribute('href')!==map[key]) a.setAttribute('href', map[key]);
+      a.onclick=null;
+    });
+    const path=(location.pathname.split('/').pop()||'puxadores.html').toLowerCase();
+    menu.querySelectorAll('a').forEach(a=>a.classList.remove('active'));
+    if (path.includes('matrix-premium')) menu.querySelector('[data-page="matrix"]')?.classList.add('active');
+    else if (path.includes('puxadores')) menu.querySelector('[data-page="puxadores"]')?.classList.add('active');
+    else if (path.includes('contato')) menu.querySelector('[data-page="contato"]')?.classList.add('active');
+    else if (path.includes('estrategias')) menu.querySelector('[data-page="estrategias"]')?.classList.add('active');
+    else menu.querySelector('[data-page="home"]')?.classList.add('active');
+  })();
+
+  /* ========= Segurança básica ========= */
+  window.addEventListener('error', (e)=>{
+    const msg = (e?.error && e.error.stack) ? e.error.stack : (e?.message || 'Erro desconhecido');
+    try { log("🛑 ERRO: " + msg, "miss"); } catch(_) {}
+  });
   </script>
 </body>
 </html>
