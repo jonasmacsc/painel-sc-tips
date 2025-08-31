@@ -70,12 +70,45 @@
     .stat{display:inline-flex;gap:6px;align-items:center;padding:6px 10px;border:1px solid #3a361c;border-radius:999px;background:#0b0d07;box-shadow:var(--glow)}
     .stat b{color:var(--gold-neon)}
 
-    /* Últimos números */
-    .lastbar{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 2px}
-    .chip{min-width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:12px;font-weight:900;border:2px solid #1a1a10;box-shadow:var(--glow)}
-    .chip.green{background:rgba(0,211,126,.18);border-color:var(--chip-green);color:#ccffe9}
-    .chip.red{background:rgba(255,90,90,.18);border-color:var(--chip-red);color:#ffecec}
-    .chip.black{background:rgba(111,224,255,.12);border-color:var(--chip-black);color:#eaffff}
+    /* === Últimos números – estilo ouro === */
+.nums{
+  display:flex; flex-wrap:wrap; gap:8px;
+}
+
+.num{
+  width:42px; height:42px;
+  border-radius:12px;
+  display:flex; align-items:center; justify-content:center;
+  font-weight:900; letter-spacing:.2px;
+  border:1px solid #463600;
+  box-shadow: 0 0 14px rgba(255,215,0,.22), inset 0 0 10px rgba(0,0,0,.35);
+  transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+  user-select:none; cursor:pointer;
+}
+
+/* cor + gradiente + brilho */
+.num.red{
+  background: linear-gradient(145deg,#e74c3c,#c0392b);
+  color: #fff;
+  border-color:#7a2721;
+  box-shadow: 0 0 12px rgba(231,76,60,.35), inset 0 0 8px rgba(0,0,0,.35);
+}
+.num.black{
+  background: linear-gradient(145deg,#34495e,#2c3e50);
+  color: #e6edf3;
+  border-color:#1d2833;
+  box-shadow: 0 0 12px rgba(52,73,94,.35), inset 0 0 8px rgba(0,0,0,.35);
+}
+.num.green{
+  background: linear-gradient(145deg,#00ff7b,#ffd700);
+  color:#000;
+  border-color:#2e4d1f;
+  box-shadow: 0 0 14px rgba(255,215,0,.45), inset 0 0 8px rgba(0,0,0,.25);
+}
+
+/* interação */
+.num:hover{ transform: scale(1.06); filter: brightness(1.05); }
+#nums .num:first-child{ outline:2px solid rgba(255,215,0,.9); outline-offset:2px; }
 
     /* Toggle */
     .toggle{appearance:none;width:46px;height:26px;border-radius:999px;background:#23240f;position:relative;cursor:pointer;outline:none;border:1px solid #3a361c;box-shadow:var(--glow)}
